@@ -1,0 +1,14 @@
+{
+  "name": "Chronological Bible · One Year",
+  "short_name": "Bible · One Year",
+  "description": "Read through the Bible in one year on a chronological plan.",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#161d14",
+  "theme_color": "#161d14",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
