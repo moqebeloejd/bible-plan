@@ -1,7 +1,7 @@
 {
   "name": "Chronological Bible · One Year",
   "short_name": "Bible · One Year",
-  "description": "Read through the Bible in one year on a chronological plan.",
+  "description": "Read the whole Bible in one year with complete chapters, contextual themes, and optional cross-device progress sync.",
   "start_url": ".",
   "scope": ".",
   "display": "standalone",

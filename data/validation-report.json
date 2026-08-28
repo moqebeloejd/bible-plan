@@ -1,0 +1,79 @@
+{
+  "plan_id": "nkjv-chronological-whole-chapter-365-v2",
+  "passed": true,
+  "checks": [
+    {
+      "check": "day_count",
+      "expected": 365,
+      "actual": 365,
+      "pass": true
+    },
+    {
+      "check": "chapter_count",
+      "expected": 1189,
+      "actual": 1189,
+      "pass": true
+    },
+    {
+      "check": "unique_chapters",
+      "expected": 1189,
+      "actual": 1189,
+      "pass": true
+    },
+    {
+      "check": "verse_count",
+      "expected": 31102,
+      "actual": 31102,
+      "pass": true
+    },
+    {
+      "check": "complete_chapter_boundaries",
+      "expected": true,
+      "actual": true,
+      "pass": true
+    },
+    {
+      "check": "missing_chapters",
+      "expected": 0,
+      "actual": 0,
+      "pass": true,
+      "details": []
+    },
+    {
+      "check": "duplicate_chapters",
+      "expected": 0,
+      "actual": 0,
+      "pass": true,
+      "details": []
+    },
+    {
+      "check": "translation_text_embedded",
+      "expected": false,
+      "actual": false,
+      "pass": true
+    }
+  ],
+  "load_statistics": {
+    "average_verses": 85.2,
+    "minimum_verses": 56,
+    "maximum_verses": 176,
+    "days_below_45_verses": [],
+    "days_above_130_verses": [
+      263
+    ]
+  },
+  "chronology_placement": {
+    "inferred_chapters": [
+      "Exod.27",
+      "Lev.1",
+      "1Sam.19",
+      "1Chr.20",
+      "Jonah.4",
+      "Mark.5",
+      "Luke.20",
+      "Jas.5",
+      "2Thess.1"
+    ],
+    "inferred_chapter_count": 9
+  }
+}

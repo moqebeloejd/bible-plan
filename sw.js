@@ -1,5 +1,5 @@
-const CACHE = "bible-year-v1";
-const ASSETS = ["./", "./index.html", "./manifest.json", "./icon.svg"];
+const CACHE = "bible-year-v2";
+const ASSETS = ["./", "./index.html", "./manifest.json", "./icon.svg", "./cloud-config.js", "./vendor/react.production.min.js", "./vendor/react-dom.production.min.js", "./vendor/babel.min.js", "./vendor/supabase.js", "./data/reading-plan-v2.json"];
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
 });
@@ -9,11 +9,14 @@ self.addEventListener("activate", e => {
   ).then(() => self.clients.claim()));
 });
 self.addEventListener("fetch", e => {
-  e.respondWith(
-    caches.match(e.request).then(hit => hit || fetch(e.request).then(res => {
-      const copy = res.clone();
-      caches.open(CACHE).then(c => c.put(e.request, copy));
-      return res;
-    }).catch(() => caches.match("./index.html")))
-  );
+  if (e.request.method !== "GET" || new URL(e.request.url).origin !== self.location.origin) return;
+  if (e.request.mode === "navigate") {
+    e.respondWith(fetch(e.request).then(res => {
+      const copy = res.clone(); caches.open(CACHE).then(c => c.put("./index.html", copy)); return res;
+    }).catch(() => caches.match("./index.html")));
+    return;
+  }
+  e.respondWith(caches.match(e.request).then(hit => hit || fetch(e.request).then(res => {
+    const copy = res.clone(); caches.open(CACHE).then(c => c.put(e.request, copy)); return res;
+  })));
 });
