@@ -1,7 +1,7 @@
 {
-  "name": "Chronological Bible · One Year",
-  "short_name": "Bible · One Year",
-  "description": "Read the whole Bible in one year with complete chapters, contextual themes, and optional cross-device progress sync.",
+  "name": "NKJV Chronological Bible Plan",
+  "short_name": "NKJV Bible Plan",
+  "description": "A family reading plan following the publisher’s chronology and Scripture blocks, with account-based offline and cross-device progress.",
   "start_url": ".",
   "scope": ".",
   "display": "standalone",

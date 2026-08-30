@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=5" />
-<title>Chronological Bible · One Year</title>
-<meta name="description" content="Read through the Bible in one year on a chronological plan — nine epochs from Creation to the Church Age." />
+<title>NKJV Chronological Bible Plan</title>
+<meta name="description" content="A family reading plan following the publisher’s chronology and Scripture blocks in the NKJV Chronological Study Bible." />
 <meta name="theme-color" content="#161d14" />
 <link rel="manifest" href="manifest.json" />
 <link rel="apple-touch-icon" href="icon.svg" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-<meta name="apple-mobile-web-app-title" content="Bible · One Year" />
+<meta name="apple-mobile-web-app-title" content="NKJV Bible Plan" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Albert+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -41,8 +41,11 @@ const PLAN_URL="./data/reading-plan-v3.json";
 
 const EPOCH_NAMES={1:"Before the Patriarchs",2:"The Patriarchs, Israel's Ancestors",3:"The Rise of a Unified People",4:"From Tribes to a Nation",5:"The Fall of Two Nations",6:"Exile and Return",7:"Between the Two Testaments",8:"The Coming of the Messiah",9:"The Church Age"};
 const EPOCH_ERAS={1:"Creation to 2000 B.C.",2:"2000 to 1500 B.C.",3:"1500 to 1200 B.C.",4:"1200 to 930 B.C.",5:"930 to 586 B.C.",6:"586 to 332 B.C.",7:"332 B.C. to A.D. 30",8:"6 B.C. to A.D. 30",9:"A.D. 30 to 100"};
+// Older shared-device records are intentionally left untouched. The approved
+// account-only model never assigns them to whichever family member signs in next.
 const LEGACY_STORAGE_KEY="bible365-v2";
-const STORAGE_KEY="bible365-v3";
+const LEGACY_V3_STORAGE_KEY="bible365-v3";
+const ACCOUNT_STORAGE_PREFIX="bible_reader_state_v1_";
 const DEFAULT_START="2026-08-30";
 const DEFAULT_VERSION="NKJV";
 const TEXT_SIZE_KEY="bible365-text-size";
@@ -88,36 +91,33 @@ const DOW=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
 const fmtLong=d=>`${DOW[d.getDay()]}, ${d.getDate()} ${MONTHS[d.getMonth()].slice(0,3)} ${d.getFullYear()}`;
 const epochNums=d=>(d.epochs||[]).map(x=>Number((x.match(/Epoch\s+(\d+)/)||[])[1])).filter(Boolean);
 const epochSpans=()=>{const c={};PLAN.days.forEach(d=>{const e=epochNums(d)[0]||1;c[e]=(c[e]||0)+1;});return Object.keys(c).map(k=>({e:+k,n:c[k]}));};
-const writeLocal=(state)=>{localStorage.setItem(STORAGE_KEY,JSON.stringify({
+const accountStorageKey=uid=>ACCOUNT_STORAGE_PREFIX+uid;
+const writeLocal=(state,uid)=>{if(!uid)return;localStorage.setItem(accountStorageKey(uid),JSON.stringify({
   planId:PLAN.plan_id,start:state.start,bibleVersion:state.bibleVersion,done:[...state.done].sort((a,b)=>a-b),
-  pending:state.pending||{},settingsPending:!!state.settingsPending,cloudUserId:state.cloudUserId||null
+  pending:state.pending||{},settingsPending:!!state.settingsPending
 }));};
 
-function loadLocal(plan){
+function loadAccountState(uid){
   try{
-    const current=localStorage.getItem(STORAGE_KEY);
-    if(current){const s=JSON.parse(current);return {start:s.start||DEFAULT_START,bibleVersion:s.bibleVersion||DEFAULT_VERSION,done:new Set(Array.isArray(s.done)?s.done:[]),pending:s.pending||{},settingsPending:!!s.settingsPending,cloudUserId:s.cloudUserId||null,migrated:false};}
-    const legacy=localStorage.getItem(LEGACY_STORAGE_KEY);
-    if(legacy){
-      const old=JSON.parse(legacy),oldDone=new Set(Array.isArray(old.done)?old.done:[]);
-      const migrated=plan.days.filter(d=>(d.migration?.required_v2_days||d.migration?.required_legacy_days||[]).every(n=>oldDone.has(n))).map(d=>d.day);
-      const pending=Object.fromEntries(migrated.map(n=>[n,"complete"]));
-      return {start:old.start||DEFAULT_START,bibleVersion:DEFAULT_VERSION,done:new Set(migrated),pending,settingsPending:true,cloudUserId:null,migrated:true};
-    }
+    const current=localStorage.getItem(accountStorageKey(uid));
+    if(current){const s=JSON.parse(current);return {start:s.start||DEFAULT_START,bibleVersion:s.bibleVersion||DEFAULT_VERSION,done:new Set(Array.isArray(s.done)?s.done:[]),pending:s.pending||{},settingsPending:!!s.settingsPending};}
   }catch(e){}
-  return {start:DEFAULT_START,bibleVersion:DEFAULT_VERSION,done:new Set(),pending:{},settingsPending:true,cloudUserId:null,migrated:false};
+  return {start:DEFAULT_START,bibleVersion:DEFAULT_VERSION,done:new Set(),pending:{},settingsPending:false};
 }
+
+const readerName=(user,profileName="")=>profileName||user?.user_metadata?.display_name||user?.email?.split("@")[0]||"Reader";
 
 function App(){
   const [start,setStart]=useState(DEFAULT_START);
   const [bibleVersion,setBibleVersion]=useState(DEFAULT_VERSION);
   const [done,setDone]=useState(new Set());
   const [pending,setPending]=useState({});
-  const [settingsPending,setSettingsPending]=useState(true);
-  const [cloudUserId,setCloudUserId]=useState(null);
+  const [settingsPending,setSettingsPending]=useState(false);
   const [session,setSession]=useState(null);
   const [syncStatus,setSyncStatus]=useState(CLOUD_CLIENT?"Sign in to sync":"Local only");
   const [cloudBusy,setCloudBusy]=useState(false);
+  const [accountUserId,setAccountUserId]=useState(null);
+  const [readerDisplayName,setReaderDisplayName]=useState("");
   const [loaded,setLoaded]=useState(false);
   const [loadError,setLoadError]=useState(null);
   const [tab,setTab]=useState("today");
@@ -128,11 +128,13 @@ function App(){
   const [confirmReset,setConfirmReset]=useState(false);
   const [textSize,setTextSize]=useState(readTextSize);
   const [toast,setToast]=useState(null);
-  const stateRef=useRef({start,bibleVersion,done,pending,settingsPending,cloudUserId});
+  const stateRef=useRef({start,bibleVersion,done,pending,settingsPending});
   const hydratedUserRef=useRef(null);
+  const activeUserRef=useRef(null);
+  activeUserRef.current=session?.user?.id||null;
 
   useEffect(()=>{applyTextSize(textSize);},[textSize]);
-  useEffect(()=>{stateRef.current={start,bibleVersion,done,pending,settingsPending,cloudUserId};},[start,bibleVersion,done,pending,settingsPending,cloudUserId]);
+  useEffect(()=>{stateRef.current={start,bibleVersion,done,pending,settingsPending};},[start,bibleVersion,done,pending,settingsPending]);
 
   const today=new Date();
   const startDate=parseISO(start);
@@ -146,10 +148,7 @@ function App(){
         const res=await fetch(PLAN_URL,{cache:"no-cache"});if(!res.ok)throw new Error("Reading plan could not be loaded.");
         const plan=await res.json();if(!plan.day_count||plan.days?.length!==plan.day_count)throw new Error("Reading plan failed its day-count check.");
         PLAN=plan;
-        const local=loadLocal(plan);if(cancelled)return;
-        setStart(local.start);setBibleVersion(local.bibleVersion);setDone(local.done);setPending(local.pending);setSettingsPending(local.settingsPending);setCloudUserId(local.cloudUserId);
-        writeLocal(local);
-        if(local.migrated)setToast(`${local.done.size} completed days carried into the whole-chapter plan`);
+        if(cancelled)return;
         if(CLOUD_CLIENT){
           try{
             const {data}=await CLOUD_CLIENT.auth.getSession();if(!cancelled)setSession(data.session||null);
@@ -162,39 +161,64 @@ function App(){
     return()=>{cancelled=true;subscription?.unsubscribe();};
   },[]);
 
-  const saveState=useCallback((next)=>{try{writeLocal(next);}catch(e){setToast("Couldn't save — progress is held for this session");}},[]);
+  useEffect(()=>{
+    const uid=session?.user?.id;
+    if(!uid){setAccountUserId(null);hydratedUserRef.current=null;return;}
+    const local=loadAccountState(uid);
+    setStart(local.start);setBibleVersion(local.bibleVersion);setDone(local.done);setPending(local.pending);setSettingsPending(local.settingsPending);
+    setReaderDisplayName(readerName(session.user));stateRef.current=local;hydratedUserRef.current=null;setAccountUserId(uid);void provisionProfile(session.user);
+  },[session?.user?.id]);
+
+  const saveState=useCallback((next)=>{try{writeLocal(next,session?.user?.id);}catch(e){setToast("Couldn't save — progress is held for this session");}},[session?.user?.id]);
 
   const syncCloud=useCallback(async()=>{
     if(!CLOUD_CLIENT||!session?.user||!PLAN)return;
-    const uid=session.user.id,s=stateRef.current,firstLink=!s.cloudUserId,sameUser=s.cloudUserId===uid;
+    const uid=session.user.id,s=stateRef.current;
     setSyncStatus(navigator.onLine?"Syncing…":"Offline — changes queued");if(!navigator.onLine)return;
     try{
-      let operations=sameUser?{...s.pending}:firstLink?Object.fromEntries([...s.done].map(n=>[n,"complete"])):{};
+      const operations={...s.pending};
       const completeIds=Object.keys(operations).filter(k=>operations[k]==="complete");
       const incompleteIds=Object.keys(operations).filter(k=>operations[k]==="incomplete");
       if(completeIds.length){const now=new Date().toISOString();const rows=completeIds.map(day=>({user_id:uid,plan_id:PLAN.plan_id,day_id:dayIdFor(day),completed_at:now,updated_at:now}));const {error}=await CLOUD_CLIENT.from("bible_reader_progress").upsert(rows,{onConflict:"user_id,plan_id,day_id"});if(error)throw error;}
       if(incompleteIds.length){const ids=incompleteIds.map(day=>dayIdFor(day));const {error}=await CLOUD_CLIENT.from("bible_reader_progress").delete().eq("user_id",uid).eq("plan_id",PLAN.plan_id).in("day_id",ids);if(error)throw error;}
-      if(firstLink||(sameUser&&s.settingsPending)){const {error}=await CLOUD_CLIENT.from("bible_reader_settings").upsert({user_id:uid,plan_id:PLAN.plan_id,start_date:s.start,bible_version:s.bibleVersion,updated_at:new Date().toISOString()},{onConflict:"user_id,plan_id"});if(error)throw error;}
+      if(s.settingsPending){const {error}=await CLOUD_CLIENT.from("bible_reader_settings").upsert({user_id:uid,plan_id:PLAN.plan_id,start_date:s.start,bible_version:s.bibleVersion,updated_at:new Date().toISOString()},{onConflict:"user_id,plan_id"});if(error)throw error;}
       const [{data:cloudRows,error:progressError},{data:cloudSettings,error:settingsError}]=await Promise.all([
         CLOUD_CLIENT.from("bible_reader_progress").select("day_id").eq("user_id",uid).eq("plan_id",PLAN.plan_id),
         CLOUD_CLIENT.from("bible_reader_settings").select("start_date,bible_version").eq("user_id",uid).eq("plan_id",PLAN.plan_id).maybeSingle()
       ]);if(progressError)throw progressError;if(settingsError)throw settingsError;
+      if(activeUserRef.current!==uid)return;
       const cloudDone=new Set((cloudRows||[]).map(r=>Number(r.day_id.slice(-3))));
       const latest=stateRef.current,remaining={...latest.pending};Object.entries(operations).forEach(([k,v])=>{if(remaining[k]===v)delete remaining[k];});
       Object.entries(remaining).forEach(([k,v])=>v==="complete"?cloudDone.add(Number(k)):cloudDone.delete(Number(k)));
       const nextStart=cloudSettings?.start_date||latest.start,nextVersion=cloudSettings?.bible_version||latest.bibleVersion;
-      setDone(cloudDone);setPending(remaining);setStart(nextStart);setBibleVersion(nextVersion);setSettingsPending(false);setCloudUserId(uid);
-      saveState({start:nextStart,bibleVersion:nextVersion,done:cloudDone,pending:remaining,settingsPending:false,cloudUserId:uid});setSyncStatus("Synced");
-    }catch(err){console.error(err);setSyncStatus("Offline — changes queued");}
+      setDone(cloudDone);setPending(remaining);setStart(nextStart);setBibleVersion(nextVersion);setSettingsPending(false);
+      saveState({start:nextStart,bibleVersion:nextVersion,done:cloudDone,pending:remaining,settingsPending:false});setSyncStatus("Synced");
+    }catch(err){console.error(err);if(activeUserRef.current===uid)setSyncStatus("Offline — changes queued");}
   },[session,saveState]);
 
-  useEffect(()=>{if(!loaded||!session?.user)return;const uid=session.user.id,needsSync=hydratedUserRef.current!==uid||cloudUserId!==uid||settingsPending||Object.keys(pending).length>0;if(!needsSync)return;hydratedUserRef.current=uid;const t=setTimeout(syncCloud,250);return()=>clearTimeout(t);},[loaded,session,pending,settingsPending,cloudUserId,syncCloud]);
+  useEffect(()=>{if(!loaded||accountUserId!==session?.user?.id)return;const uid=session.user.id,needsSync=hydratedUserRef.current!==uid||settingsPending||Object.keys(pending).length>0;if(!needsSync)return;hydratedUserRef.current=uid;const t=setTimeout(syncCloud,250);return()=>clearTimeout(t);},[loaded,accountUserId,session,pending,settingsPending,syncCloud]);
   useEffect(()=>{const onOnline=()=>syncCloud();const onFocus=()=>syncCloud();window.addEventListener("online",onOnline);window.addEventListener("focus",onFocus);return()=>{window.removeEventListener("online",onOnline);window.removeEventListener("focus",onFocus);};},[syncCloud]);
 
-  const toggleDay=(n,withSeal)=>{const next=new Set(done),marking=!next.has(n);marking?next.add(n):next.delete(n);const nextPending={...pending,[n]:marking?"complete":"incomplete"};setDone(next);setPending(nextPending);saveState({start,bibleVersion,done:next,pending:nextPending,settingsPending,cloudUserId});if(marking&&withSeal){setSealing(true);setTimeout(()=>setSealing(false),700);}};
-  const changeSettings=(nextStart,nextVersion)=>{setStart(nextStart);setBibleVersion(nextVersion);setSettingsPending(true);saveState({start:nextStart,bibleVersion:nextVersion,done,pending,settingsPending:true,cloudUserId});};
-  const authenticate=async(mode,email,password)=>{if(!CLOUD_CLIENT)return;setCloudBusy(true);try{const options=mode==="signup"?{email,password,options:{emailRedirectTo:location.origin+location.pathname}}:{email,password};const {data,error}=mode==="signup"?await CLOUD_CLIENT.auth.signUp(options):await CLOUD_CLIENT.auth.signInWithPassword(options);if(error)throw error;if(mode==="signup"&&!data.session)setToast("Account created — check your email to confirm it");else setToast("Signed in — synchronising progress");}catch(err){setToast(err.message||"Sign-in failed");}finally{setCloudBusy(false);}};
-  const signOut=async()=>{if(!CLOUD_CLIENT)return;setCloudBusy(true);try{await CLOUD_CLIENT.auth.signOut();hydratedUserRef.current=null;setSession(null);setSyncStatus("Signed out — progress remains on this device");setToast("Signed out");}finally{setCloudBusy(false);}};
+  const toggleDay=(n,withSeal)=>{const next=new Set(done),marking=!next.has(n);marking?next.add(n):next.delete(n);const nextPending={...pending,[n]:marking?"complete":"incomplete"};setDone(next);setPending(nextPending);saveState({start,bibleVersion,done:next,pending:nextPending,settingsPending});if(marking&&withSeal){setSealing(true);setTimeout(()=>setSealing(false),700);}};
+  const changeSettings=(nextStart,nextVersion)=>{setStart(nextStart);setBibleVersion(nextVersion);setSettingsPending(true);saveState({start:nextStart,bibleVersion:nextVersion,done,pending,settingsPending:true});};
+  const provisionProfile=async user=>{
+    if(!CLOUD_CLIENT||!user||!navigator.onLine)return;
+    const {data:existing,error:readError}=await CLOUD_CLIENT.from("reader_profiles").select("display_name").eq("user_id",user.id).maybeSingle();
+    if(readError){console.warn("Reader profile could not be read.",readError);return;}
+    const metadataName=String(user.user_metadata?.display_name||"").trim();
+    const displayName=metadataName||existing?.display_name||readerName(user);
+    if(!existing||metadataName&&metadataName!==existing.display_name){const {error}=await CLOUD_CLIENT.from("reader_profiles").upsert({user_id:user.id,display_name:displayName,updated_at:new Date().toISOString()},{onConflict:"user_id"});if(error){console.warn("Reader profile could not be refreshed.",error);return;}}
+    if(activeUserRef.current===user.id)setReaderDisplayName(displayName);
+  };
+  const authenticate=async(mode,email,password,displayName)=>{if(!CLOUD_CLIENT)return;setCloudBusy(true);try{
+    const normalizedEmail=String(email||"").trim();
+    const options={email:normalizedEmail,password:String(password||"")};
+    if(mode==="signup")options.options={data:{display_name:String(displayName||"").trim()||normalizedEmail.split("@")[0]},emailRedirectTo:location.origin+location.pathname};
+    const {data,error}=mode==="signup"?await CLOUD_CLIENT.auth.signUp(options):await CLOUD_CLIENT.auth.signInWithPassword(options);if(error)throw error;
+    if(mode==="signup"&&!data.session)setToast("Account created — check your email to confirm it");
+    else {setSession(data.session);setToast("Welcome — your reading plan is opening");void provisionProfile(data.user||data.session?.user);}
+  }catch(err){setToast(err.message||"Sign-in failed");}finally{setCloudBusy(false);}};
+  const signOut=async()=>{if(!CLOUD_CLIENT)return;setCloudBusy(true);hydratedUserRef.current=null;setAccountUserId(null);setSession(null);try{const {error}=await CLOUD_CLIENT.auth.signOut({scope:"local"});if(error)console.warn("Remote sign-out could not be confirmed; this device was signed out locally.",error);}finally{setSyncStatus("Signed out");setCloudBusy(false);}};
 
   const doneCount=done.size;
   const elapsed=Math.min(Math.max(todayPlanDay,0),planDayCount());
@@ -209,6 +233,8 @@ function App(){
 
   if(loadError)return <div className="app"><Styles/><main className="main"><div className="main-inner"><div className="settings">{loadError}</div></div></main></div>;
   if(!loaded) return <div className="app"><Styles/></div>;
+  if(!session?.user)return <AccountGate configured={!!CLOUD_CLIENT} busy={cloudBusy} onAuth={authenticate} message={toast}/>;
+  if(accountUserId!==session.user.id)return <div className="app"><Styles/><div className="account-shell"><div className="account-card"><div className="account-mark">NKJV</div><h1>Opening {readerName(session.user,readerDisplayName)}’s plan…</h1></div></div></div>;
 
   return (
     <div className="app">
@@ -235,7 +261,7 @@ function App(){
           {tab==="today"&&<DayView day={shownDay} done={done} currentDay={currentDay} startDate={startDate} bibleVersion={bibleVersion} sealing={sealing} onToggle={(n)=>toggleDay(n,true)} onNav={(n)=>setViewDay(Math.min(Math.max(n,1),planDayCount()))} onToday={()=>setViewDay(null)}/>}
           {tab==="week"&&<WeekView weekIdx={weekIdx==null?Math.floor((currentDay-1)/nightsPerWeek()):weekIdx} setWeekIdx={setWeekIdx} done={done} currentDay={currentDay} startDate={startDate} onOpen={openDay} onToggle={(n)=>toggleDay(n)}/>}
           {tab==="month"&&<MonthView cursor={monthCursor||{y:today.getFullYear(),m:today.getMonth()}} setCursor={setMonthCursor} done={done} startDate={startDate} currentDay={currentDay} today={today} onOpen={openDay}/>}
-          {tab==="plan"&&<PlanView textSize={textSize} onTextSizeChange={(v)=>{setTextSize(v);try{localStorage.setItem(TEXT_SIZE_KEY,String(v));}catch(e){}}} done={done} doneCount={doneCount} pace={pace} streak={streak} oldestUnread={oldestUnread} start={start} bibleVersion={bibleVersion} onBibleVersionChange={(v)=>{changeSettings(start,v);setToast(`Bible links set to ${v}`);}} onJump={openDay} onStartChange={(s)=>{changeSettings(s,bibleVersion);setToast("Start date updated");}} confirmReset={confirmReset} setConfirmReset={setConfirmReset} onReset={()=>{const e=new Set(),p={...pending};done.forEach(n=>p[n]="incomplete");setDone(e);setPending(p);saveState({start,bibleVersion,done:e,pending:p,settingsPending,cloudUserId});setConfirmReset(false);setToast("Progress cleared");}} session={session} syncStatus={syncStatus} cloudBusy={cloudBusy} cloudConfigured={!!CLOUD_CLIENT} onAuth={authenticate} onSignOut={signOut}/>}
+          {tab==="plan"&&<PlanView textSize={textSize} onTextSizeChange={(v)=>{setTextSize(v);try{localStorage.setItem(TEXT_SIZE_KEY,String(v));}catch(e){}}} done={done} doneCount={doneCount} pace={pace} streak={streak} oldestUnread={oldestUnread} start={start} bibleVersion={bibleVersion} onBibleVersionChange={(v)=>{changeSettings(start,v);setToast(`Bible links set to ${v}`);}} onJump={openDay} onStartChange={(s)=>{changeSettings(s,bibleVersion);setToast("Start date updated");}} confirmReset={confirmReset} setConfirmReset={setConfirmReset} onReset={()=>{const e=new Set(),p={...pending};done.forEach(n=>p[n]="incomplete");setDone(e);setPending(p);saveState({start,bibleVersion,done:e,pending:p,settingsPending});setConfirmReset(false);setToast("Progress cleared");}} session={session} readerDisplayName={readerDisplayName} syncStatus={syncStatus} cloudBusy={cloudBusy} onSync={syncCloud} onSignOut={signOut}/>}
         </div>
       </main>
 
@@ -387,8 +413,30 @@ function MonthView({cursor,setCursor,done,startDate,currentDay,today,onOpen}){
   );
 }
 
-function PlanView({textSize,onTextSizeChange,done,doneCount,pace,streak,oldestUnread,start,bibleVersion,onBibleVersionChange,onJump,onStartChange,confirmReset,setConfirmReset,onReset,session,syncStatus,cloudBusy,cloudConfigured,onAuth,onSignOut}){
-  const [email,setEmail]=useState("");const [password,setPassword]=useState("");
+function AccountGate({configured,busy,onAuth,message}){
+  const [mode,setMode]=useState("signin");
+  const [displayName,setDisplayName]=useState("");
+  const [email,setEmail]=useState("");
+  const [password,setPassword]=useState("");
+  const [showPassword,setShowPassword]=useState(false);
+  const ready=configured&&email.trim()&&password.length>=6&&(mode==="signin"||displayName.trim());
+  const submit=e=>{e.preventDefault();if(ready&&!busy)onAuth(mode,email,password,displayName);};
+  return <div className="app"><Styles/><div className="account-shell"><form className="account-card" onSubmit={submit}>
+    <div className="account-mark">NKJV</div>
+    <h1>Chronological Bible</h1>
+    <p className="account-intro">Each family member uses their own account so progress stays private and follows them across devices.</p>
+    <div className="account-modes"><button type="button" className={mode==="signin"?"mode-on":""} onClick={()=>setMode("signin")}>Sign in</button><button type="button" className={mode==="signup"?"mode-on":""} onClick={()=>setMode("signup")}>Create account</button></div>
+    {!configured&&<div className="account-message">Account services are not configured. The reading plan cannot open until the cloud connection is restored.</div>}
+    {mode==="signup"&&<label className="auth-field"><span>Reader’s name</span><input autoComplete="name" value={displayName} onChange={e=>setDisplayName(e.target.value)} placeholder="Name shown in the app"/></label>}
+    <label className="auth-field"><span>Email</span><input type="email" autoComplete="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="you@example.com"/></label>
+    <label className="auth-field"><span>Password</span><span className="password-wrap"><input type={showPassword?"text":"password"} autoComplete={mode==="signup"?"new-password":"current-password"} value={password} onChange={e=>setPassword(e.target.value)} placeholder="At least 6 characters"/><button type="button" onClick={()=>setShowPassword(v=>!v)}>{showPassword?"Hide":"Show"}</button></span></label>
+    <button className="primary-btn account-submit" disabled={!ready||busy}>{busy?"Please wait…":mode==="signup"?"Create account":"Sign in"}</button>
+    {message&&<div className="account-message">{message}</div>}
+    <p className="account-foot">Your old shared-device progress will not be assigned to this account. Each reader begins and records progress independently.</p>
+  </form></div></div>;
+}
+
+function PlanView({textSize,onTextSizeChange,done,doneCount,pace,streak,oldestUnread,start,bibleVersion,onBibleVersionChange,onJump,onStartChange,confirmReset,setConfirmReset,onReset,session,readerDisplayName,syncStatus,cloudBusy,onSync,onSignOut}){
   const pct=Math.round((doneCount/planDayCount())*100);
   const paceTxt=pace===0?"On pace":pace>0?(pace+" day"+(pace>1?"s":"")+" ahead"):((-pace)+" day"+(pace<-1?"s":"")+" behind");
   return (
@@ -421,17 +469,9 @@ function PlanView({textSize,onTextSizeChange,done,doneCount,pace,streak,oldestUn
       </div>
       <h2 className="sec-title">Cloud sync</h2>
       <div className="settings cloud-card">
-        {session?.user?<>
-          <div className="cloud-user"><span className="cloud-dot"/><span><strong>{session.user.email}</strong><small>{syncStatus}</small></span></div>
-          <div className="set-note">Completion, start date, and Bible-link preference now follow this account across devices. Offline changes are queued on this device.</div>
-          <button className="ghost-btn" disabled={cloudBusy} onClick={onSignOut}>Sign out</button>
-        </>:cloudConfigured?<>
-          <div className="set-note">Sign in with the same account on each device to synchronise progress.</div>
-          <label className="auth-field"><span>Email</span><input type="email" autoComplete="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="you@example.com"/></label>
-          <label className="auth-field"><span>Password</span><input type="password" autoComplete="current-password" value={password} onChange={e=>setPassword(e.target.value)} placeholder="At least 6 characters"/></label>
-          <div className="auth-actions"><button className="primary-btn" disabled={cloudBusy||!email||!password} onClick={()=>onAuth("signin",email,password)}>Sign in</button><button className="ghost-btn" disabled={cloudBusy||!email||!password} onClick={()=>onAuth("signup",email,password)}>Create account</button></div>
-          <div className="set-note">Your existing device progress is imported the first time you connect an account.</div>
-        </>:<div className="set-note">Cloud sync is not configured. Progress is still stored on this device.</div>}
+        <div className="cloud-user"><span className="cloud-dot"/><span><strong>{readerName(session.user,readerDisplayName)}</strong><small>{session.user.email} · {syncStatus}</small></span></div>
+        <div className="set-note">Completion, start date, and Bible-link preference follow this account across devices. Offline changes stay in this account’s private device cache until the connection returns.</div>
+        <div className="auth-actions"><button className="primary-btn" disabled={cloudBusy} onClick={onSync}>Sync now</button><button className="ghost-btn" disabled={cloudBusy} onClick={onSignOut}>Sign out on this device</button></div>
       </div>
       <div className="colophon">NKJV Chronological Study Bible · publisher-block order · {planDayCount()} sittings · 787 publisher blocks · 31,102 verses · reference-only, translation-neutral dataset</div>
     </section>
@@ -574,6 +614,21 @@ function Styles(){
       .ghost-btn{border:1px solid var(--line);background:none;color:var(--vellum);border-radius:8px;padding:8px 12px;font-family:inherit;font-size:calc(12.5px * var(--fs, 1));cursor:pointer;}
       .confirm-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:calc(12.5px * var(--fs, 1));}
       .cloud-card{gap:12px;}
+      .account-shell{min-height:100vh;min-height:100dvh;display:grid;place-items:center;padding:24px;background:radial-gradient(circle at top,rgba(95,115,73,.22),transparent 52%),var(--ink);color:var(--vellum);font-family:"Albert Sans",system-ui,sans-serif;}
+      .app>.account-shell{grid-column:1/-1;grid-row:1/-1;}
+      .account-card{width:min(100%,430px);display:flex;flex-direction:column;gap:14px;background:var(--ink-2);border:1px solid var(--line);border-radius:18px;padding:25px;box-shadow:0 18px 55px rgba(0,0,0,.3);}
+      .account-card h1{font:700 calc(31px * var(--fs,1))/1.05 "Cormorant Garamond",Georgia,serif;text-align:center;color:var(--vellum);}
+      .account-mark{align-self:center;display:grid;place-items:center;width:56px;height:56px;border:1px solid var(--gold);border-radius:50%;color:var(--gold);font:700 calc(14px * var(--fs,1))/1 "Cormorant Garamond",Georgia,serif;letter-spacing:.08em;}
+      .account-intro,.account-foot{color:var(--faded);font-size:calc(12px * var(--fs,1));line-height:1.5;text-align:center;}
+      .account-foot{font-size:calc(11px * var(--fs,1));}
+      .account-modes{display:grid;grid-template-columns:1fr 1fr;background:var(--ink);border-radius:10px;padding:3px;}
+      .account-modes button{border:0;background:none;color:var(--faded);border-radius:8px;padding:9px;font:600 calc(12px * var(--fs,1))/1 "Albert Sans",system-ui,sans-serif;cursor:pointer;}
+      .account-modes .mode-on{background:var(--olive);color:var(--vellum);}
+      .password-wrap{display:flex;align-items:stretch;}
+      .password-wrap input{border-radius:8px 0 0 8px;}
+      .password-wrap button{border:1px solid var(--line);border-left:0;background:var(--ink);color:var(--gold);border-radius:0 8px 8px 0;padding:0 11px;font:600 calc(11px * var(--fs,1))/1 "Albert Sans",system-ui,sans-serif;cursor:pointer;}
+      .account-submit{width:100%;padding:11px 14px;}
+      .account-message{border:1px solid rgba(201,164,74,.35);background:rgba(201,164,74,.08);border-radius:8px;padding:9px 11px;color:var(--vellum-2);font-size:calc(11px * var(--fs,1));line-height:1.4;}
       .cloud-user{display:flex;align-items:center;gap:9px;font-size:calc(13px * var(--fs, 1));}
       .cloud-user small{display:block;color:var(--faded);margin-top:2px;}
       .cloud-dot{width:9px;height:9px;border-radius:50%;background:#79a85b;box-shadow:0 0 0 3px rgba(121,168,91,.15);}

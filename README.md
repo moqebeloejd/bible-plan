@@ -1,16 +1,18 @@
-# Chronological Bible · One Year
+# NKJV Chronological Bible Plan
 
-A simple, installable reading-plan app for reading through the Bible in one
-year on a chronological plan — nine epochs from Creation to the Church Age,
-based on the NKJV Chronological Study Bible.
+An installable family reading-plan app following the publisher’s Scripture
+blocks and chronology in the NKJV Chronological Study Bible.
 
 ## Features
-- 365-day chronological plan with complete-chapter reading boundaries
+- 244 manageable sittings containing all 787 publisher-defined Scripture blocks
+- Publisher boundaries preserved, including intentional mid-chapter divisions
 - Context-aware daily themes and short context notes
 - Translation-neutral Bible references with selectable version links
 - Today, Week, Month, and Journey views
-- Tap to mark a day complete; progress is saved locally first
-- Optional account sign-in synchronises progress, start date, and Bible version across devices
+- Account-only access so every family member has independent progress
+- Account creation captures the reader’s display name
+- Per-account offline cache plus explicit and automatic cloud synchronisation
+- Sync now and device-only sign-out controls
 - Settable start date so a group can read in step together
 - Works offline and installs to your home screen (Android, iPhone, tablet)
 
@@ -24,9 +26,10 @@ Bible, but stores only canonical Bible references. It can therefore be used
 with other Bible translations and with editions printed in canonical rather
 than chronological order.
 
-Progress remains available locally while offline. Signed-in readers are synced
-through Supabase with Row Level Security so each account can access only its own
-Bible-plan rows.
+Each account’s progress remains available locally while offline and synchronises
+through Supabase when the connection returns. Row Level Security restricts each
+reader to their own Bible-plan rows. Older shared-device records remain untouched
+and are never silently assigned to a newly signed-in family member.
 
 See `DATASET.md` for the portable reference schema and validation rules. Run
 `npm test` to validate the app and all plan invariants.

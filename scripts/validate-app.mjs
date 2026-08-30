@@ -65,6 +65,14 @@ const checks = {
   first_day: days[0].readings.map(r => r.reference).join("; ") === "Genesis 1:1—4:26",
   last_day: days.at(-1).readings.at(-1).reference.startsWith("Revelation"),
   sittings_within_hard_cap: days.every(d => d.estimated_minutes <= plan.schedule_policy.hard_cap_minutes),
+  account_only_gate: html.includes('if(!session?.user)return <AccountGate'),
+  account_derived_identity: html.includes('user?.user_metadata?.display_name') && html.includes('reader_profiles'),
+  uid_scoped_device_cache: html.includes('const ACCOUNT_STORAGE_PREFIX="bible_reader_state_v1_"') && html.includes('accountStorageKey(uid)'),
+  no_silent_legacy_import: !html.includes('localStorage.getItem(LEGACY_STORAGE_KEY)') && !html.includes('localStorage.getItem(LEGACY_V3_STORAGE_KEY)'),
+  explicit_sync_control: html.includes('>Sync now</button>'),
+  local_device_signout: html.includes('signOut({scope:"local"})') && html.includes('>Sign out on this device</button>'),
+  account_creation_name: html.includes('Reader’s name') && html.includes('data:{display_name:'),
+  password_visibility_control: html.includes('showPassword?"text":"password"'),
 };
 
 for (const [name, pass] of Object.entries(checks)) if (!pass) throw new Error(`Validation failed: ${name}`);
