@@ -647,6 +647,13 @@ function Styles(){
   .app-cite{color:var(--gold-deep);font-size:calc(12px * var(--fs, 1));}
   .app-page{color:var(--faded);font-size:calc(11px * var(--fs, 1));}
   .app-tags{flex-basis:100%;color:var(--faded);font-size:calc(11px * var(--fs, 1));letter-spacing:.04em;}
+  /* Apparatus is printed inside the light reading card. Override the dark-shell
+     palette here so note titles and supporting labels remain legible. */
+  .card .app-head{color:#755a1d;}
+  .card .app-title{color:#2b2a20;}
+  .card .app-cite{color:#755a1d;}
+  .card .app-page,.card .app-tags{color:#655f48;}
+  .card .app-kind{color:#4a5c39;border-color:rgba(43,42,32,.28);}
   .colophon{margin:20px 4px 8px;font-size:calc(11px * var(--fs, 1));color:var(--faded);text-align:center;line-height:1.5;}
       .tabs{flex-shrink:0;display:flex;background:rgba(22,29,20,.97);border-top:1px solid var(--line);padding:5px 4px calc(8px + env(safe-area-inset-bottom));position:sticky;bottom:0;}
       .tab{flex:1;border:0;background:none;color:var(--faded);display:flex;flex-direction:column;align-items:center;gap:2px;font-family:inherit;font-size:calc(11px * var(--fs, 1));letter-spacing:.06em;padding:6px 0;cursor:pointer;border-radius:9px;}

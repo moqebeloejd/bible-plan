@@ -1,4 +1,4 @@
-const CACHE = "bible-year-v4";
+const CACHE = "bible-year-v5";
 const ASSETS = ["./", "./index.html", "./manifest.json", "./icon.svg", "./cloud-config.js", "./vendor/react.production.min.js", "./vendor/react-dom.production.min.js", "./vendor/babel.min.js", "./vendor/supabase.js", "./data/reading-plan-v3.json"];
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));

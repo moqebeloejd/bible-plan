@@ -73,6 +73,7 @@ const checks = {
   local_device_signout: html.includes('signOut({scope:"local"})') && html.includes('>Sign out on this device</button>'),
   account_creation_name: html.includes('Reader’s name') && html.includes('data:{display_name:'),
   password_visibility_control: html.includes('showPassword?"text":"password"'),
+  light_card_apparatus_contrast: html.includes('.card .app-title{color:#2b2a20;}') && html.includes('.card .app-page,.card .app-tags{color:#655f48;}'),
 };
 
 for (const [name, pass] of Object.entries(checks)) if (!pass) throw new Error(`Validation failed: ${name}`);
