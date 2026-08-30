@@ -1,79 +1,36 @@
 {
-  "plan_id": "nkjv-chronological-whole-chapter-365-v2",
-  "passed": true,
-  "checks": [
-    {
-      "check": "day_count",
-      "expected": 365,
-      "actual": 365,
-      "pass": true
-    },
-    {
-      "check": "chapter_count",
-      "expected": 1189,
-      "actual": 1189,
-      "pass": true
-    },
-    {
-      "check": "unique_chapters",
-      "expected": 1189,
-      "actual": 1189,
-      "pass": true
-    },
-    {
-      "check": "verse_count",
-      "expected": 31102,
-      "actual": 31102,
-      "pass": true
-    },
-    {
-      "check": "complete_chapter_boundaries",
-      "expected": true,
-      "actual": true,
-      "pass": true
-    },
-    {
-      "check": "missing_chapters",
-      "expected": 0,
-      "actual": 0,
-      "pass": true,
-      "details": []
-    },
-    {
-      "check": "duplicate_chapters",
-      "expected": 0,
-      "actual": 0,
-      "pass": true,
-      "details": []
-    },
-    {
-      "check": "translation_text_embedded",
-      "expected": false,
-      "actual": false,
-      "pass": true
-    }
-  ],
-  "load_statistics": {
-    "average_verses": 85.2,
-    "minimum_verses": 56,
-    "maximum_verses": 176,
-    "days_below_45_verses": [],
-    "days_above_130_verses": [
-      263
-    ]
-  },
-  "chronology_placement": {
-    "inferred_chapters": [
-      "Exod.27",
-      "Lev.1",
-      "1Sam.19",
-      "1Chr.20",
-      "Jonah.4",
-      "Mark.5",
-      "Luke.20",
-      "Jas.5",
-      "2Thess.1"
-    ],
-    "inferred_chapter_count": 9
-  }
+ "passed": true,
+ "generated_at": "2026-08-30T12:58:23.791Z",
+ "plan_id": "nkjv-chronological-publisher-blocks-v3",
+ "schema_version": 3,
+ "source": "Thomas Nelson, The Chronological Study Bible, NKJV (2008)",
+ "day_count": 244,
+ "verse_count": 31102,
+ "publisher_block_count": 787,
+ "context_group_count": 346,
+ "background_note_count": 453,
+ "visual_count": 137,
+ "boundary_policy": "A reading follows the publisher's own block boundaries exactly, including mid-chapter starts and ends and a/b half-verse divisions.",
+ "mid_chapter_blocks": 289,
+ "half_verse_blocks": 6,
+ "extraction_checks": {
+  "scripture_index_rows": 787,
+  "canonical_gaps": 0,
+  "canonical_overlaps": 0,
+  "pages_verified_against_running_head": "1336/1362 (98.1%)",
+  "verses_distinct": 31102,
+  "verses_duplicated": 0,
+  "chapters_covered": "1189/1189",
+  "books": "66/66",
+  "transition_members_matching_index": "579/579 (100%)"
+ },
+ "schedule_checks": {
+  "reading_nights": "Sunday, Monday, Tuesday, Wednesday, Thursday",
+  "median_minutes": 30.1,
+  "max_minutes": 44.7,
+  "over_soft_cap": 0,
+  "over_hard_cap": 0,
+  "publisher_blocks_read_whole": "759/787",
+  "context_groups_read_whole": "317/346"
+ }
 }

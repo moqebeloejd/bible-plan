@@ -37,13 +37,13 @@
 const { useState, useEffect, useMemo, useCallback, useRef } = React;
 
 let PLAN=null;
-const PLAN_URL="./data/reading-plan-v2.json";
+const PLAN_URL="./data/reading-plan-v3.json";
 
 const EPOCH_NAMES={1:"Before the Patriarchs",2:"The Patriarchs, Israel's Ancestors",3:"The Rise of a Unified People",4:"From Tribes to a Nation",5:"The Fall of Two Nations",6:"Exile and Return",7:"Between the Two Testaments",8:"The Coming of the Messiah",9:"The Church Age"};
 const EPOCH_ERAS={1:"Creation to 2000 B.C.",2:"2000 to 1500 B.C.",3:"1500 to 1200 B.C.",4:"1200 to 930 B.C.",5:"930 to 586 B.C.",6:"586 to 332 B.C.",7:"332 B.C. to A.D. 30",8:"6 B.C. to A.D. 30",9:"A.D. 30 to 100"};
-const LEGACY_STORAGE_KEY="bible365-v1";
-const STORAGE_KEY="bible365-v2";
-const DEFAULT_START="2026-06-07";
+const LEGACY_STORAGE_KEY="bible365-v2";
+const STORAGE_KEY="bible365-v3";
+const DEFAULT_START="2026-08-30";
 const DEFAULT_VERSION="NKJV";
 const VERSION_OPTIONS=["NKJV","KJV","ESV","NIV","NLT","NASB","NRSVUE","CSB","NET","AMP"];
 const CLOUD_CONFIG=window.BIBLE_CLOUD||{};
@@ -53,6 +53,30 @@ const CLOUD_CLIENT=window.supabase&&CLOUD_CONFIG.url&&CLOUD_CONFIG.publishableKe
 const parseISO=s=>{const[y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d)};
 const addDays=(d,n)=>{const x=new Date(d.getFullYear(),d.getMonth(),d.getDate());x.setDate(x.getDate()+n);return x};
 const diffDays=(a,b)=>Math.round((new Date(a.getFullYear(),a.getMonth(),a.getDate())-new Date(b.getFullYear(),b.getMonth(),b.getDate()))/86400000);
+
+// --- reading nights -------------------------------------------------------
+// The plan is an ordered list of sittings, not a run of consecutive days.
+// Day N falls on the Nth reading night on or after the start date, so Friday
+// and Saturday nights are skipped and the start date stays adjustable.
+// Mirrors pilot/lib/project-dates.mjs: a day_id must mean the same on both sides.
+const readingNights=()=>{const w=PLAN&&PLAN.schedule_policy&&PLAN.schedule_policy.reading_weekdays;return Array.isArray(w)&&w.length?w:[0,1,2,3,4];};
+const isReadingNight=d=>readingNights().indexOf(d.getDay())>=0;
+const firstNightOnOrAfter=d=>{const x=new Date(d.getFullYear(),d.getMonth(),d.getDate());let g=0;while(!isReadingNight(x)&&g++<14)x.setDate(x.getDate()+1);return x;};
+const dateForPlanDay=(n,startDate)=>{const x=firstNightOnOrAfter(startDate);for(let i=1;i<n;i++){do{x.setDate(x.getDate()+1);}while(!isReadingNight(x));}return x;};
+// How many reading nights have begun by `today`, counting the start night as 1.
+const planDayForDate=(today,startDate)=>{
+  const first=firstNightOnOrAfter(startDate);
+  if(diffDays(today,first)<0)return 0;
+  let n=0;const x=new Date(first.getFullYear(),first.getMonth(),first.getDate());
+  while(diffDays(today,x)>=0){n++;do{x.setDate(x.getDate()+1);}while(!isReadingNight(x));}
+  return n;
+};
+const planDayCount=()=>(PLAN&&PLAN.day_count)||244;
+// A "week" is the household's run of reading nights, not seven calendar days.
+const nightsPerWeek=()=>readingNights().length||5;
+const weekCount=()=>Math.ceil(planDayCount()/nightsPerWeek());
+const dayIdPrefix=()=>{const id=PLAN&&PLAN.days&&PLAN.days[0]&&PLAN.days[0].day_id;const m=id&&id.match(/^(.*-D)\d+$/);return m?m[1]:"CRP3-D";};
+const dayIdFor=n=>`${dayIdPrefix()}${String(n).padStart(3,"0")}`;
 const MONTHS=["January","February","March","April","May","June","July","August","September","October","November","December"];
 const DOW=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
 const fmtLong=d=>`${DOW[d.getDay()]}, ${d.getDate()} ${MONTHS[d.getMonth()].slice(0,3)} ${d.getFullYear()}`;
@@ -70,7 +94,7 @@ function loadLocal(plan){
     const legacy=localStorage.getItem(LEGACY_STORAGE_KEY);
     if(legacy){
       const old=JSON.parse(legacy),oldDone=new Set(Array.isArray(old.done)?old.done:[]);
-      const migrated=plan.days.filter(d=>(d.migration?.required_legacy_days||[]).every(n=>oldDone.has(n))).map(d=>d.day);
+      const migrated=plan.days.filter(d=>(d.migration?.required_v2_days||d.migration?.required_legacy_days||[]).every(n=>oldDone.has(n))).map(d=>d.day);
       const pending=Object.fromEntries(migrated.map(n=>[n,"complete"]));
       return {start:old.start||DEFAULT_START,bibleVersion:DEFAULT_VERSION,done:new Set(migrated),pending,settingsPending:true,cloudUserId:null,migrated:true};
     }
@@ -104,15 +128,15 @@ function App(){
 
   const today=new Date();
   const startDate=parseISO(start);
-  const todayPlanDay=diffDays(today,startDate)+1;
-  const currentDay=Math.min(Math.max(todayPlanDay,1),365);
+  const todayPlanDay=planDayForDate(today,startDate);
+  const currentDay=Math.min(Math.max(todayPlanDay,1),planDayCount());
 
   useEffect(()=>{
     let cancelled=false,subscription;
     (async()=>{
       try{
         const res=await fetch(PLAN_URL,{cache:"no-cache"});if(!res.ok)throw new Error("Reading plan could not be loaded.");
-        const plan=await res.json();if(plan.day_count!==365||plan.days?.length!==365)throw new Error("Reading plan failed its day-count check.");
+        const plan=await res.json();if(!plan.day_count||plan.days?.length!==plan.day_count)throw new Error("Reading plan failed its day-count check.");
         PLAN=plan;
         const local=loadLocal(plan);if(cancelled)return;
         setStart(local.start);setBibleVersion(local.bibleVersion);setDone(local.done);setPending(local.pending);setSettingsPending(local.settingsPending);setCloudUserId(local.cloudUserId);
@@ -140,8 +164,8 @@ function App(){
       let operations=sameUser?{...s.pending}:firstLink?Object.fromEntries([...s.done].map(n=>[n,"complete"])):{};
       const completeIds=Object.keys(operations).filter(k=>operations[k]==="complete");
       const incompleteIds=Object.keys(operations).filter(k=>operations[k]==="incomplete");
-      if(completeIds.length){const now=new Date().toISOString();const rows=completeIds.map(day=>({user_id:uid,plan_id:PLAN.plan_id,day_id:`CRP2-D${String(day).padStart(3,"0")}`,completed_at:now,updated_at:now}));const {error}=await CLOUD_CLIENT.from("bible_reader_progress").upsert(rows,{onConflict:"user_id,plan_id,day_id"});if(error)throw error;}
-      if(incompleteIds.length){const ids=incompleteIds.map(day=>`CRP2-D${String(day).padStart(3,"0")}`);const {error}=await CLOUD_CLIENT.from("bible_reader_progress").delete().eq("user_id",uid).eq("plan_id",PLAN.plan_id).in("day_id",ids);if(error)throw error;}
+      if(completeIds.length){const now=new Date().toISOString();const rows=completeIds.map(day=>({user_id:uid,plan_id:PLAN.plan_id,day_id:dayIdFor(day),completed_at:now,updated_at:now}));const {error}=await CLOUD_CLIENT.from("bible_reader_progress").upsert(rows,{onConflict:"user_id,plan_id,day_id"});if(error)throw error;}
+      if(incompleteIds.length){const ids=incompleteIds.map(day=>dayIdFor(day));const {error}=await CLOUD_CLIENT.from("bible_reader_progress").delete().eq("user_id",uid).eq("plan_id",PLAN.plan_id).in("day_id",ids);if(error)throw error;}
       if(firstLink||(sameUser&&s.settingsPending)){const {error}=await CLOUD_CLIENT.from("bible_reader_settings").upsert({user_id:uid,plan_id:PLAN.plan_id,start_date:s.start,bible_version:s.bibleVersion,updated_at:new Date().toISOString()},{onConflict:"user_id,plan_id"});if(error)throw error;}
       const [{data:cloudRows,error:progressError},{data:cloudSettings,error:settingsError}]=await Promise.all([
         CLOUD_CLIENT.from("bible_reader_progress").select("day_id").eq("user_id",uid).eq("plan_id",PLAN.plan_id),
@@ -165,15 +189,15 @@ function App(){
   const signOut=async()=>{if(!CLOUD_CLIENT)return;setCloudBusy(true);try{await CLOUD_CLIENT.auth.signOut();hydratedUserRef.current=null;setSession(null);setSyncStatus("Signed out — progress remains on this device");setToast("Signed out");}finally{setCloudBusy(false);}};
 
   const doneCount=done.size;
-  const elapsed=Math.min(Math.max(todayPlanDay,0),365);
+  const elapsed=Math.min(Math.max(todayPlanDay,0),planDayCount());
   const pace=doneCount-elapsed;
-  const oldestUnread=useMemo(()=>{for(let i=1;i<=Math.min(elapsed,365);i++)if(!done.has(i))return i;return null;},[done,elapsed]);
+  const oldestUnread=useMemo(()=>{for(let i=1;i<=Math.min(elapsed,planDayCount());i++)if(!done.has(i))return i;return null;},[done,elapsed]);
   const streak=useMemo(()=>{let s=0,d=done.has(currentDay)?currentDay:currentDay-1;while(d>=1&&done.has(d)){s++;d--;}return s;},[done,currentDay]);
 
   useEffect(()=>{if(!toast)return;const t=setTimeout(()=>setToast(null),2600);return()=>clearTimeout(t);},[toast]);
 
   const shownDay=viewDay==null?currentDay:viewDay;
-  const openDay=(n)=>{setViewDay(Math.min(Math.max(n,1),365));setTab("today");};
+  const openDay=(n)=>{setViewDay(Math.min(Math.max(n,1),planDayCount()));setTab("today");};
 
   if(loadError)return <div className="app"><Styles/><main className="main"><div className="main-inner"><div className="settings">{loadError}</div></div></main></div>;
   if(!loaded) return <div className="app"><Styles/></div>;
@@ -187,11 +211,11 @@ function App(){
             <BibleLogoMark/>
             <div>
               <div className="eyebrow">Chronological Bible · One Year</div>
-              <h1 className="hdr-title">Day {currentDay} <span className="of">of 365</span></h1>
+              <h1 className="hdr-title">Day {currentDay} <span className="of">of {planDayCount()}</span></h1>
             </div>
           </div>
           <div className="hdr-stat">
-            <div className="hdr-pct">{Math.round((doneCount/365)*100)}%</div>
+            <div className="hdr-pct">{Math.round((doneCount/planDayCount())*100)}%</div>
             <div className="hdr-pct-lbl">read</div>
           </div>
         </div>
@@ -200,8 +224,8 @@ function App(){
 
       <main className="main">
         <div className="main-inner">
-          {tab==="today"&&<DayView day={shownDay} done={done} currentDay={currentDay} startDate={startDate} bibleVersion={bibleVersion} sealing={sealing} onToggle={(n)=>toggleDay(n,true)} onNav={(n)=>setViewDay(Math.min(Math.max(n,1),365))} onToday={()=>setViewDay(null)}/>}
-          {tab==="week"&&<WeekView weekIdx={weekIdx==null?Math.floor((currentDay-1)/7):weekIdx} setWeekIdx={setWeekIdx} done={done} currentDay={currentDay} startDate={startDate} onOpen={openDay} onToggle={(n)=>toggleDay(n)}/>}
+          {tab==="today"&&<DayView day={shownDay} done={done} currentDay={currentDay} startDate={startDate} bibleVersion={bibleVersion} sealing={sealing} onToggle={(n)=>toggleDay(n,true)} onNav={(n)=>setViewDay(Math.min(Math.max(n,1),planDayCount()))} onToday={()=>setViewDay(null)}/>}
+          {tab==="week"&&<WeekView weekIdx={weekIdx==null?Math.floor((currentDay-1)/nightsPerWeek()):weekIdx} setWeekIdx={setWeekIdx} done={done} currentDay={currentDay} startDate={startDate} onOpen={openDay} onToggle={(n)=>toggleDay(n)}/>}
           {tab==="month"&&<MonthView cursor={monthCursor||{y:today.getFullYear(),m:today.getMonth()}} setCursor={setMonthCursor} done={done} startDate={startDate} currentDay={currentDay} today={today} onOpen={openDay}/>}
           {tab==="plan"&&<PlanView done={done} doneCount={doneCount} pace={pace} streak={streak} oldestUnread={oldestUnread} start={start} bibleVersion={bibleVersion} onBibleVersionChange={(v)=>{changeSettings(start,v);setToast(`Bible links set to ${v}`);}} onJump={openDay} onStartChange={(s)=>{changeSettings(s,bibleVersion);setToast("Start date updated");}} confirmReset={confirmReset} setConfirmReset={setConfirmReset} onReset={()=>{const e=new Set(),p={...pending};done.forEach(n=>p[n]="incomplete");setDone(e);setPending(p);saveState({start,bibleVersion,done:e,pending:p,settingsPending,cloudUserId});setConfirmReset(false);setToast("Progress cleared");}} session={session} syncStatus={syncStatus} cloudBusy={cloudBusy} cloudConfigured={!!CLOUD_CLIENT} onAuth={authenticate} onSignOut={signOut}/>}
         </div>
@@ -250,7 +274,14 @@ function EpochRibbon({done,currentDay,onJump}){
 
 function DayView({day,done,currentDay,startDate,bibleVersion,onToggle,onNav,onToday,sealing}){
   const d=PLAN.days[day-1],epochs=epochNums(d);const e1=epochs[0]||1,e2=epochs[epochs.length-1]||e1,verses=d.verse_count,refs=d.readings;
-  const date=addDays(startDate,day-1);const isDone=done.has(day);const isToday=day===currentDay;
+  const groupTitles=[...new Set((d.context_groups||[]).map(g=>g.title).filter(Boolean))];
+  const pages=(d.source_printed_pages||[]).slice().sort((a,b)=>a-b);
+  // One entry per distinct note or visual; a page shared by two readings would
+  // otherwise list its apparatus twice.
+  const sameRef=(a,b)=>String(a||'').replace(/[‐-―]/g,'-').replace(/s+/g,'')===String(b||'').replace(/[‐-―]/g,'-').replace(/s+/g,'');
+  const seenNote=new Set(),notes=(d.background_notes||[]).filter(n=>{const k=n.title+"|"+n.printedPage;if(seenNote.has(k))return false;seenNote.add(k);return true;});
+  const seenVis=new Set(),visuals=(d.visuals||[]).filter(v=>{const k=v.title+"|"+v.printedPage;if(seenVis.has(k))return false;seenVis.add(k);return true;});
+  const date=dateForPlanDay(day,startDate);const isDone=done.has(day);const isToday=day===currentDay;
   const epochLabel=e1===e2?("Epoch "+e1+" — "+EPOCH_NAMES[e1]):("Epoch "+e1+" → "+e2+" — crossing into "+EPOCH_NAMES[e2]);
   return (
     <section className="dayview">
@@ -258,19 +289,35 @@ function DayView({day,done,currentDay,startDate,bibleVersion,onToggle,onNav,onTo
         <button className="nav-btn" onClick={()=>onNav(day-1)} disabled={day<=1}>‹</button>
         <div className="day-nav-mid">
           <div className="day-date">{fmtLong(date)}</div>
-          <div className="day-sub">Day {day} · Week {Math.ceil(day/7)}{!isToday&&<button className="link-btn" onClick={onToday}>· back to today</button>}</div>
+          <div className="day-sub">Day {day} · Week {d.week}{!isToday&&<button className="link-btn" onClick={onToday}>· back to today</button>}</div>
         </div>
-        <button className="nav-btn" onClick={()=>onNav(day+1)} disabled={day>=365}>›</button>
+        <button className="nav-btn" onClick={()=>onNav(day+1)} disabled={day>=planDayCount()}>›</button>
       </div>
       <article className={"card "+(isDone?"card-done":"")}>
         <div className="card-epoch">
           <span className="epoch-num">{e1===e2?e1:(e1+"–"+e2)}</span>
           <div><div className="epoch-name">{epochLabel}</div><div className="epoch-era">{EPOCH_ERAS[e2]}</div></div>
         </div>
-        <h2 className="reading-theme">{d.title}</h2>
-        <p className="reading-context">{d.context}</p>
-        <div className="load-row"><span>{d.chapter_count} chapter{d.chapter_count!==1?"s":""}</span><span className="load-dot">·</span><span>{verses} verses</span><span className="load-dot">·</span><span>{refs.length} reading{refs.length!==1?"s":""}</span></div>
-        <ul className="refs">{refs.map((r,i)=>(<li key={r.segment_id} className="ref"><span className="ref-pg">READ {i+1}</span><span className="ref-txt">{r.reference}</span><a className="read-link" href={`https://www.biblegateway.com/passage/?search=${encodeURIComponent(r.reference)}&version=${encodeURIComponent(bibleVersion)}`} target="_blank" rel="noopener noreferrer">Open in {bibleVersion} ↗</a></li>))}</ul>
+        <h2 className="reading-theme">{groupTitles.length?groupTitles.join(" · "):refs.map(r=>r.reference).join(" · ")}</h2>
+        <div className="load-row"><span>about {Math.round(d.estimated_minutes)} min</span><span className="load-dot">·</span><span>{verses} verses</span><span className="load-dot">·</span><span>{refs.length} reading{refs.length!==1?"s":""}</span>{pages.length>0&&<><span className="load-dot">·</span><span>printed p.{pages.length===1?pages[0]:pages[0]+"–"+pages[pages.length-1]}</span></>}</div>
+        <ul className="refs">{refs.map((r,i)=>(<li key={r.segment_id} className="ref"><span className="ref-pg">READ {i+1}</span><span className="ref-txt">{r.reference}</span>{r.publisher_block_reference&&r.covers_whole_block===false&&<span className="ref-block">part of {r.publisher_block_reference}</span>}<a className="read-link" href={`https://www.biblegateway.com/passage/?search=${encodeURIComponent(r.reference)}&version=${encodeURIComponent(bibleVersion)}`} target="_blank" rel="noopener noreferrer">Open in {bibleVersion} ↗</a></li>))}</ul>
+        {notes.length>0&&<div className="apparatus">
+          <div className="app-head">Background notes on these pages</div>
+          <ul className="app-list">{notes.map((n,i)=>(<li key={"n"+i} className="app-item">
+            <span className="app-title">{n.title}</span>
+            {n.scriptureCitation&&<span className="app-cite">{n.scriptureCitation}</span>}
+            <span className="app-page">p.{n.printedPage}</span>
+            {n.topics&&n.topics.length>0&&<span className="app-tags">{[...new Set(n.topics.map(t=>t.category))].join(" · ")}</span>}
+          </li>))}</ul>
+        </div>}
+        {visuals.length>0&&<div className="apparatus">
+          <div className="app-head">Maps, charts and panels</div>
+          <ul className="app-list">{visuals.map((v,i)=>(<li key={"v"+i} className="app-item">
+            <span className="app-kind">{v.kind.replace(/-/g," ")}</span>
+            <span className="app-title">{v.title}</span>
+            <span className="app-page">p.{v.printedPage}</span>
+          </li>))}</ul>
+        </div>}
         <button className={"seal-btn "+(isDone?"seal-on ":"")+(sealing?"sealing":"")} onClick={()=>onToggle(day)}>
           {isDone?(<><SealMark/> Read · {fmtLong(date).split(",")[0]} sealed</>):"Mark today's reading complete"}
         </button>
@@ -281,16 +328,16 @@ function DayView({day,done,currentDay,startDate,bibleVersion,onToggle,onNav,onTo
 }
 
 function WeekView({weekIdx,setWeekIdx,done,currentDay,startDate,onOpen,onToggle}){
-  const first=weekIdx*7+1;const days=[];for(let n=first;n<first+7&&n<=365;n++)days.push(n);
+  const per=nightsPerWeek();const first=weekIdx*per+1;const days=[];for(let n=first;n<first+per&&n<=planDayCount();n++)days.push(n);
   const wkDone=days.filter(n=>done.has(n)).length;
   return (
     <section>
       <div className="day-nav">
         <button className="nav-btn" onClick={()=>setWeekIdx(weekIdx-1)} disabled={weekIdx<=0}>‹</button>
-        <div className="day-nav-mid"><div className="day-date">Week {weekIdx+1} of 53</div><div className="day-sub">{wkDone} of {days.length} readings done</div></div>
+        <div className="day-nav-mid"><div className="day-date">Week {weekIdx+1} of {weekCount()}</div><div className="day-sub">{wkDone} of {days.length} readings done</div></div>
         <button className="nav-btn" onClick={()=>setWeekIdx(weekIdx+1)} disabled={weekIdx>=52}>›</button>
       </div>
-      <div className="wk-list">{days.map(n=>{const d=PLAN.days[n-1];const date=addDays(startDate,n-1);const isDone=done.has(n);const isToday=n===currentDay;const refs=d.readings.map(r=>r.reference).join(" · ");
+      <div className="wk-list">{days.map(n=>{const d=PLAN.days[n-1];const date=dateForPlanDay(n,startDate);const isDone=done.has(n);const isToday=n===currentDay;const refs=d.readings.map(r=>r.reference).join(" · ");
         return (<div key={n} className={"wk-row "+(isToday?"wk-today":"")}>
           <button className={"wk-check "+(isDone?"wk-check-on":"")} onClick={()=>onToggle(n)}>{isDone&&<SealMark small/>}</button>
           <button className="wk-body" onClick={()=>onOpen(n)}>
@@ -311,7 +358,7 @@ function MonthView({cursor,setCursor,done,startDate,currentDay,today,onOpen}){
   const canBack=new Date(y,m,1)>new Date(startDate.getFullYear(),startDate.getMonth(),1);
   const canFwd=new Date(y,m,1)<new Date(planEnd.getFullYear(),planEnd.getMonth(),1);
   let monthDone=0,monthInPlan=0;
-  for(let d=1;d<=daysInMonth;d++){const pn=diffDays(new Date(y,m,d),startDate)+1;if(pn>=1&&pn<=365){monthInPlan++;if(done.has(pn))monthDone++;}}
+  for(let d=1;d<=daysInMonth;d++){const dd=new Date(y,m,d);const pn=isReadingNight(dd)?planDayForDate(dd,startDate):0;if(pn>=1&&pn<=planDayCount()){monthInPlan++;if(done.has(pn))monthDone++;}}
   return (
     <section>
       <div className="day-nav">
@@ -321,7 +368,7 @@ function MonthView({cursor,setCursor,done,startDate,currentDay,today,onOpen}){
       </div>
       <div className="cal">
         {DOW.map(d=><div key={d} className="cal-dow">{d[0]}</div>)}
-        {cells.map((d,i)=>{if(d===null)return <div key={"b"+i}/>;const date=new Date(y,m,d);const pn=diffDays(date,startDate)+1;const inPlan=pn>=1&&pn<=365;const isDone=inPlan&&done.has(pn);const isToday=diffDays(date,today)===0;const missed=inPlan&&!isDone&&pn<currentDay;
+        {cells.map((d,i)=>{if(d===null)return <div key={"b"+i}/>;const date=new Date(y,m,d);const pn=isReadingNight(date)?planDayForDate(date,startDate):0;const inPlan=pn>=1&&pn<=planDayCount();const isDone=inPlan&&done.has(pn);const isToday=diffDays(date,today)===0;const missed=inPlan&&!isDone&&pn<currentDay;
           return (<button key={d} className={["cal-cell",inPlan?"":"cal-out",isDone?"cal-done":"",isToday?"cal-today":"",missed?"cal-missed":""].join(" ")} disabled={!inPlan} onClick={()=>onOpen(pn)}>
             <span>{d}</span>{isDone&&<span className="cal-seal"/>}{missed&&<span className="cal-miss-dot"/>}
           </button>);
@@ -334,7 +381,7 @@ function MonthView({cursor,setCursor,done,startDate,currentDay,today,onOpen}){
 
 function PlanView({done,doneCount,pace,streak,oldestUnread,start,bibleVersion,onBibleVersionChange,onJump,onStartChange,confirmReset,setConfirmReset,onReset,session,syncStatus,cloudBusy,cloudConfigured,onAuth,onSignOut}){
   const [email,setEmail]=useState("");const [password,setPassword]=useState("");
-  const pct=Math.round((doneCount/365)*100);
+  const pct=Math.round((doneCount/planDayCount())*100);
   const paceTxt=pace===0?"On pace":pace>0?(pace+" day"+(pace>1?"s":"")+" ahead"):((-pace)+" day"+(pace<-1?"s":"")+" behind");
   return (
     <section className="plan">
@@ -376,7 +423,7 @@ function PlanView({done,doneCount,pace,streak,oldestUnread,start,bibleVersion,on
           <div className="set-note">Your existing device progress is imported the first time you connect an account.</div>
         </>:<div className="set-note">Cloud sync is not configured. Progress is still stored on this device.</div>}
       </div>
-      <div className="colophon">NKJV Chronological Study Bible structure · 365 days · 1,189 complete chapters · 31,102 verses · reference-only, translation-neutral dataset</div>
+      <div className="colophon">NKJV Chronological Study Bible · publisher-block order · {planDayCount()} sittings · 787 publisher blocks · 31,102 verses · reference-only, translation-neutral dataset</div>
     </section>
   );
 }
@@ -452,7 +499,6 @@ function Styles(){
       .epoch-name{font-weight:600;font-size:13.5px;line-height:1.25;}
       .epoch-era{font-size:11px;color:#6e6a52;font-variant:small-caps;letter-spacing:.04em;}
       .reading-theme{font-family:'Cormorant Garamond',Georgia,serif;font-size:23px;line-height:1.12;margin:14px 0 5px;color:#2b2a20;}
-      .reading-context{font-size:12.5px;line-height:1.5;color:#625f4c;margin-bottom:3px;}
       .load-row{display:flex;flex-wrap:wrap;gap:5px;font-size:12px;color:#6e6a52;padding:9px 0 4px;}
       .load-dot{color:var(--gold-deep);}
       .refs{list-style:none;padding:2px 0;}
@@ -526,7 +572,17 @@ function Styles(){
       .auth-actions{display:flex;gap:8px;flex-wrap:wrap;}
       .primary-btn{border:1px solid transparent;background:var(--gold);color:#211a07;border-radius:8px;padding:8px 13px;font-family:inherit;font-weight:600;font-size:12.5px;cursor:pointer;}
       button:disabled{opacity:.45;cursor:default;}
-      .colophon{margin:20px 4px 8px;font-size:10.5px;color:var(--faded);text-align:center;line-height:1.5;}
+      .ref-block{display:block;font-size:11px;color:var(--faded);letter-spacing:.02em;margin-top:2px;}
+  .apparatus{margin-top:18px;padding-top:14px;border-top:1px solid var(--line);}
+  .app-head{font-family:"Albert Sans",system-ui,sans-serif;font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--gold);margin-bottom:9px;}
+  .app-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:9px;}
+  .app-item{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 9px;font-size:13px;line-height:1.45;}
+  .app-kind{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--olive-soft);border:1px solid var(--line);border-radius:2px;padding:1px 5px;}
+  .app-title{color:var(--vellum);font-family:"Cormorant Garamond",Georgia,serif;font-size:15px;}
+  .app-cite{color:var(--gold-deep);font-size:12px;}
+  .app-page{color:var(--faded);font-size:11px;}
+  .app-tags{flex-basis:100%;color:var(--faded);font-size:11px;letter-spacing:.04em;}
+  .colophon{margin:20px 4px 8px;font-size:10.5px;color:var(--faded);text-align:center;line-height:1.5;}
       .tabs{flex-shrink:0;display:flex;background:rgba(22,29,20,.97);border-top:1px solid var(--line);padding:5px 4px calc(8px + env(safe-area-inset-bottom));position:sticky;bottom:0;}
       .tab{flex:1;border:0;background:none;color:var(--faded);display:flex;flex-direction:column;align-items:center;gap:2px;font-family:inherit;font-size:10px;letter-spacing:.06em;padding:6px 0;cursor:pointer;border-radius:9px;}
       .tab-on{color:var(--gold);}
