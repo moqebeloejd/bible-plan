@@ -94,6 +94,8 @@ const checks = {
   appearance_palette_contrast: contrastPairs.every(([foreground, background]) => contrast(foreground, background) >= 4.5),
   constrained_appearance_migration: appearanceMigration.includes("theme in ('light', 'dark')") && appearanceMigration.includes("accent in ('blue', 'pink', 'purple', 'teal')"),
   blue_white_install_chrome: manifest.background_color === "#ffffff" && manifest.theme_color === "#182665",
+  modern_supporting_palette: ["--sky:#dceaff", "--periwinkle:#e5e3ff", "--blush:#ffe9f2", "backdrop-filter:blur(18px)"].every(token => html.includes(token)),
+  updated_blue_white_icon: fs.readFileSync(path.join(root, "icon.svg"), "utf8").includes("#315EB9") && fs.readFileSync(path.join(root, "icon.svg"), "utf8").includes("#FFFFFF") && html.includes('<img className="brand-mark" src="icon.svg?v=7"'),
 };
 
 for (const [name, pass] of Object.entries(checks)) if (!pass) throw new Error(`Validation failed: ${name}`);
