@@ -6,6 +6,7 @@ import vm from "node:vm";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const html = fs.readFileSync(path.join(root, "index.html"), "utf8");
 const serviceWorker = fs.readFileSync(path.join(root, "sw.js"), "utf8");
+const manifest = JSON.parse(fs.readFileSync(path.join(root, "manifest.json"), "utf8"));
 const match = html.match(/<script type="text\/babel"[^>]*>([\s\S]*?)<\/script>/);
 if (!match) throw new Error("Inline application script was not found");
 
@@ -18,6 +19,7 @@ if (!transformed.code.includes("ReactDOM.createRoot")) throw new Error("React ap
 const plan = JSON.parse(fs.readFileSync(path.join(root, "data/reading-plan-v3.json"), "utf8"));
 const report = JSON.parse(fs.readFileSync(path.join(root, "data/validation-report.json"), "utf8"));
 const migration = JSON.parse(fs.readFileSync(path.join(root, "data/progress-migration-v2-to-v3.json"), "utf8"));
+const appearanceMigration = fs.readFileSync(path.join(root, "supabase/migrations/20260830173000_add_bible_appearance_preferences.sql"), "utf8");
 const cachedAssets = [...serviceWorker.matchAll(/"\.\/([^"?]*)"/g)].map(m => m[1]).filter(Boolean);
 
 const days = plan.days;
@@ -36,6 +38,18 @@ const project = (n, startISO) => {
 };
 const projectedNightsAreLegal = [1, 2, 47, 120, days.length]
   .every(n => nights.includes(project(n, plan.schedule_policy.default_start_date).getDay()));
+
+const luminance = hex => {
+  const rgb = hex.match(/../g).map(v => parseInt(v, 16) / 255).map(v => v <= .04045 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4);
+  return .2126 * rgb[0] + .7152 * rgb[1] + .0722 * rgb[2];
+};
+const contrast = (a, b) => (Math.max(luminance(a), luminance(b)) + .05) / (Math.min(luminance(a), luminance(b)) + .05);
+const contrastPairs = [
+  ["142052", "f7f9ff"], ["5e6985", "ffffff"], ["ffffff", "0d1744"], ["c2cae2", "15235b"],
+  ["ffffff", "315eb9"], ["ffffff", "c33f7e"], ["ffffff", "7650b5"], ["ffffff", "087f83"],
+  ["081134", "82a7ff"], ["081134", "ff90c4"], ["081134", "c5a2ff"], ["081134", "61d8d1"],
+  ["111c49", "f1f5ff"], ["53607f", "f1f5ff"]
+];
 
 // Blocks must stay in source order and never be reordered by the scheduler.
 let blockOrderOk = true;
@@ -73,7 +87,13 @@ const checks = {
   local_device_signout: html.includes('signOut({scope:"local"})') && html.includes('>Sign out on this device</button>'),
   account_creation_name: html.includes('Reader’s name') && html.includes('data:{display_name:'),
   password_visibility_control: html.includes('showPassword?"text":"password"'),
-  light_card_apparatus_contrast: html.includes('.card .app-title{color:#2b2a20;}') && html.includes('.card .app-page,.card .app-tags{color:#655f48;}'),
+  light_card_apparatus_contrast: html.includes('.card .app-title{color:var(--card-text);}') && html.includes('.card .app-page,.card .app-tags{color:var(--card-muted);}'),
+  blue_white_light_dark_themes: html.includes(':root[data-theme="dark"]') && html.includes('theme==="dark"?"#101d55":"#ffffff"'),
+  restrained_accent_choices: ["blue","pink","purple","teal"].every(name => html.includes(`data-accent="${name}"`) || name === "blue") && html.includes('Accents colour highlights only'),
+  synced_appearance_preferences: html.includes('select("start_date,bible_version,theme,accent")') && html.includes('theme:validTheme(s.theme),accent:validAccent(s.accent)'),
+  appearance_palette_contrast: contrastPairs.every(([foreground, background]) => contrast(foreground, background) >= 4.5),
+  constrained_appearance_migration: appearanceMigration.includes("theme in ('light', 'dark')") && appearanceMigration.includes("accent in ('blue', 'pink', 'purple', 'teal')"),
+  blue_white_install_chrome: manifest.background_color === "#ffffff" && manifest.theme_color === "#182665",
 };
 
 for (const [name, pass] of Object.entries(checks)) if (!pass) throw new Error(`Validation failed: ${name}`);

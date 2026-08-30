@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=5" />
 <title>NKJV Chronological Bible Plan</title>
 <meta name="description" content="A family reading plan following the publisher’s chronology and Scripture blocks in the NKJV Chronological Study Bible." />
-<meta name="theme-color" content="#161d14" />
+<meta name="theme-color" content="#ffffff" />
 <link rel="manifest" href="manifest.json" />
 <link rel="apple-touch-icon" href="icon.svg" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -16,7 +16,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Albert+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <style>
-  :root{--ink:#161d14;--ink-2:#20291c;--olive:#4a5c39;--olive-soft:#5f7349;--vellum:#f5efdf;--vellum-2:#ede4cd;--gold:#c9a44a;--gold-deep:#a8842f;--clay:#b06a44;--faded:#a8a48d;--line:rgba(245,239,223,0.14);}
+  :root{--ink:#f7f9ff;--ink-2:#ffffff;--olive:#234286;--olive-soft:#36599d;--vellum:#142052;--vellum-2:#eef3ff;--gold:#315eb9;--gold-deep:#182665;--clay:#a8325d;--faded:#5e6985;--line:rgba(24,38,101,.18);}
   *{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent;}
   html,body,#root{height:100%;margin:0;background:var(--ink);}
   body{overscroll-behavior:none;}
@@ -50,10 +50,19 @@ const DEFAULT_START="2026-08-30";
 const DEFAULT_VERSION="NKJV";
 const TEXT_SIZE_KEY="bible365-text-size";
 const TEXT_SIZES=[["Standard",1],["Large",1.15],["Larger",1.3],["Largest",1.45]];
+const THEMES=[["Light","light"],["Dark","dark"]];
+const ACCENTS=[["Church blue","blue"],["Pink","pink"],["Purple","purple"],["Teal","teal"]];
+const validTheme=v=>THEMES.some(x=>x[1]===v)?v:"light";
+const validAccent=v=>ACCENTS.some(x=>x[1]===v)?v:"blue";
 // Large is the default: the household reported the original sizing as too small.
 const DEFAULT_TEXT_SIZE=1.15;
 const readTextSize=()=>{try{const v=parseFloat(localStorage.getItem(TEXT_SIZE_KEY));return TEXT_SIZES.some(t=>t[1]===v)?v:DEFAULT_TEXT_SIZE;}catch(e){return DEFAULT_TEXT_SIZE;}};
 const applyTextSize=v=>{document.documentElement.style.setProperty("--fs",String(v));};
+const applyAppearance=(theme,accent)=>{
+  theme=validTheme(theme);accent=validAccent(accent);
+  document.documentElement.dataset.theme=theme;document.documentElement.dataset.accent=accent;
+  document.querySelector('meta[name="theme-color"]')?.setAttribute("content",theme==="dark"?"#101d55":"#ffffff");
+};
 const VERSION_OPTIONS=["NKJV","KJV","ESV","NIV","NLT","NASB","NRSVUE","CSB","NET","AMP"];
 const CLOUD_CONFIG=window.BIBLE_CLOUD||{};
 const CLOUD_CLIENT=window.supabase&&CLOUD_CONFIG.url&&CLOUD_CONFIG.publishableKey
@@ -94,15 +103,15 @@ const epochSpans=()=>{const c={};PLAN.days.forEach(d=>{const e=epochNums(d)[0]||
 const accountStorageKey=uid=>ACCOUNT_STORAGE_PREFIX+uid;
 const writeLocal=(state,uid)=>{if(!uid)return;localStorage.setItem(accountStorageKey(uid),JSON.stringify({
   planId:PLAN.plan_id,start:state.start,bibleVersion:state.bibleVersion,done:[...state.done].sort((a,b)=>a-b),
-  pending:state.pending||{},settingsPending:!!state.settingsPending
+  theme:validTheme(state.theme),accent:validAccent(state.accent),pending:state.pending||{},settingsPending:!!state.settingsPending
 }));};
 
 function loadAccountState(uid){
   try{
     const current=localStorage.getItem(accountStorageKey(uid));
-    if(current){const s=JSON.parse(current);return {start:s.start||DEFAULT_START,bibleVersion:s.bibleVersion||DEFAULT_VERSION,done:new Set(Array.isArray(s.done)?s.done:[]),pending:s.pending||{},settingsPending:!!s.settingsPending};}
+    if(current){const s=JSON.parse(current);return {start:s.start||DEFAULT_START,bibleVersion:s.bibleVersion||DEFAULT_VERSION,theme:validTheme(s.theme),accent:validAccent(s.accent),done:new Set(Array.isArray(s.done)?s.done:[]),pending:s.pending||{},settingsPending:!!s.settingsPending};}
   }catch(e){}
-  return {start:DEFAULT_START,bibleVersion:DEFAULT_VERSION,done:new Set(),pending:{},settingsPending:false};
+  return {start:DEFAULT_START,bibleVersion:DEFAULT_VERSION,theme:"light",accent:"blue",done:new Set(),pending:{},settingsPending:false};
 }
 
 const readerName=(user,profileName="")=>profileName||user?.user_metadata?.display_name||user?.email?.split("@")[0]||"Reader";
@@ -110,6 +119,8 @@ const readerName=(user,profileName="")=>profileName||user?.user_metadata?.displa
 function App(){
   const [start,setStart]=useState(DEFAULT_START);
   const [bibleVersion,setBibleVersion]=useState(DEFAULT_VERSION);
+  const [theme,setTheme]=useState("light");
+  const [accent,setAccent]=useState("blue");
   const [done,setDone]=useState(new Set());
   const [pending,setPending]=useState({});
   const [settingsPending,setSettingsPending]=useState(false);
@@ -128,13 +139,14 @@ function App(){
   const [confirmReset,setConfirmReset]=useState(false);
   const [textSize,setTextSize]=useState(readTextSize);
   const [toast,setToast]=useState(null);
-  const stateRef=useRef({start,bibleVersion,done,pending,settingsPending});
+  const stateRef=useRef({start,bibleVersion,theme,accent,done,pending,settingsPending});
   const hydratedUserRef=useRef(null);
   const activeUserRef=useRef(null);
   activeUserRef.current=session?.user?.id||null;
 
   useEffect(()=>{applyTextSize(textSize);},[textSize]);
-  useEffect(()=>{stateRef.current={start,bibleVersion,done,pending,settingsPending};},[start,bibleVersion,done,pending,settingsPending]);
+  useEffect(()=>{applyAppearance(theme,accent);},[theme,accent]);
+  useEffect(()=>{stateRef.current={start,bibleVersion,theme,accent,done,pending,settingsPending};},[start,bibleVersion,theme,accent,done,pending,settingsPending]);
 
   const today=new Date();
   const startDate=parseISO(start);
@@ -165,7 +177,7 @@ function App(){
     const uid=session?.user?.id;
     if(!uid){setAccountUserId(null);hydratedUserRef.current=null;return;}
     const local=loadAccountState(uid);
-    setStart(local.start);setBibleVersion(local.bibleVersion);setDone(local.done);setPending(local.pending);setSettingsPending(local.settingsPending);
+    setStart(local.start);setBibleVersion(local.bibleVersion);setTheme(local.theme);setAccent(local.accent);setDone(local.done);setPending(local.pending);setSettingsPending(local.settingsPending);applyAppearance(local.theme,local.accent);
     setReaderDisplayName(readerName(session.user));stateRef.current=local;hydratedUserRef.current=null;setAccountUserId(uid);void provisionProfile(session.user);
   },[session?.user?.id]);
 
@@ -181,26 +193,27 @@ function App(){
       const incompleteIds=Object.keys(operations).filter(k=>operations[k]==="incomplete");
       if(completeIds.length){const now=new Date().toISOString();const rows=completeIds.map(day=>({user_id:uid,plan_id:PLAN.plan_id,day_id:dayIdFor(day),completed_at:now,updated_at:now}));const {error}=await CLOUD_CLIENT.from("bible_reader_progress").upsert(rows,{onConflict:"user_id,plan_id,day_id"});if(error)throw error;}
       if(incompleteIds.length){const ids=incompleteIds.map(day=>dayIdFor(day));const {error}=await CLOUD_CLIENT.from("bible_reader_progress").delete().eq("user_id",uid).eq("plan_id",PLAN.plan_id).in("day_id",ids);if(error)throw error;}
-      if(s.settingsPending){const {error}=await CLOUD_CLIENT.from("bible_reader_settings").upsert({user_id:uid,plan_id:PLAN.plan_id,start_date:s.start,bible_version:s.bibleVersion,updated_at:new Date().toISOString()},{onConflict:"user_id,plan_id"});if(error)throw error;}
+      if(s.settingsPending){const {error}=await CLOUD_CLIENT.from("bible_reader_settings").upsert({user_id:uid,plan_id:PLAN.plan_id,start_date:s.start,bible_version:s.bibleVersion,theme:validTheme(s.theme),accent:validAccent(s.accent),updated_at:new Date().toISOString()},{onConflict:"user_id,plan_id"});if(error)throw error;}
       const [{data:cloudRows,error:progressError},{data:cloudSettings,error:settingsError}]=await Promise.all([
         CLOUD_CLIENT.from("bible_reader_progress").select("day_id").eq("user_id",uid).eq("plan_id",PLAN.plan_id),
-        CLOUD_CLIENT.from("bible_reader_settings").select("start_date,bible_version").eq("user_id",uid).eq("plan_id",PLAN.plan_id).maybeSingle()
+        CLOUD_CLIENT.from("bible_reader_settings").select("start_date,bible_version,theme,accent").eq("user_id",uid).eq("plan_id",PLAN.plan_id).maybeSingle()
       ]);if(progressError)throw progressError;if(settingsError)throw settingsError;
       if(activeUserRef.current!==uid)return;
       const cloudDone=new Set((cloudRows||[]).map(r=>Number(r.day_id.slice(-3))));
       const latest=stateRef.current,remaining={...latest.pending};Object.entries(operations).forEach(([k,v])=>{if(remaining[k]===v)delete remaining[k];});
       Object.entries(remaining).forEach(([k,v])=>v==="complete"?cloudDone.add(Number(k)):cloudDone.delete(Number(k)));
-      const nextStart=cloudSettings?.start_date||latest.start,nextVersion=cloudSettings?.bible_version||latest.bibleVersion;
-      setDone(cloudDone);setPending(remaining);setStart(nextStart);setBibleVersion(nextVersion);setSettingsPending(false);
-      saveState({start:nextStart,bibleVersion:nextVersion,done:cloudDone,pending:remaining,settingsPending:false});setSyncStatus("Synced");
+      const nextStart=cloudSettings?.start_date||latest.start,nextVersion=cloudSettings?.bible_version||latest.bibleVersion,nextTheme=validTheme(cloudSettings?.theme||latest.theme),nextAccent=validAccent(cloudSettings?.accent||latest.accent);
+      setDone(cloudDone);setPending(remaining);setStart(nextStart);setBibleVersion(nextVersion);setTheme(nextTheme);setAccent(nextAccent);setSettingsPending(false);
+      saveState({start:nextStart,bibleVersion:nextVersion,theme:nextTheme,accent:nextAccent,done:cloudDone,pending:remaining,settingsPending:false});setSyncStatus("Synced");
     }catch(err){console.error(err);if(activeUserRef.current===uid)setSyncStatus("Offline — changes queued");}
   },[session,saveState]);
 
   useEffect(()=>{if(!loaded||accountUserId!==session?.user?.id)return;const uid=session.user.id,needsSync=hydratedUserRef.current!==uid||settingsPending||Object.keys(pending).length>0;if(!needsSync)return;hydratedUserRef.current=uid;const t=setTimeout(syncCloud,250);return()=>clearTimeout(t);},[loaded,accountUserId,session,pending,settingsPending,syncCloud]);
   useEffect(()=>{const onOnline=()=>syncCloud();const onFocus=()=>syncCloud();window.addEventListener("online",onOnline);window.addEventListener("focus",onFocus);return()=>{window.removeEventListener("online",onOnline);window.removeEventListener("focus",onFocus);};},[syncCloud]);
 
-  const toggleDay=(n,withSeal)=>{const next=new Set(done),marking=!next.has(n);marking?next.add(n):next.delete(n);const nextPending={...pending,[n]:marking?"complete":"incomplete"};setDone(next);setPending(nextPending);saveState({start,bibleVersion,done:next,pending:nextPending,settingsPending});if(marking&&withSeal){setSealing(true);setTimeout(()=>setSealing(false),700);}};
-  const changeSettings=(nextStart,nextVersion)=>{setStart(nextStart);setBibleVersion(nextVersion);setSettingsPending(true);saveState({start:nextStart,bibleVersion:nextVersion,done,pending,settingsPending:true});};
+  const toggleDay=(n,withSeal)=>{const next=new Set(done),marking=!next.has(n);marking?next.add(n):next.delete(n);const nextPending={...pending,[n]:marking?"complete":"incomplete"};setDone(next);setPending(nextPending);saveState({start,bibleVersion,theme,accent,done:next,pending:nextPending,settingsPending});if(marking&&withSeal){setSealing(true);setTimeout(()=>setSealing(false),700);}};
+  const changeSettings=(nextStart,nextVersion)=>{setStart(nextStart);setBibleVersion(nextVersion);setSettingsPending(true);saveState({start:nextStart,bibleVersion:nextVersion,theme,accent,done,pending,settingsPending:true});};
+  const changeAppearance=(nextTheme,nextAccent)=>{nextTheme=validTheme(nextTheme);nextAccent=validAccent(nextAccent);setTheme(nextTheme);setAccent(nextAccent);applyAppearance(nextTheme,nextAccent);setSettingsPending(true);saveState({start,bibleVersion,theme:nextTheme,accent:nextAccent,done,pending,settingsPending:true});};
   const provisionProfile=async user=>{
     if(!CLOUD_CLIENT||!user||!navigator.onLine)return;
     const {data:existing,error:readError}=await CLOUD_CLIENT.from("reader_profiles").select("display_name").eq("user_id",user.id).maybeSingle();
@@ -261,7 +274,7 @@ function App(){
           {tab==="today"&&<DayView day={shownDay} done={done} currentDay={currentDay} startDate={startDate} bibleVersion={bibleVersion} sealing={sealing} onToggle={(n)=>toggleDay(n,true)} onNav={(n)=>setViewDay(Math.min(Math.max(n,1),planDayCount()))} onToday={()=>setViewDay(null)}/>}
           {tab==="week"&&<WeekView weekIdx={weekIdx==null?Math.floor((currentDay-1)/nightsPerWeek()):weekIdx} setWeekIdx={setWeekIdx} done={done} currentDay={currentDay} startDate={startDate} onOpen={openDay} onToggle={(n)=>toggleDay(n)}/>}
           {tab==="month"&&<MonthView cursor={monthCursor||{y:today.getFullYear(),m:today.getMonth()}} setCursor={setMonthCursor} done={done} startDate={startDate} currentDay={currentDay} today={today} onOpen={openDay}/>}
-          {tab==="plan"&&<PlanView textSize={textSize} onTextSizeChange={(v)=>{setTextSize(v);try{localStorage.setItem(TEXT_SIZE_KEY,String(v));}catch(e){}}} done={done} doneCount={doneCount} pace={pace} streak={streak} oldestUnread={oldestUnread} start={start} bibleVersion={bibleVersion} onBibleVersionChange={(v)=>{changeSettings(start,v);setToast(`Bible links set to ${v}`);}} onJump={openDay} onStartChange={(s)=>{changeSettings(s,bibleVersion);setToast("Start date updated");}} confirmReset={confirmReset} setConfirmReset={setConfirmReset} onReset={()=>{const e=new Set(),p={...pending};done.forEach(n=>p[n]="incomplete");setDone(e);setPending(p);saveState({start,bibleVersion,done:e,pending:p,settingsPending});setConfirmReset(false);setToast("Progress cleared");}} session={session} readerDisplayName={readerDisplayName} syncStatus={syncStatus} cloudBusy={cloudBusy} onSync={syncCloud} onSignOut={signOut}/>}
+          {tab==="plan"&&<PlanView theme={theme} accent={accent} onAppearanceChange={changeAppearance} textSize={textSize} onTextSizeChange={(v)=>{setTextSize(v);try{localStorage.setItem(TEXT_SIZE_KEY,String(v));}catch(e){}}} done={done} doneCount={doneCount} pace={pace} streak={streak} oldestUnread={oldestUnread} start={start} bibleVersion={bibleVersion} onBibleVersionChange={(v)=>{changeSettings(start,v);setToast(`Bible links set to ${v}`);}} onJump={openDay} onStartChange={(s)=>{changeSettings(s,bibleVersion);setToast("Start date updated");}} confirmReset={confirmReset} setConfirmReset={setConfirmReset} onReset={()=>{const e=new Set(),p={...pending};done.forEach(n=>p[n]="incomplete");setDone(e);setPending(p);saveState({start,bibleVersion,theme,accent,done:e,pending:p,settingsPending});setConfirmReset(false);setToast("Progress cleared");}} session={session} readerDisplayName={readerDisplayName} syncStatus={syncStatus} cloudBusy={cloudBusy} onSync={syncCloud} onSignOut={signOut}/>}
         </div>
       </main>
 
@@ -436,7 +449,7 @@ function AccountGate({configured,busy,onAuth,message}){
   </form></div></div>;
 }
 
-function PlanView({textSize,onTextSizeChange,done,doneCount,pace,streak,oldestUnread,start,bibleVersion,onBibleVersionChange,onJump,onStartChange,confirmReset,setConfirmReset,onReset,session,readerDisplayName,syncStatus,cloudBusy,onSync,onSignOut}){
+function PlanView({theme,accent,onAppearanceChange,textSize,onTextSizeChange,done,doneCount,pace,streak,oldestUnread,start,bibleVersion,onBibleVersionChange,onJump,onStartChange,confirmReset,setConfirmReset,onReset,session,readerDisplayName,syncStatus,cloudBusy,onSync,onSignOut}){
   const pct=Math.round((doneCount/planDayCount())*100);
   const paceTxt=pace===0?"On pace":pace>0?(pace+" day"+(pace>1?"s":"")+" ahead"):((-pace)+" day"+(pace<-1?"s":"")+" behind");
   return (
@@ -460,6 +473,10 @@ function PlanView({textSize,onTextSizeChange,done,doneCount,pace,streak,oldestUn
       <div className="settings">
         <label className="set-row"><span>Day 1 of the plan</span><input type="date" value={start} onChange={e=>e.target.value&&onStartChange(e.target.value)}/></label>
         <div className="set-note">Set this to the day your group begins. Completed readings stay attached to their plan day if you re-anchor the start date.</div>
+        <label className="set-row"><span>Reading theme</span><select value={theme} onChange={e=>onAppearanceChange(e.target.value,accent)}>{THEMES.map(([label,v])=><option key={v} value={v}>{label}</option>)}</select></label>
+        <div className="set-note">Light is mainly white with blue content. Dark is mainly deep blue with white content.</div>
+        <div className="accent-setting"><span>Accent colour</span><div className="accent-options" role="group" aria-label="Accent colour">{ACCENTS.map(([label,v])=><button key={v} type="button" className={"accent-choice accent-"+v+(accent===v?" accent-on":"")} aria-pressed={accent===v} onClick={()=>onAppearanceChange(theme,v)}><span className="accent-dot"/><span>{label}</span></button>)}</div></div>
+        <div className="set-note">Accents colour highlights only; the church’s blue and white remain the foundation.</div>
         <label className="set-row"><span>Text size</span><select value={textSize} onChange={e=>onTextSizeChange(parseFloat(e.target.value))}>{TEXT_SIZES.map(([label,v])=><option key={label} value={v}>{label}</option>)}</select></label>
         <div className="set-note">Applies to this device only, so each reader can set their own.</div>
         <label className="set-row"><span>Bible version for links</span><select value={bibleVersion} onChange={e=>onBibleVersionChange(e.target.value)}>{VERSION_OPTIONS.map(v=><option key={v} value={v}>{v}</option>)}</select></label>
@@ -515,9 +532,34 @@ function BibleLogoMark(){
 function Styles(){
   return (
     <style>{`
-      :root{--ink:#161d14;--ink-2:#20291c;--vellum:#f5efdf;--vellum-2:#ede4cd;--gold:#c9a44a;--gold-deep:#a8842f;--clay:#b06a44;--faded:#a8a48d;--line:rgba(245,239,223,0.14);}
-      .app{flex:1;display:flex;flex-direction:column;min-height:100vh;min-height:100dvh;background:radial-gradient(120% 60% at 50% -10%,#26301f 0%,var(--ink) 55%),var(--ink);color:var(--vellum);font-family:'Albert Sans',system-ui,sans-serif;padding-top:env(safe-area-inset-top);}
-      .hdr{padding:16px 16px 8px;position:sticky;top:0;z-index:5;background:linear-gradient(180deg,var(--ink) 78%,rgba(22,29,20,0));}
+      :root{
+        --ink:#f7f9ff;--ink-2:#ffffff;--vellum:#142052;--vellum-2:#eef3ff;
+        --olive:#234286;--olive-soft:#36599d;--gold:#315eb9;--gold-deep:#182665;
+        --clay:#a8325d;--faded:#5e6985;--line:rgba(24,38,101,.18);
+        --shell-glow:#dfe7fb;--header-clear:rgba(247,249,255,0);--tab-bg:rgba(255,255,255,.97);
+        --card-bg-1:#ffffff;--card-bg-2:#f1f5ff;--card-text:#111c49;--card-muted:#53607f;
+        --card-accent:#182665;--card-link:#1d438f;--card-highlight:#315eb9;--card-highlight-strong:#182665;--card-border:rgba(24,38,101,.25);
+        --accent-soft:rgba(49,94,185,.12);--done-text:#ffffff;--shadow:0 8px 24px rgba(24,38,101,.14);
+        color-scheme:light;
+      }
+      :root[data-theme="dark"]{
+        --ink:#0d1744;--ink-2:#15235b;--vellum:#ffffff;--vellum-2:#1c2d6c;
+        --olive:#a9c0ff;--olive-soft:#c0d0ff;--gold:#82a7ff;--gold-deep:#b6caff;
+        --clay:#ff95b9;--faded:#c2cae2;--line:rgba(255,255,255,.2);
+        --shell-glow:#1c2c69;--header-clear:rgba(13,23,68,0);--tab-bg:rgba(13,23,68,.97);
+        --card-bg-1:#ffffff;--card-bg-2:#edf2ff;--card-text:#111c49;--card-muted:#53607f;
+        --card-accent:#182665;--card-link:#1d438f;--card-highlight:#315eb9;--card-highlight-strong:#182665;--card-border:rgba(255,255,255,.28);
+        --accent-soft:rgba(130,167,255,.16);--done-text:#081134;--shadow:0 8px 28px rgba(0,0,0,.28);
+        color-scheme:dark;
+      }
+      :root[data-accent="pink"]{--gold:#c33f7e;--gold-deep:#8d285b;--card-highlight:#c33f7e;--card-highlight-strong:#8d285b;--accent-soft:rgba(195,63,126,.13);}
+      :root[data-accent="purple"]{--gold:#7650b5;--gold-deep:#53327f;--card-highlight:#7650b5;--card-highlight-strong:#53327f;--accent-soft:rgba(118,80,181,.13);}
+      :root[data-accent="teal"]{--gold:#087f83;--gold-deep:#075f66;--card-highlight:#087f83;--card-highlight-strong:#075f66;--accent-soft:rgba(8,127,131,.13);}
+      :root[data-theme="dark"][data-accent="pink"]{--gold:#ff90c4;--gold-deep:#ffc0dc;--accent-soft:rgba(255,144,196,.16);}
+      :root[data-theme="dark"][data-accent="purple"]{--gold:#c5a2ff;--gold-deep:#dec9ff;--accent-soft:rgba(197,162,255,.16);}
+      :root[data-theme="dark"][data-accent="teal"]{--gold:#61d8d1;--gold-deep:#a3eee9;--accent-soft:rgba(97,216,209,.16);}
+      .app{flex:1;display:flex;flex-direction:column;min-height:100vh;min-height:100dvh;background:radial-gradient(120% 60% at 50% -10%,var(--shell-glow) 0%,var(--ink) 55%),var(--ink);color:var(--vellum);font-family:'Albert Sans',system-ui,sans-serif;padding-top:env(safe-area-inset-top);}
+      .hdr{padding:16px 16px 8px;position:sticky;top:0;z-index:5;background:linear-gradient(180deg,var(--ink) 78%,var(--header-clear));}
       .hdr-top{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;}
       .eyebrow{font-size:calc(11px * var(--fs, 1));letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:600;}
       .hdr-title{font-family:'Cormorant Garamond',Georgia,serif;font-weight:600;font-size:calc(30px * var(--fs, 1));line-height:1.05;margin-top:2px;}
@@ -542,45 +584,45 @@ function Styles(){
       .day-date{font-family:'Cormorant Garamond',Georgia,serif;font-size:calc(19px * var(--fs, 1));font-weight:600;}
       .day-sub{font-size:calc(12px * var(--fs, 1));color:var(--faded);margin-top:1px;}
       .link-btn{border:0;background:none;color:var(--gold);font-size:calc(12px * var(--fs, 1));cursor:pointer;padding:0 2px;}
-      .card{background:linear-gradient(160deg,var(--vellum) 0%,var(--vellum-2) 100%);color:#2b2a20;border-radius:16px;padding:16px 16px 14px;box-shadow:0 8px 24px rgba(0,0,0,.35);border:1px solid rgba(201,164,74,.35);}
-      .card-done{border-color:var(--gold);}
-      .card-epoch{display:flex;gap:10px;align-items:center;padding-bottom:10px;border-bottom:1px solid rgba(43,42,32,.15);}
-      .epoch-num{font-family:'Cormorant Garamond',Georgia,serif;font-weight:700;font-size:calc(22px * var(--fs, 1));color:var(--gold-deep);width:42px;height:42px;border:1.5px solid var(--gold-deep);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+      .card{background:linear-gradient(160deg,var(--card-bg-1) 0%,var(--card-bg-2) 100%);color:var(--card-text);border-radius:16px;padding:16px 16px 14px;box-shadow:var(--shadow);border:1px solid var(--card-border);}
+      .card-done{border-color:var(--card-highlight);}
+      .card-epoch{display:flex;gap:10px;align-items:center;padding-bottom:10px;border-bottom:1px solid rgba(24,38,101,.16);}
+      .epoch-num{font-family:'Cormorant Garamond',Georgia,serif;font-weight:700;font-size:calc(22px * var(--fs, 1));color:var(--card-accent);width:42px;height:42px;border:1.5px solid var(--card-accent);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
       .epoch-name{font-weight:600;font-size:calc(13.5px * var(--fs, 1));line-height:1.25;}
-      .epoch-era{font-size:calc(11px * var(--fs, 1));color:#6e6a52;font-variant:small-caps;letter-spacing:.04em;}
-      .reading-theme{font-family:'Cormorant Garamond',Georgia,serif;font-size:calc(23px * var(--fs, 1));line-height:1.12;margin:14px 0 5px;color:#2b2a20;}
-      .load-row{display:flex;flex-wrap:wrap;gap:5px;font-size:calc(12px * var(--fs, 1));color:#6e6a52;padding:9px 0 4px;}
-      .load-dot{color:var(--gold-deep);}
+      .epoch-era{font-size:calc(11px * var(--fs, 1));color:var(--card-muted);font-variant:small-caps;letter-spacing:.04em;}
+      .reading-theme{font-family:'Cormorant Garamond',Georgia,serif;font-size:calc(23px * var(--fs, 1));line-height:1.12;margin:14px 0 5px;color:var(--card-text);}
+      .load-row{display:flex;flex-wrap:wrap;gap:5px;font-size:calc(12px * var(--fs, 1));color:var(--card-muted);padding:9px 0 4px;}
+      .load-dot{color:var(--card-accent);}
       .refs{list-style:none;padding:2px 0;}
-      .ref{display:flex;gap:8px;padding:9px 0;border-bottom:1px dashed rgba(43,42,32,.14);align-items:baseline;flex-wrap:wrap;}
+      .ref{display:flex;gap:8px;padding:9px 0;border-bottom:1px dashed rgba(24,38,101,.16);align-items:baseline;flex-wrap:wrap;}
       .ref:last-child{border-bottom:0;}
-      .ref-pg{font-size:calc(11px * var(--fs, 1));color:#8a8468;min-width:44px;letter-spacing:.04em;}
+      .ref-pg{font-size:calc(11px * var(--fs, 1));color:var(--card-muted);min-width:44px;letter-spacing:.04em;}
       .ref-txt{font-family:'Cormorant Garamond',Georgia,serif;font-size:calc(17px * var(--fs, 1));font-weight:600;line-height:1.3;flex:1;min-width:150px;}
-      .read-link{font-size:calc(11px * var(--fs, 1));color:#755a1d;text-decoration:none;border-bottom:1px solid rgba(117,90,29,.35);white-space:nowrap;}
-      .seal-btn{width:100%;margin-top:12px;padding:13px;border-radius:11px;border:1.5px solid var(--gold-deep);background:none;color:#5b4716;font-family:'Albert Sans',sans-serif;font-weight:600;font-size:calc(14px * var(--fs, 1));cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:background .25s,color .25s;}
-      .seal-btn.seal-on{background:linear-gradient(135deg,var(--gold),var(--gold-deep));color:#211a07;border-color:transparent;}
+      .read-link{font-size:calc(11px * var(--fs, 1));color:var(--card-link);text-decoration:none;border-bottom:1px solid rgba(29,67,143,.35);white-space:nowrap;}
+      .seal-btn{width:100%;margin-top:12px;padding:13px;border-radius:11px;border:1.5px solid var(--card-highlight-strong);background:none;color:var(--card-highlight-strong);font-family:'Albert Sans',sans-serif;font-weight:600;font-size:calc(14px * var(--fs, 1));cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:background .25s,color .25s;}
+      .seal-btn.seal-on{background:linear-gradient(135deg,var(--card-highlight),var(--card-highlight-strong));color:#fff;border-color:transparent;}
       .seal-btn.sealing{animation:seal-pop .55s ease;}
       @keyframes seal-pop{0%{transform:scale(1);}35%{transform:scale(1.045);}100%{transform:scale(1);}}
-      .undo-hint{text-align:center;font-size:calc(11px * var(--fs, 1));color:#8a8468;margin-top:6px;}
+      .undo-hint{text-align:center;font-size:calc(11px * var(--fs, 1));color:var(--card-muted);margin-top:6px;}
       .wk-list{display:flex;flex-direction:column;gap:7px;}
       .wk-row{display:flex;gap:8px;background:var(--ink-2);border:1px solid var(--line);border-radius:12px;padding:10px 11px;align-items:center;}
       .wk-row.wk-today{border-color:var(--gold);}
-      .wk-check{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--faded);background:none;color:var(--ink);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+      .wk-check{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--faded);background:none;color:var(--done-text);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
       .wk-check-on{background:var(--gold);border-color:var(--gold);}
       .wk-body{flex:1;min-width:0;border:0;background:none;color:inherit;text-align:left;cursor:pointer;padding:0;font-family:inherit;}
       .wk-line1{display:flex;gap:6px;align-items:baseline;}
       .wk-day{font-weight:600;font-size:calc(13.5px * var(--fs, 1));}
       .wk-date{font-size:calc(11.5px * var(--fs, 1));color:var(--faded);}
       .wk-pill{font-size:calc(11px * var(--fs, 1));letter-spacing:.12em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);border-radius:99px;padding:1px 6px;}
-      .wk-refs{font-family:'Cormorant Garamond',Georgia,serif;font-size:calc(15px * var(--fs, 1));color:#ddd6bd;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+      .wk-refs{font-family:'Cormorant Garamond',Georgia,serif;font-size:calc(15px * var(--fs, 1));color:var(--vellum);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
       .cal{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;}
       .cal-dow{text-align:center;font-size:calc(11px * var(--fs, 1));letter-spacing:.1em;color:var(--faded);padding-bottom:3px;}
       .cal-cell{position:relative;aspect-ratio:1;border-radius:9px;border:1px solid var(--line);background:var(--ink-2);color:var(--vellum);font-size:calc(13px * var(--fs, 1));font-family:inherit;cursor:pointer;display:flex;align-items:center;justify-content:center;}
       .cal-out{opacity:.22;cursor:default;}
-      .cal-done{background:linear-gradient(135deg,rgba(201,164,74,.92),rgba(168,132,47,.92));color:#211a07;font-weight:600;border-color:transparent;}
+      .cal-done{background:linear-gradient(135deg,var(--gold),var(--gold-deep));color:var(--done-text);font-weight:600;border-color:transparent;}
       .cal-today{outline:2px solid var(--vellum);outline-offset:1px;}
       .cal-missed{border-color:rgba(176,106,68,.7);}
-      .cal-seal{position:absolute;bottom:4px;width:4px;height:4px;border-radius:50%;background:#211a07;}
+      .cal-seal{position:absolute;bottom:4px;width:4px;height:4px;border-radius:50%;background:var(--done-text);}
       .cal-miss-dot{position:absolute;bottom:4px;width:4px;height:4px;border-radius:50%;background:var(--clay);}
       .legend{display:flex;gap:16px;justify-content:center;margin-top:14px;font-size:calc(11.5px * var(--fs, 1));color:var(--faded);}
       .legend .lg{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px;}
@@ -593,7 +635,7 @@ function Styles(){
       .stat-small{font-size:calc(18px * var(--fs, 1));padding-top:5px;}
       .stat.warn .stat-big{color:var(--clay);}
       .stat-lbl{font-size:calc(11px * var(--fs, 1));letter-spacing:.1em;text-transform:uppercase;color:var(--faded);margin-top:3px;}
-      .catchup{width:100%;margin-top:8px;border:1px solid rgba(176,106,68,.6);background:rgba(176,106,68,.12);color:var(--vellum);border-radius:13px;padding:11px 13px;text-align:left;cursor:pointer;font-family:inherit;font-size:calc(13px * var(--fs, 1));display:flex;flex-direction:column;gap:2px;}
+      .catchup{width:100%;margin-top:8px;border:1px solid var(--gold);background:var(--accent-soft);color:var(--vellum);border-radius:13px;padding:11px 13px;text-align:left;cursor:pointer;font-family:inherit;font-size:calc(13px * var(--fs, 1));display:flex;flex-direction:column;gap:2px;}
       .catchup-lbl{font-size:calc(11px * var(--fs, 1));letter-spacing:.18em;text-transform:uppercase;color:var(--clay);font-weight:700;}
       .sec-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:calc(21px * var(--fs, 1));font-weight:600;margin:20px 0 9px;}
       .ep-list{display:flex;flex-direction:column;gap:6px;}
@@ -607,23 +649,29 @@ function Styles(){
       .ep-pct{font-size:calc(11.5px * var(--fs, 1));color:var(--faded);width:34px;text-align:right;}
       .settings{background:var(--ink-2);border:1px solid var(--line);border-radius:13px;padding:13px;display:flex;flex-direction:column;gap:10px;}
       .set-row{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:calc(13.5px * var(--fs, 1));}
-      .set-row input,.set-row select{background:var(--ink);border:1px solid var(--line);color:var(--vellum);border-radius:8px;padding:7px 9px;font-family:inherit;color-scheme:dark;font-size:calc(13px * var(--fs, 1));}
+      .set-row input,.set-row select{background:var(--ink);border:1px solid var(--line);color:var(--vellum);border-radius:8px;padding:7px 9px;font-family:inherit;font-size:calc(13px * var(--fs, 1));}
       .set-note{font-size:calc(11px * var(--fs, 1));color:var(--faded);line-height:1.45;}
       .danger-btn{align-self:flex-start;border:1px solid rgba(176,106,68,.7);background:none;color:var(--clay);border-radius:8px;padding:8px 12px;font-family:inherit;font-size:calc(12.5px * var(--fs, 1));cursor:pointer;}
-      .danger-btn.solid{background:var(--clay);color:var(--ink);border-color:transparent;}
+      .danger-btn.solid{background:var(--clay);color:#fff;border-color:transparent;}
       .ghost-btn{border:1px solid var(--line);background:none;color:var(--vellum);border-radius:8px;padding:8px 12px;font-family:inherit;font-size:calc(12.5px * var(--fs, 1));cursor:pointer;}
       .confirm-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:calc(12.5px * var(--fs, 1));}
       .cloud-card{gap:12px;}
-      .account-shell{min-height:100vh;min-height:100dvh;display:grid;place-items:center;padding:24px;background:radial-gradient(circle at top,rgba(95,115,73,.22),transparent 52%),var(--ink);color:var(--vellum);font-family:"Albert Sans",system-ui,sans-serif;}
+      .accent-setting{display:flex;flex-direction:column;gap:8px;font-size:calc(13.5px * var(--fs, 1));}
+      .accent-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;}
+      .accent-choice{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--ink);color:var(--vellum);border-radius:9px;padding:8px 9px;font:500 calc(11.5px * var(--fs,1))/1.2 "Albert Sans",system-ui,sans-serif;cursor:pointer;text-align:left;}
+      .accent-choice.accent-on{outline:2px solid var(--gold);outline-offset:1px;}
+      .accent-dot{width:15px;height:15px;border-radius:50%;background:#315eb9;box-shadow:0 0 0 1px rgba(255,255,255,.55);flex:0 0 auto;}
+      .accent-pink .accent-dot{background:#c33f7e;}.accent-purple .accent-dot{background:#7650b5;}.accent-teal .accent-dot{background:#087f83;}
+      .account-shell{min-height:100vh;min-height:100dvh;display:grid;place-items:center;padding:24px;background:radial-gradient(circle at top,var(--shell-glow),transparent 52%),var(--ink);color:var(--vellum);font-family:"Albert Sans",system-ui,sans-serif;}
       .app>.account-shell{grid-column:1/-1;grid-row:1/-1;}
-      .account-card{width:min(100%,430px);display:flex;flex-direction:column;gap:14px;background:var(--ink-2);border:1px solid var(--line);border-radius:18px;padding:25px;box-shadow:0 18px 55px rgba(0,0,0,.3);}
+      .account-card{width:min(100%,430px);display:flex;flex-direction:column;gap:14px;background:var(--ink-2);border:1px solid var(--line);border-radius:18px;padding:25px;box-shadow:var(--shadow);}
       .account-card h1{font:700 calc(31px * var(--fs,1))/1.05 "Cormorant Garamond",Georgia,serif;text-align:center;color:var(--vellum);}
       .account-mark{align-self:center;display:grid;place-items:center;width:56px;height:56px;border:1px solid var(--gold);border-radius:50%;color:var(--gold);font:700 calc(14px * var(--fs,1))/1 "Cormorant Garamond",Georgia,serif;letter-spacing:.08em;}
       .account-intro,.account-foot{color:var(--faded);font-size:calc(12px * var(--fs,1));line-height:1.5;text-align:center;}
       .account-foot{font-size:calc(11px * var(--fs,1));}
       .account-modes{display:grid;grid-template-columns:1fr 1fr;background:var(--ink);border-radius:10px;padding:3px;}
       .account-modes button{border:0;background:none;color:var(--faded);border-radius:8px;padding:9px;font:600 calc(12px * var(--fs,1))/1 "Albert Sans",system-ui,sans-serif;cursor:pointer;}
-      .account-modes .mode-on{background:var(--olive);color:var(--vellum);}
+      .account-modes .mode-on{background:var(--gold-deep);color:var(--done-text);}
       .password-wrap{display:flex;align-items:stretch;}
       .password-wrap input{border-radius:8px 0 0 8px;}
       .password-wrap button{border:1px solid var(--line);border-left:0;background:var(--ink);color:var(--gold);border-radius:0 8px 8px 0;padding:0 11px;font:600 calc(11px * var(--fs,1))/1 "Albert Sans",system-ui,sans-serif;cursor:pointer;}
@@ -631,11 +679,11 @@ function Styles(){
       .account-message{border:1px solid rgba(201,164,74,.35);background:rgba(201,164,74,.08);border-radius:8px;padding:9px 11px;color:var(--vellum-2);font-size:calc(11px * var(--fs,1));line-height:1.4;}
       .cloud-user{display:flex;align-items:center;gap:9px;font-size:calc(13px * var(--fs, 1));}
       .cloud-user small{display:block;color:var(--faded);margin-top:2px;}
-      .cloud-dot{width:9px;height:9px;border-radius:50%;background:#79a85b;box-shadow:0 0 0 3px rgba(121,168,91,.15);}
+      .cloud-dot{width:9px;height:9px;border-radius:50%;background:#2f8062;box-shadow:0 0 0 3px rgba(47,128,98,.15);}
       .auth-field{display:flex;flex-direction:column;gap:4px;font-size:calc(11px * var(--fs, 1));color:var(--faded);}
       .auth-field input{width:100%;background:var(--ink);border:1px solid var(--line);color:var(--vellum);border-radius:8px;padding:9px 10px;font-family:inherit;font-size:calc(13px * var(--fs, 1));}
       .auth-actions{display:flex;gap:8px;flex-wrap:wrap;}
-      .primary-btn{border:1px solid transparent;background:var(--gold);color:#211a07;border-radius:8px;padding:8px 13px;font-family:inherit;font-weight:600;font-size:calc(12.5px * var(--fs, 1));cursor:pointer;}
+      .primary-btn{border:1px solid transparent;background:var(--gold);color:var(--done-text);border-radius:8px;padding:8px 13px;font-family:inherit;font-weight:600;font-size:calc(12.5px * var(--fs, 1));cursor:pointer;}
       button:disabled{opacity:.45;cursor:default;}
       .ref-block{display:block;font-size:calc(11px * var(--fs, 1));color:var(--faded);letter-spacing:.02em;margin-top:2px;}
   .apparatus{margin-top:18px;padding-top:14px;border-top:1px solid var(--line);}
@@ -649,13 +697,13 @@ function Styles(){
   .app-tags{flex-basis:100%;color:var(--faded);font-size:calc(11px * var(--fs, 1));letter-spacing:.04em;}
   /* Apparatus is printed inside the light reading card. Override the dark-shell
      palette here so note titles and supporting labels remain legible. */
-  .card .app-head{color:#755a1d;}
-  .card .app-title{color:#2b2a20;}
-  .card .app-cite{color:#755a1d;}
-  .card .app-page,.card .app-tags{color:#655f48;}
-  .card .app-kind{color:#4a5c39;border-color:rgba(43,42,32,.28);}
+  .card .app-head{color:var(--card-link);}
+  .card .app-title{color:var(--card-text);}
+  .card .app-cite{color:var(--card-link);}
+  .card .app-page,.card .app-tags{color:var(--card-muted);}
+  .card .app-kind{color:var(--card-accent);border-color:rgba(24,38,101,.28);}
   .colophon{margin:20px 4px 8px;font-size:calc(11px * var(--fs, 1));color:var(--faded);text-align:center;line-height:1.5;}
-      .tabs{flex-shrink:0;display:flex;background:rgba(22,29,20,.97);border-top:1px solid var(--line);padding:5px 4px calc(8px + env(safe-area-inset-bottom));position:sticky;bottom:0;}
+      .tabs{flex-shrink:0;display:flex;background:var(--tab-bg);border-top:1px solid var(--line);padding:5px 4px calc(8px + env(safe-area-inset-bottom));position:sticky;bottom:0;}
       .tab{flex:1;border:0;background:none;color:var(--faded);display:flex;flex-direction:column;align-items:center;gap:2px;font-family:inherit;font-size:calc(11px * var(--fs, 1));letter-spacing:.06em;padding:6px 0;cursor:pointer;border-radius:9px;}
       .tab-on{color:var(--gold);}
       .toast{position:fixed;bottom:84px;left:50%;transform:translateX(-50%);background:var(--vellum);color:var(--ink);padding:9px 16px;border-radius:99px;font-size:calc(13px * var(--fs, 1));font-weight:500;box-shadow:0 6px 20px rgba(0,0,0,.4);z-index:20;max-width:85%;text-align:center;}

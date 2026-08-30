@@ -12,6 +12,7 @@ blocks and chronology in the NKJV Chronological Study Bible.
 - Account-only access so every family member has independent progress
 - Account creation captures the reader’s display name
 - Per-account offline cache plus explicit and automatic cloud synchronisation
+- Church blue-and-white light and dark modes with optional blue, pink, purple, or teal accents
 - Sync now and device-only sign-out controls
 - Settable start date so a group can read in step together
 - Works offline and installs to your home screen (Android, iPhone, tablet)
