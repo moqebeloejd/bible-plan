@@ -4,6 +4,7 @@
   "version": "2.0.0",
   "type": "module",
   "scripts": {
-    "test": "node scripts/validate-app.mjs"
+    "sync:pwa-icon": "node scripts/revision-pwa-icon.mjs",
+    "test": "node scripts/revision-pwa-icon.mjs --check && node scripts/validate-app.mjs"
   }
 }

@@ -2,6 +2,7 @@
   "name": "NKJV Chronological Bible Plan",
   "short_name": "NKJV Bible Plan",
   "description": "A family reading plan following the publisher’s chronology and Scripture blocks, with account-based offline and cross-device progress.",
+  "id": "./",
   "start_url": ".",
   "scope": ".",
   "display": "standalone",
@@ -9,6 +10,23 @@
   "background_color": "#ffffff",
   "theme_color": "#182665",
   "icons": [
-    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+    {
+      "src": "icon-192.117d2de07ff7.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.45ba4676a317.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon.2ee3dc319b05.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
   ]
 }

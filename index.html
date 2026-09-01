@@ -7,7 +7,8 @@
 <meta name="description" content="A family reading plan following the publisher’s chronology and Scripture blocks in the NKJV Chronological Study Bible." />
 <meta name="theme-color" content="#ffffff" />
 <link rel="manifest" href="manifest.json" />
-<link rel="apple-touch-icon" href="icon.svg" />
+<link rel="icon" href="icon.2ee3dc319b05.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="icon-180.3b925da1f707.png" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -49,6 +50,8 @@ const ACCOUNT_STORAGE_PREFIX="bible_reader_state_v1_";
 const DEFAULT_START="2026-08-30";
 const DEFAULT_VERSION="NKJV";
 const TEXT_SIZE_KEY="bible365-text-size";
+const RECOVERY_QUERY_KEY="recovery";
+const RECOVERY_QUERY_VALUE="password";
 const TEXT_SIZES=[["Standard",1],["Large",1.15],["Larger",1.3],["Largest",1.45]];
 const THEMES=[["Light","light"],["Dark","dark"]];
 const ACCENTS=[["Church blue","blue"],["Pink","pink"],["Purple","purple"],["Teal","teal"]];
@@ -68,6 +71,12 @@ const CLOUD_CONFIG=window.BIBLE_CLOUD||{};
 const CLOUD_CLIENT=window.supabase&&CLOUD_CONFIG.url&&CLOUD_CONFIG.publishableKey
   ? window.supabase.createClient(CLOUD_CONFIG.url,CLOUD_CONFIG.publishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}})
   : null;
+let EARLY_RECOVERY_SESSION=null;
+let EARLY_AUTH_SUBSCRIPTION=null;
+if(CLOUD_CLIENT){EARLY_AUTH_SUBSCRIPTION=CLOUD_CLIENT.auth.onAuthStateChange((event,next)=>{if(event==="PASSWORD_RECOVERY"&&next?.user)EARLY_RECOVERY_SESSION=next;else if(event==="SIGNED_OUT")EARLY_RECOVERY_SESSION=null;}).data.subscription;}
+const passwordRecoveryRedirectUrl=()=>{const url=new URL(location.href);url.hash="";url.searchParams.set(RECOVERY_QUERY_KEY,RECOVERY_QUERY_VALUE);return url.href;};
+const isPasswordRecoveryRedirect=()=>new URLSearchParams(location.search).get(RECOVERY_QUERY_KEY)===RECOVERY_QUERY_VALUE;
+const clearPasswordRecoveryRedirect=()=>{if(!isPasswordRecoveryRedirect()&&!location.hash)return;const url=new URL(location.href);url.searchParams.delete(RECOVERY_QUERY_KEY);url.hash="";history.replaceState(null,"",url);};
 const parseISO=s=>{const[y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d)};
 const addDays=(d,n)=>{const x=new Date(d.getFullYear(),d.getMonth(),d.getDate());x.setDate(x.getDate()+n);return x};
 const diffDays=(a,b)=>Math.round((new Date(a.getFullYear(),a.getMonth(),a.getDate())-new Date(b.getFullYear(),b.getMonth(),b.getDate()))/86400000);
@@ -139,10 +148,14 @@ function App(){
   const [confirmReset,setConfirmReset]=useState(false);
   const [textSize,setTextSize]=useState(readTextSize);
   const [toast,setToast]=useState(null);
+  const recoveryRequestedAtLoad=useRef(isPasswordRecoveryRedirect());
+  const recoveryVerifiedRef=useRef(false);
+  const [recoveryStatus,setRecoveryStatus]=useState(recoveryRequestedAtLoad.current?"checking":"none");
+  const [authMessage,setAuthMessage]=useState(null);
   const stateRef=useRef({start,bibleVersion,theme,accent,done,pending,settingsPending});
   const hydratedUserRef=useRef(null);
   const activeUserRef=useRef(null);
-  activeUserRef.current=session?.user?.id||null;
+  activeUserRef.current=recoveryStatus==="none"?(session?.user?.id||null):null;
 
   useEffect(()=>{applyTextSize(textSize);},[textSize]);
   useEffect(()=>{applyAppearance(theme,accent);},[theme,accent]);
@@ -163,9 +176,20 @@ function App(){
         if(cancelled)return;
         if(CLOUD_CLIENT){
           try{
-            const {data}=await CLOUD_CLIENT.auth.getSession();if(!cancelled)setSession(data.session||null);
-            subscription=CLOUD_CLIENT.auth.onAuthStateChange((_event,next)=>setSession(next)).data.subscription;
-          }catch(e){if(!cancelled)setSyncStatus("Offline — local progress is available");}
+            const handleAuthChange=(event,next)=>{
+              if(cancelled)return;
+              if(event==="PASSWORD_RECOVERY"&&next?.user){recoveryVerifiedRef.current=true;setRecoveryStatus("verified");setAuthMessage(null);setSession(next);return;}
+              if(event==="SIGNED_OUT"){recoveryVerifiedRef.current=false;if(isPasswordRecoveryRedirect())setRecoveryStatus("expired");}
+              setSession(next);
+            };
+            subscription=CLOUD_CLIENT.auth.onAuthStateChange(handleAuthChange).data.subscription;
+            if(EARLY_RECOVERY_SESSION?.user)handleAuthChange("PASSWORD_RECOVERY",EARLY_RECOVERY_SESSION);
+            EARLY_AUTH_SUBSCRIPTION?.unsubscribe();EARLY_AUTH_SUBSCRIPTION=null;
+            const {data,error}=await CLOUD_CLIENT.auth.getSession();if(error)throw error;
+            if(!cancelled){setSession(data.session||null);await new Promise(resolve=>setTimeout(resolve,0));if(recoveryRequestedAtLoad.current&&!recoveryVerifiedRef.current)setRecoveryStatus("expired");}
+          }catch(e){if(!cancelled){setSyncStatus("Offline — local progress is available");if(recoveryRequestedAtLoad.current&&!recoveryVerifiedRef.current)setRecoveryStatus("expired");}}
+        }else if(recoveryRequestedAtLoad.current){
+          setRecoveryStatus("expired");
         }
         setLoaded(true);const b=document.getElementById("boot");if(b)b.remove();
       }catch(err){setLoadError(err.message||"Unable to open the reading plan.");const b=document.getElementById("boot");if(b)b.textContent=err.message||"Unable to open the reading plan.";}
@@ -175,16 +199,17 @@ function App(){
 
   useEffect(()=>{
     const uid=session?.user?.id;
+    if(recoveryStatus!=="none"){setAccountUserId(null);hydratedUserRef.current=null;return;}
     if(!uid){setAccountUserId(null);hydratedUserRef.current=null;return;}
     const local=loadAccountState(uid);
     setStart(local.start);setBibleVersion(local.bibleVersion);setTheme(local.theme);setAccent(local.accent);setDone(local.done);setPending(local.pending);setSettingsPending(local.settingsPending);applyAppearance(local.theme,local.accent);
     setReaderDisplayName(readerName(session.user));stateRef.current=local;hydratedUserRef.current=null;setAccountUserId(uid);void provisionProfile(session.user);
-  },[session?.user?.id]);
+  },[session?.user?.id,recoveryStatus]);
 
   const saveState=useCallback((next)=>{try{writeLocal(next,session?.user?.id);}catch(e){setToast("Couldn't save — progress is held for this session");}},[session?.user?.id]);
 
   const syncCloud=useCallback(async()=>{
-    if(!CLOUD_CLIENT||!session?.user||!PLAN)return;
+    if(!CLOUD_CLIENT||!session?.user||!PLAN||recoveryStatus!=="none")return;
     const uid=session.user.id,s=stateRef.current;
     setSyncStatus(navigator.onLine?"Syncing…":"Offline — changes queued");if(!navigator.onLine)return;
     try{
@@ -206,7 +231,7 @@ function App(){
       setDone(cloudDone);setPending(remaining);setStart(nextStart);setBibleVersion(nextVersion);setTheme(nextTheme);setAccent(nextAccent);setSettingsPending(false);
       saveState({start:nextStart,bibleVersion:nextVersion,theme:nextTheme,accent:nextAccent,done:cloudDone,pending:remaining,settingsPending:false});setSyncStatus("Synced");
     }catch(err){console.error(err);if(activeUserRef.current===uid)setSyncStatus("Offline — changes queued");}
-  },[session,saveState]);
+  },[session,saveState,recoveryStatus]);
 
   useEffect(()=>{if(!loaded||accountUserId!==session?.user?.id)return;const uid=session.user.id,needsSync=hydratedUserRef.current!==uid||settingsPending||Object.keys(pending).length>0;if(!needsSync)return;hydratedUserRef.current=uid;const t=setTimeout(syncCloud,250);return()=>clearTimeout(t);},[loaded,accountUserId,session,pending,settingsPending,syncCloud]);
   useEffect(()=>{const onOnline=()=>syncCloud();const onFocus=()=>syncCloud();window.addEventListener("online",onOnline);window.addEventListener("focus",onFocus);return()=>{window.removeEventListener("online",onOnline);window.removeEventListener("focus",onFocus);};},[syncCloud]);
@@ -223,15 +248,28 @@ function App(){
     if(!existing||metadataName&&metadataName!==existing.display_name){const {error}=await CLOUD_CLIENT.from("reader_profiles").upsert({user_id:user.id,display_name:displayName,updated_at:new Date().toISOString()},{onConflict:"user_id"});if(error){console.warn("Reader profile could not be refreshed.",error);return;}}
     if(activeUserRef.current===user.id)setReaderDisplayName(displayName);
   };
-  const authenticate=async(mode,email,password,displayName)=>{if(!CLOUD_CLIENT)return;setCloudBusy(true);try{
+  const authenticate=async(mode,email,password,displayName)=>{if(!CLOUD_CLIENT)return;setCloudBusy(true);setAuthMessage(null);try{
     const normalizedEmail=String(email||"").trim();
     const options={email:normalizedEmail,password:String(password||"")};
     if(mode==="signup")options.options={data:{display_name:String(displayName||"").trim()||normalizedEmail.split("@")[0]},emailRedirectTo:location.origin+location.pathname};
     const {data,error}=mode==="signup"?await CLOUD_CLIENT.auth.signUp(options):await CLOUD_CLIENT.auth.signInWithPassword(options);if(error)throw error;
-    if(mode==="signup"&&!data.session)setToast("Account created — check your email to confirm it");
-    else {setSession(data.session);setToast("Welcome — your reading plan is opening");void provisionProfile(data.user||data.session?.user);}
-  }catch(err){setToast(err.message||"Sign-in failed");}finally{setCloudBusy(false);}};
-  const signOut=async()=>{if(!CLOUD_CLIENT)return;setCloudBusy(true);hydratedUserRef.current=null;setAccountUserId(null);setSession(null);try{const {error}=await CLOUD_CLIENT.auth.signOut({scope:"local"});if(error)console.warn("Remote sign-out could not be confirmed; this device was signed out locally.",error);}finally{setSyncStatus("Signed out");setCloudBusy(false);}};
+    if(mode==="signup"&&!data.session)setAuthMessage("Account created — check your email to confirm it");
+    else {clearPasswordRecoveryRedirect();recoveryVerifiedRef.current=false;setRecoveryStatus("none");setSession(data.session);setToast("Welcome — your reading plan is opening");void provisionProfile(data.user||data.session?.user);}
+  }catch(err){setAuthMessage(err.message||"Sign-in failed");}finally{setCloudBusy(false);}};
+  const requestPasswordReset=async email=>{if(!CLOUD_CLIENT)return;setCloudBusy(true);setAuthMessage(null);try{
+    if(!navigator.onLine)throw new Error("Connect to the internet to request a password reset.");
+    const normalizedEmail=String(email||"").trim();
+    const {error}=await CLOUD_CLIENT.auth.resetPasswordForEmail(normalizedEmail,{redirectTo:passwordRecoveryRedirectUrl()});if(error)throw error;
+    setAuthMessage("If an account exists for that email, a password-reset link has been sent. Check your inbox and spam folder.");
+  }catch(err){console.warn("Password-reset request failed.",err);setAuthMessage("A reset link could not be sent right now. Check your connection and try again.");}finally{setCloudBusy(false);}};
+  const completePasswordRecovery=async password=>{if(!CLOUD_CLIENT)return;setCloudBusy(true);setAuthMessage(null);try{
+    if(recoveryStatus!=="verified"||!session?.user)throw new Error("This recovery link is no longer active. Request a new password-reset link.");
+    if(!navigator.onLine)throw new Error("Connect to the internet to save your new password.");
+    const {data,error}=await CLOUD_CLIENT.auth.updateUser({password:String(password||"")});if(error)throw error;
+    recoveryVerifiedRef.current=false;clearPasswordRecoveryRedirect();setRecoveryStatus("none");setSession(current=>current&&data?.user?{...current,user:data.user}:current);setToast("Password updated — your reading plan is opening");
+  }catch(err){setAuthMessage(err.message||"The new password could not be saved.");}finally{setCloudBusy(false);}};
+  const leaveRecovery=()=>{clearPasswordRecoveryRedirect();recoveryVerifiedRef.current=false;setRecoveryStatus("none");setAuthMessage(null);};
+  const signOut=async()=>{if(!CLOUD_CLIENT)return;setCloudBusy(true);recoveryVerifiedRef.current=false;clearPasswordRecoveryRedirect();setRecoveryStatus("none");setAuthMessage(null);hydratedUserRef.current=null;setAccountUserId(null);setSession(null);try{const {error}=await CLOUD_CLIENT.auth.signOut({scope:"local"});if(error)console.warn("Remote sign-out could not be confirmed; this device was signed out locally.",error);}finally{setSyncStatus("Signed out");setCloudBusy(false);}};
 
   const doneCount=done.size;
   const elapsed=Math.min(Math.max(todayPlanDay,0),planDayCount());
@@ -246,8 +284,11 @@ function App(){
 
   if(loadError)return <div className="app"><Styles/><main className="main"><div className="main-inner"><div className="settings">{loadError}</div></div></main></div>;
   if(!loaded) return <div className="app"><Styles/></div>;
-  if(!session?.user)return <AccountGate configured={!!CLOUD_CLIENT} busy={cloudBusy} onAuth={authenticate} message={toast}/>;
-  if(accountUserId!==session.user.id)return <div className="app"><Styles/><div className="account-shell"><div className="account-card"><div className="account-mark"><img src="icon.svg?v=7" alt=""/></div><h1>Opening {readerName(session.user,readerDisplayName)}’s plan…</h1></div></div></div>;
+  if(recoveryStatus==="checking")return <AccountStatusCard title="Checking your recovery link…"/>;
+  if(recoveryStatus==="verified")return <PasswordResetGate busy={cloudBusy} email={session?.user?.email||"your account"} message={authMessage} onComplete={completePasswordRecovery}/>;
+  if(recoveryStatus==="expired")return <AccountGate configured={!!CLOUD_CLIENT} busy={cloudBusy} onAuth={authenticate} onResetRequest={requestPasswordReset} onLeaveRecovery={leaveRecovery} onClearMessage={()=>setAuthMessage(null)} initialMode="recover" message={authMessage||"This recovery link is no longer active. Request a new password-reset link."}/>;
+  if(!session?.user)return <AccountGate configured={!!CLOUD_CLIENT} busy={cloudBusy} onAuth={authenticate} onResetRequest={requestPasswordReset} onLeaveRecovery={leaveRecovery} onClearMessage={()=>setAuthMessage(null)} message={authMessage}/>;
+  if(accountUserId!==session.user.id)return <AccountStatusCard title={`Opening ${readerName(session.user,readerDisplayName)}’s plan…`}/>;
 
   return (
     <div className="app">
@@ -426,26 +467,52 @@ function MonthView({cursor,setCursor,done,startDate,currentDay,today,onOpen}){
   );
 }
 
-function AccountGate({configured,busy,onAuth,message}){
-  const [mode,setMode]=useState("signin");
+function AccountStatusCard({title}){
+  return <div className="app"><Styles/><div className="account-shell"><div className="account-card account-status"><div className="account-mark"><img src="icon.2ee3dc319b05.svg" alt=""/></div><h1>{title}</h1></div></div></div>;
+}
+
+function AccountGate({configured,busy,onAuth,onResetRequest,onLeaveRecovery,onClearMessage,initialMode="signin",message}){
+  const [mode,setMode]=useState(initialMode);
   const [displayName,setDisplayName]=useState("");
   const [email,setEmail]=useState("");
   const [password,setPassword]=useState("");
   const [showPassword,setShowPassword]=useState(false);
-  const ready=configured&&email.trim()&&password.length>=6&&(mode==="signin"||displayName.trim());
-  const submit=e=>{e.preventDefault();if(ready&&!busy)onAuth(mode,email,password,displayName);};
+  const recovering=mode==="recover";
+  const minimumPasswordLength=mode==="signup"?8:6;
+  const ready=configured&&email.trim()&&(recovering||(password.length>=minimumPasswordLength&&(mode==="signin"||displayName.trim())));
+  const submit=e=>{e.preventDefault();if(!ready||busy)return;if(recovering)onResetRequest(email);else onAuth(mode,email,password,displayName);};
+  const switchMode=next=>{onClearMessage?.();setMode(next);if(next!=="recover")onLeaveRecovery?.();};
   return <div className="app"><Styles/><div className="account-shell"><form className="account-card" onSubmit={submit}>
-    <div className="account-mark"><img src="icon.svg?v=7" alt=""/></div>
-    <h1>Chronological Bible</h1>
-    <p className="account-intro">Each family member uses their own account so progress stays private and follows them across devices.</p>
-    <div className="account-modes"><button type="button" className={mode==="signin"?"mode-on":""} onClick={()=>setMode("signin")}>Sign in</button><button type="button" className={mode==="signup"?"mode-on":""} onClick={()=>setMode("signup")}>Create account</button></div>
+    <div className="account-mark"><img src="icon.2ee3dc319b05.svg" alt=""/></div>
+    <h1>{recovering?"Reset your password":"Chronological Bible"}</h1>
+    <p className="account-intro">{recovering?"The Bible and Mmuso wa Modimo apps share one account. Enter its email address and we’ll send a secure link for choosing a new password for both apps.":"Each family member uses their own account so progress stays private and follows them across devices."}</p>
+    {!recovering&&<div className="account-modes"><button type="button" className={mode==="signin"?"mode-on":""} onClick={()=>switchMode("signin")}>Sign in</button><button type="button" className={mode==="signup"?"mode-on":""} onClick={()=>switchMode("signup")}>Create account</button></div>}
     {!configured&&<div className="account-message">Account services are not configured. The reading plan cannot open until the cloud connection is restored.</div>}
     {mode==="signup"&&<label className="auth-field"><span>Reader’s name</span><input autoComplete="name" value={displayName} onChange={e=>setDisplayName(e.target.value)} placeholder="Name shown in the app"/></label>}
     <label className="auth-field"><span>Email</span><input type="email" autoComplete="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="you@example.com"/></label>
-    <label className="auth-field"><span>Password</span><span className="password-wrap"><input type={showPassword?"text":"password"} autoComplete={mode==="signup"?"new-password":"current-password"} value={password} onChange={e=>setPassword(e.target.value)} placeholder="At least 6 characters"/><button type="button" onClick={()=>setShowPassword(v=>!v)}>{showPassword?"Hide":"Show"}</button></span></label>
-    <button className="primary-btn account-submit" disabled={!ready||busy}>{busy?"Please wait…":mode==="signup"?"Create account":"Sign in"}</button>
-    {message&&<div className="account-message">{message}</div>}
-    <p className="account-foot">Your old shared-device progress will not be assigned to this account. Each reader begins and records progress independently.</p>
+    {!recovering&&<label className="auth-field"><span>Password</span><span className="password-wrap"><input type={showPassword?"text":"password"} autoComplete={mode==="signup"?"new-password":"current-password"} minLength={minimumPasswordLength} value={password} onChange={e=>setPassword(e.target.value)} placeholder={mode==="signup"?"At least 8 characters":"Your password"}/><button type="button" onClick={()=>setShowPassword(v=>!v)}>{showPassword?"Hide":"Show"}</button></span></label>}
+    <button className="primary-btn account-submit" disabled={!ready||busy}>{busy?"Please wait…":recovering?"Send reset link":mode==="signup"?"Create account":"Sign in"}</button>
+    <div className="account-recovery-actions">{mode==="signin"&&<button type="button" className="auth-link" onClick={()=>switchMode("recover")}>Forgot password?</button>}{recovering&&<button type="button" className="auth-link" onClick={()=>switchMode("signin")}>Back to sign in</button>}</div>
+    {message&&<div className="account-message" role="status" aria-live="polite">{message}</div>}
+    <p className="account-foot">{recovering?"For privacy, the same confirmation appears whether or not that email belongs to an account.":"Your old shared-device progress will not be assigned to this account. Each reader begins and records progress independently."}</p>
+  </form></div></div>;
+}
+
+function PasswordResetGate({busy,email,message,onComplete}){
+  const [password,setPassword]=useState("");
+  const [confirmation,setConfirmation]=useState("");
+  const [showPassword,setShowPassword]=useState(false);
+  const matches=password.length>=8&&password===confirmation;
+  const submit=e=>{e.preventDefault();if(matches&&!busy)onComplete(password);};
+  return <div className="app"><Styles/><div className="account-shell"><form className="account-card" onSubmit={submit}>
+    <div className="account-mark"><img src="icon.2ee3dc319b05.svg" alt=""/></div>
+    <h1>Choose a new password</h1>
+    <p className="account-intro">The recovery link for <strong>{email}</strong> is verified. This will be the password you use to sign in to both the Bible and Mmuso wa Modimo apps.</p>
+    <label className="auth-field"><span>New password</span><span className="password-wrap"><input type={showPassword?"text":"password"} autoComplete="new-password" minLength="8" value={password} onChange={e=>setPassword(e.target.value)} placeholder="At least 8 characters"/><button type="button" aria-pressed={showPassword} onClick={()=>setShowPassword(v=>!v)}>{showPassword?"Hide":"Show"}</button></span></label>
+    <label className="auth-field"><span>Confirm new password</span><input type={showPassword?"text":"password"} autoComplete="new-password" minLength="8" value={confirmation} onChange={e=>setConfirmation(e.target.value)} placeholder="Repeat the new password"/></label>
+    {confirmation&&password!==confirmation&&<div className="account-message">The passwords do not match yet.</div>}
+    <button className="primary-btn account-submit" disabled={!matches||busy}>{busy?"Saving…":"Save new password"}</button>
+    {message&&<div className="account-message" role="status" aria-live="polite">{message}</div>}
   </form></div></div>;
 }
 
@@ -487,7 +554,7 @@ function PlanView({theme,accent,onAppearanceChange,textSize,onTextSizeChange,don
       <h2 className="sec-title">Cloud sync</h2>
       <div className="settings cloud-card">
         <div className="cloud-user"><span className="cloud-dot"/><span><strong>{readerName(session.user,readerDisplayName)}</strong><small>{session.user.email} · {syncStatus}</small></span></div>
-        <div className="set-note">Completion, start date, and Bible-link preference follow this account across devices. Offline changes stay in this account’s private device cache until the connection returns.</div>
+        <div className="set-note">This is the same sign-in used by Mmuso wa Modimo, and a password change applies to both apps. Completion, start date, Bible-link preference, theme, and accent follow this account across devices. Offline changes stay in this account’s private device cache until the connection returns.</div>
         <div className="auth-actions"><button className="primary-btn" disabled={cloudBusy} onClick={onSync}>Sync now</button><button className="ghost-btn" disabled={cloudBusy} onClick={onSignOut}>Sign out on this device</button></div>
       </div>
       <div className="colophon">NKJV Chronological Study Bible · publisher-block order · {planDayCount()} sittings · 787 publisher blocks · 31,102 verses · reference-only, translation-neutral dataset</div>
@@ -505,7 +572,7 @@ function IconScroll({on}){return <svg {...ic} stroke="currentColor"><path d="M6 
 function SealMark({small}){const s=small?13:16;return <svg width={s} height={s} viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="currentColor" opacity="0.25"/><path d="M4.5 8.2l2.4 2.6 4.6-5.4" stroke="currentColor" strokeWidth="1.8" fill="none" strokeLinecap="round" strokeLinejoin="round"/></svg>;}
 
 function BibleLogoMark(){
-  return <img className="brand-mark" src="icon.svg?v=7" alt=""/>;
+  return <img className="brand-mark" src="icon.2ee3dc319b05.svg" alt=""/>;
 }
 
 function Styles(){
@@ -651,6 +718,7 @@ function Styles(){
       .app>.account-shell{grid-column:1/-1;grid-row:1/-1;}
       .account-card{width:min(100%,430px);display:flex;flex-direction:column;gap:14px;background:var(--surface-strong);border:1px solid var(--surface-border);border-radius:26px;padding:28px;box-shadow:var(--shadow);backdrop-filter:blur(20px) saturate(130%);}
       .account-card h1{font:700 calc(31px * var(--fs,1))/1.05 "Cormorant Garamond",Georgia,serif;text-align:center;color:var(--vellum);}
+      .account-status{align-items:center;}
       .account-mark{align-self:center;display:grid;place-items:center;width:72px;height:72px;border-radius:22px;box-shadow:0 14px 32px rgba(24,38,101,.24);}
       .account-mark img{display:block;width:72px;height:72px;border-radius:22px;}
       .account-intro,.account-foot{color:var(--faded);font-size:calc(12px * var(--fs,1));line-height:1.5;text-align:center;}
@@ -663,6 +731,8 @@ function Styles(){
       .password-wrap button{border:1px solid var(--line);border-left:0;background:var(--ink);color:var(--gold);border-radius:0 8px 8px 0;padding:0 11px;font:600 calc(11px * var(--fs,1))/1 "Albert Sans",system-ui,sans-serif;cursor:pointer;}
       .account-submit{width:100%;padding:11px 14px;}
       .account-message{border:1px solid rgba(201,164,74,.35);background:rgba(201,164,74,.08);border-radius:8px;padding:9px 11px;color:var(--vellum-2);font-size:calc(11px * var(--fs,1));line-height:1.4;}
+      .account-recovery-actions{min-height:24px;display:flex;justify-content:center;align-items:center;}
+      .auth-link{border:0;background:none;color:var(--gold-deep);padding:4px 8px;font:650 calc(11.5px * var(--fs,1))/1.3 "Albert Sans",system-ui,sans-serif;text-decoration:underline;text-underline-offset:3px;cursor:pointer;}
       .cloud-user{display:flex;align-items:center;gap:9px;font-size:calc(13px * var(--fs, 1));}
       .cloud-user small{display:block;color:var(--faded);margin-top:2px;}
       .cloud-dot{width:9px;height:9px;border-radius:50%;background:#2f8062;box-shadow:0 0 0 3px rgba(47,128,98,.15);}
@@ -727,7 +797,7 @@ root.render(<App/>);
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("sw.js").catch(() => {});
+    navigator.serviceWorker.register("sw.js",{updateViaCache:"none"}).then(registration=>registration.update()).catch(() => {});
   });
 }
 </script>

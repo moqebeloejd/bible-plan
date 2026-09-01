@@ -11,6 +11,8 @@ blocks and chronology in the NKJV Chronological Study Bible.
 - Today, Week, Month, and Journey views
 - Account-only access so every family member has independent progress
 - Account creation captures the reader’s display name
+- One shared sign-in and password with the Mmuso wa Modimo app
+- Privacy-preserving email password recovery; a reset applies to both apps
 - Per-account offline cache plus explicit and automatic cloud synchronisation
 - Church blue-and-white light and dark modes with optional blue, pink, purple, or teal accents
 - Sync now and device-only sign-out controls
@@ -34,3 +36,9 @@ and are never silently assigned to a newly signed-in family member.
 
 See `DATASET.md` for the portable reference schema and validation rules. Run
 `npm test` to validate the app and all plan invariants.
+
+The canonical launcher artwork sources are `icon.svg` plus its 180, 192, and
+512 pixel PNG exports. After changing the artwork, refresh those PNG sources and
+run `npm run sync:pwa-icon`; the script fingerprints every format, updates the
+manifest, HTML, and service worker, and emits revisioned assets that supported
+installed apps can discover without changing the app’s stable manifest identity.
