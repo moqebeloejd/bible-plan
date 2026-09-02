@@ -1,32 +1,77 @@
 # Handover — installing the re-cut reading plan
 
-**For whoever owns the app.** A new reading-plan dataset is ready and validated, but it **cannot be
-merged as it stands** without corrupting existing progress. This document says what is ready, what
-the blocker is, and what has to be decided.
+**For whoever owns the app.** The re-cut dataset now has a collision-safe v4 identity and is
+validated. The signed-in household account has been seeded and verified with the exact 128-night
+carry-over described below.
 
 Branch: **`plan-v3-recut`** (branched from `main` at `b41def8`).
-Nothing is pushed. `main` is untouched.
+The original re-cut branch is on GitHub. The v4 identity changes described in the resume update
+below are local and uncommitted; `main` is untouched.
+
+## Resume update — 2026-09-02
+
+The day-id collision is fixed locally and reproducibly:
+
+- dataset `plan_id`: `nkjv-chronological-publisher-blocks-v4`
+- all day and segment ids: `CRP4-Dnnn` / `CRP4-Dnnn-Rnn`
+- `cloud-config.js` uses the v4 plan id
+- `index.html` has a `CRP4-D` defensive fallback
+- `pilot/build-dataset-v3.mjs` and `pilot/mark-progress.mjs` generate v4 identities
+- generated dataset and migration were copied into `data/`
+
+Verification completed after regeneration:
+
+```
+node pilot/validate-plan.mjs  -> 8/8 pass
+npm test                      -> 61/61 pass
+node pilot/mark-progress.mjs "Judges 4:24"
+  -> 128 of 631 complete; CRP4-D129; Judges 5:1—6:10
+```
+
+The legacy filenames retain `v3` so the existing app import path and generator workflow do not need
+an unnecessary rename; identity is determined by the JSON `plan_id` and `day_id` values.
+
+The app now treats this as a one-time v4 account default: start date 9 March 2026 and Days 1–128
+complete. Users can subsequently change the date or unmark readings without the default being
+reapplied on that device. The signed-in household account synced successfully and was verified with
+exactly `CRP4-D001` through `CRP4-D128` complete and start date `2026-03-09`.
+
+Epoch and section-opening material is now explicit rather than implied by page ranges. The generator
+exports 37 unique `editorial_readings` (all 9 epoch essays and 28 in-plan section introductions),
+and day panels label every item as `READ EPOCH ESSAY`, `READ SECTION INTRODUCTION`, `READ NOTE`, or
+`REVIEW` map/chart/panel with its title and printed page. The plan and cloud configuration now use a
+network-first service-worker route with offline fallback; cache v10 forces existing installations to
+receive this dataset revision.
+
+The day panel was modernised and consolidated to three functional type sizes (22px title, 16px
+primary reading/material text, and 13px supporting text and metadata, before the user's text-size
+multiplier). Repeated labels, the circular epoch badge, outlined material tags, and external Bible
+links were removed. Required material remains explicit through concise `Read · …` / `Review · …`
+labels, while background-note index categories are introduced as `Topics covered:`.
 
 ---
 
 ## 1. What is on the branch
 
-Three files, all data or checks — **no application code was changed**:
+The branch originally changed three data/check files. The local resume also updates two small app
+identity references and this handover:
 
 | File | Change |
 | --- | --- |
 | `data/reading-plan-v3.json` | 244 → **631** nights, re-cut against publisher section headings and re-costed at measured household reading rates |
 | `data/progress-migration-v2-to-v3.json` | regenerated for 631 nights |
 | `scripts/validate-app.mjs` | two assertions replaced (see §5) |
+| `cloud-config.js` | active plan id bumped to v4 |
+| `index.html` | v4 defaults, calendar-week navigation, explicit study-material rows, and consolidated day-panel typography |
 
-`node scripts/validate-app.mjs` → **47/47 pass** on the branch.
+`node scripts/validate-app.mjs` → **61/61 pass** on the branch.
 
 ---
 
-## 2. THE BLOCKER — day_id collision
+## 2. RESOLVED — day_id collision
 
-`plan_id` is unchanged (`nkjv-chronological-publisher-blocks-v3`) but every `day_id` now means a
-different passage:
+The original branch left `plan_id` unchanged (`nkjv-chronological-publisher-blocks-v3`) even though
+every `day_id` meant a different passage:
 
 ```
 CRP3-D045   was  Deuteronomy 34:1-12 | Psalms 90:1-17 | Joshua 1:1—5:15
@@ -39,13 +84,13 @@ CRP3-D244   was  Revelation 22:21          (the final night)
             now  1 Kings 18:41—19:21
 ```
 
-Progress lives in `bible_reader_progress`, keyed `(user_id, plan_id, day_id)`. Same plan id, same day
-ids, **different readings** — so every completed night would silently re-point at the wrong passage.
-Nothing errors. It is just wrong.
+Progress lives in `bible_reader_progress`, keyed `(user_id, plan_id, day_id)`. Before the local v4
+fix, the same plan id and day ids pointed to **different readings**, so completed nights would have
+silently re-pointed at wrong passages. The v4 identity prevents that collision.
 
-### Recommended fix
+### Applied fix
 
-**Bump the plan id** — e.g. `nkjv-chronological-publisher-blocks-v4` — in:
+The plan id was bumped to `nkjv-chronological-publisher-blocks-v4` in:
 
 - `data/reading-plan-v3.json` → `plan_id` (and consider renaming the file to `-v4`)
 - `cloud-config.js` → `planId`
@@ -80,22 +125,23 @@ The consequence is simply that carry-over is now a decision, not automatic.
 
 ### The household's actual position
 
-They have read to **`Joshua 14:5`**, which is a clean boundary — the end of publisher block
-`Joshua 6:1—14:5`.
+They have read through **Day 128, `Judges 4:24`**, a clean day boundary. With the plan anchored on
+Monday 9 March 2026, Day 128 is Wednesday 2 September 2026. Week views still span the calendar
+Sunday through Thursday; the first week is partial because the plan begins on Monday.
 
 ```
-118 of 631 nights complete   (18.7%)
-6,210 verses  ·  ~42 hours read
-resume at night 119  —  Joshua 14:6—16:4
+128 of 631 nights complete   (20.3%)
+6,641 verses  ·  ~45.5 hours read
+resume at night 129  —  Judges 5:1—6:10
 ```
 
-So under the new plan, nights **1 … 118 inclusive** are complete. That is a contiguous run, which
+So under the new plan, nights **1 … 128 inclusive** are complete. That is a contiguous run, which
 makes seeding simple whichever route is chosen:
 
-- **a one-time SQL/API write** of 118 rows into `bible_reader_progress` for the new plan id, or
+- **a one-time SQL/API write** of 128 rows into `bible_reader_progress` for the new plan id, or
 - **a small "I've read up to here" control** in the app (arguably useful permanently), or
 - re-adding a migration path, or
-- tapping through 118 nights by hand (works, but tedious).
+- tapping through 128 nights by hand (works, but tedious).
 
 `pilot/out/progress-seed.json` holds the exact list of completed `day_id`s and the resume point.
 
@@ -170,13 +216,11 @@ ran long, 23 of 26 proved avoidable by re-weighting. Fix the rules, never the in
 
 ## 7. Suggested order of work
 
-1. Decide the plan id (§2). Recommend `…-v4` and `CRP4-Dnnn`.
-2. Regenerate or rewrite the dataset with the new id, or rewrite ids in place on the branch.
-3. Decide the seeding route for the 118 completed nights (§3).
-4. `node scripts/validate-app.mjs` — expect 47/47.
-5. Preview locally against a signed-in account and confirm the carried count is **118** and the
-   current night is **119 — Joshua 14:6—16:4**.
-6. Merge and push only after that count is confirmed. If it comes back as anything else, stop.
+1. Seed the 128 completed nights (§3) for the intended signed-in account, using the v4 ids in
+   `pilot/out/progress-seed.json`.
+2. Preview locally against that account and confirm the carried count is **128** and the
+   current night is **129 — Judges 5:1—6:10**.
+3. Merge and push only after that count is confirmed. If it comes back as anything else, stop.
 
 ---
 

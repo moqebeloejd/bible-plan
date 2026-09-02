@@ -47,7 +47,9 @@ const EPOCH_ERAS={1:"Creation to 2000 B.C.",2:"2000 to 1500 B.C.",3:"1500 to 120
 const LEGACY_STORAGE_KEY="bible365-v2";
 const LEGACY_V3_STORAGE_KEY="bible365-v3";
 const ACCOUNT_STORAGE_PREFIX="bible_reader_state_v1_";
-const DEFAULT_START="2026-08-30";
+const DEFAULT_START="2026-03-09";
+const DEFAULT_COMPLETED_THROUGH=128;
+const DEFAULT_SEED_VERSION=1;
 const DEFAULT_VERSION="NKJV";
 const TEXT_SIZE_KEY="bible365-text-size";
 const RECOVERY_QUERY_KEY="recovery";
@@ -66,7 +68,6 @@ const applyAppearance=(theme,accent)=>{
   document.documentElement.dataset.theme=theme;document.documentElement.dataset.accent=accent;
   document.querySelector('meta[name="theme-color"]')?.setAttribute("content",theme==="dark"?"#101d55":"#ffffff");
 };
-const VERSION_OPTIONS=["NKJV","KJV","ESV","NIV","NLT","NASB","NRSVUE","CSB","NET","AMP"];
 const CLOUD_CONFIG=window.BIBLE_CLOUD||{};
 const CLOUD_CLIENT=window.supabase&&CLOUD_CONFIG.url&&CLOUD_CONFIG.publishableKey
   ? window.supabase.createClient(CLOUD_CONFIG.url,CLOUD_CONFIG.publishableKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}})
@@ -101,8 +102,11 @@ const planDayForDate=(today,startDate)=>{
 const planDayCount=()=>(PLAN&&PLAN.day_count)||244;
 // A "week" is the household's run of reading nights, not seven calendar days.
 const nightsPerWeek=()=>readingNights().length||5;
-const weekCount=()=>Math.ceil(planDayCount()/nightsPerWeek());
-const dayIdPrefix=()=>{const id=PLAN&&PLAN.days&&PLAN.days[0]&&PLAN.days[0].day_id;const m=id&&id.match(/^(.*-D)\d+$/);return m?m[1]:"CRP3-D";};
+const sundayOnOrBefore=d=>addDays(d,-d.getDay());
+const firstWeekStart=startDate=>sundayOnOrBefore(firstNightOnOrAfter(startDate));
+const weekIndexForDay=(n,startDate)=>Math.floor(diffDays(sundayOnOrBefore(dateForPlanDay(n,startDate)),firstWeekStart(startDate))/7);
+const weekCount=startDate=>weekIndexForDay(planDayCount(),startDate)+1;
+const dayIdPrefix=()=>{const id=PLAN&&PLAN.days&&PLAN.days[0]&&PLAN.days[0].day_id;const m=id&&id.match(/^(.*-D)\d+$/);return m?m[1]:"CRP4-D";};
 const dayIdFor=n=>`${dayIdPrefix()}${String(n).padStart(3,"0")}`;
 const MONTHS=["January","February","March","April","May","June","July","August","September","October","November","December"];
 const DOW=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
@@ -110,17 +114,21 @@ const fmtLong=d=>`${DOW[d.getDay()]}, ${d.getDate()} ${MONTHS[d.getMonth()].slic
 const epochNums=d=>(d.epochs||[]).map(x=>Number((x.match(/Epoch\s+(\d+)/)||[])[1])).filter(Boolean);
 const epochSpans=()=>{const c={};PLAN.days.forEach(d=>{const e=epochNums(d)[0]||1;c[e]=(c[e]||0)+1;});return Object.keys(c).map(k=>({e:+k,n:c[k]}));};
 const accountStorageKey=uid=>ACCOUNT_STORAGE_PREFIX+uid;
+const hasLocalAccountState=uid=>{try{return !!localStorage.getItem(accountStorageKey(uid));}catch(e){return false;}};
+const defaultCompleted=()=>new Set(Array.from({length:DEFAULT_COMPLETED_THROUGH},(_,i)=>i+1));
+const defaultPending=()=>Object.fromEntries(Array.from({length:DEFAULT_COMPLETED_THROUGH},(_,i)=>[i+1,"complete"]));
 const writeLocal=(state,uid)=>{if(!uid)return;localStorage.setItem(accountStorageKey(uid),JSON.stringify({
   planId:PLAN.plan_id,start:state.start,bibleVersion:state.bibleVersion,done:[...state.done].sort((a,b)=>a-b),
-  theme:validTheme(state.theme),accent:validAccent(state.accent),pending:state.pending||{},settingsPending:!!state.settingsPending
+  theme:validTheme(state.theme),accent:validAccent(state.accent),pending:state.pending||{},settingsPending:!!state.settingsPending,
+  defaultSeedVersion:DEFAULT_SEED_VERSION
 }));};
 
 function loadAccountState(uid){
   try{
     const current=localStorage.getItem(accountStorageKey(uid));
-    if(current){const s=JSON.parse(current);return {start:s.start||DEFAULT_START,bibleVersion:s.bibleVersion||DEFAULT_VERSION,theme:validTheme(s.theme),accent:validAccent(s.accent),done:new Set(Array.isArray(s.done)?s.done:[]),pending:s.pending||{},settingsPending:!!s.settingsPending};}
+    if(current){const s=JSON.parse(current);if(s.defaultSeedVersion===DEFAULT_SEED_VERSION)return {start:s.start||DEFAULT_START,bibleVersion:s.bibleVersion||DEFAULT_VERSION,theme:validTheme(s.theme),accent:validAccent(s.accent),done:new Set(Array.isArray(s.done)?s.done:[]),pending:s.pending||{},settingsPending:!!s.settingsPending};const seeded=defaultCompleted();(s.done||[]).forEach(n=>seeded.add(n));return {start:DEFAULT_START,bibleVersion:s.bibleVersion||DEFAULT_VERSION,theme:validTheme(s.theme),accent:validAccent(s.accent),done:seeded,pending:{...(s.pending||{}),...defaultPending()},settingsPending:true};}
   }catch(e){}
-  return {start:DEFAULT_START,bibleVersion:DEFAULT_VERSION,theme:"light",accent:"blue",done:new Set(),pending:{},settingsPending:false};
+  return {start:DEFAULT_START,bibleVersion:DEFAULT_VERSION,theme:"light",accent:"blue",done:defaultCompleted(),pending:defaultPending(),settingsPending:true};
 }
 
 const readerName=(user,profileName="")=>profileName||user?.user_metadata?.display_name||user?.email?.split("@")[0]||"Reader";
@@ -154,6 +162,7 @@ function App(){
   const [authMessage,setAuthMessage]=useState(null);
   const stateRef=useRef({start,bibleVersion,theme,accent,done,pending,settingsPending});
   const hydratedUserRef=useRef(null);
+  const cloudFirstUserRef=useRef(null);
   const activeUserRef=useRef(null);
   activeUserRef.current=recoveryStatus==="none"?(session?.user?.id||null):null;
 
@@ -201,7 +210,7 @@ function App(){
     const uid=session?.user?.id;
     if(recoveryStatus!=="none"){setAccountUserId(null);hydratedUserRef.current=null;return;}
     if(!uid){setAccountUserId(null);hydratedUserRef.current=null;return;}
-    const local=loadAccountState(uid);
+    const hadLocal=hasLocalAccountState(uid),local=loadAccountState(uid);cloudFirstUserRef.current=hadLocal?null:uid;
     setStart(local.start);setBibleVersion(local.bibleVersion);setTheme(local.theme);setAccent(local.accent);setDone(local.done);setPending(local.pending);setSettingsPending(local.settingsPending);applyAppearance(local.theme,local.accent);
     setReaderDisplayName(readerName(session.user));stateRef.current=local;hydratedUserRef.current=null;setAccountUserId(uid);void provisionProfile(session.user);
   },[session?.user?.id,recoveryStatus]);
@@ -213,6 +222,13 @@ function App(){
     const uid=session.user.id,s=stateRef.current;
     setSyncStatus(navigator.onLine?"Syncing…":"Offline — changes queued");if(!navigator.onLine)return;
     try{
+      if(cloudFirstUserRef.current===uid){
+        const [{data:existingRows,error:existingProgressError},{data:existingSettings,error:existingSettingsError}]=await Promise.all([
+          CLOUD_CLIENT.from("bible_reader_progress").select("day_id").eq("user_id",uid).eq("plan_id",PLAN.plan_id),
+          CLOUD_CLIENT.from("bible_reader_settings").select("start_date,bible_version,theme,accent").eq("user_id",uid).eq("plan_id",PLAN.plan_id).maybeSingle()
+        ]);if(existingProgressError)throw existingProgressError;if(existingSettingsError)throw existingSettingsError;cloudFirstUserRef.current=null;
+        if((existingRows||[]).length||existingSettings){const remoteDone=new Set((existingRows||[]).map(r=>Number(r.day_id.slice(-3))));const remoteStart=existingSettings?.start_date||DEFAULT_START,remoteVersion=existingSettings?.bible_version||DEFAULT_VERSION,remoteTheme=validTheme(existingSettings?.theme),remoteAccent=validAccent(existingSettings?.accent);setDone(remoteDone);setPending({});setStart(remoteStart);setBibleVersion(remoteVersion);setTheme(remoteTheme);setAccent(remoteAccent);setSettingsPending(false);saveState({start:remoteStart,bibleVersion:remoteVersion,theme:remoteTheme,accent:remoteAccent,done:remoteDone,pending:{},settingsPending:false});setSyncStatus("Synced");return;}
+      }
       const operations={...s.pending};
       const completeIds=Object.keys(operations).filter(k=>operations[k]==="complete");
       const incompleteIds=Object.keys(operations).filter(k=>operations[k]==="incomplete");
@@ -298,7 +314,7 @@ function App(){
           <div style={{display:"flex",alignItems:"center",gap:"10px"}}>
             <BibleLogoMark/>
             <div>
-              <div className="eyebrow">Chronological Bible · One Year</div>
+              <div className="eyebrow">NKJV Chronological Bible Plan</div>
               <h1 className="hdr-title">Day {currentDay} <span className="of">of {planDayCount()}</span></h1>
             </div>
           </div>
@@ -312,10 +328,10 @@ function App(){
 
       <main className="main">
         <div className="main-inner">
-          {tab==="today"&&<DayView day={shownDay} done={done} currentDay={currentDay} startDate={startDate} bibleVersion={bibleVersion} sealing={sealing} onToggle={(n)=>toggleDay(n,true)} onNav={(n)=>setViewDay(Math.min(Math.max(n,1),planDayCount()))} onToday={()=>setViewDay(null)}/>}
-          {tab==="week"&&<WeekView weekIdx={weekIdx==null?Math.floor((currentDay-1)/nightsPerWeek()):weekIdx} setWeekIdx={setWeekIdx} done={done} currentDay={currentDay} startDate={startDate} onOpen={openDay} onToggle={(n)=>toggleDay(n)}/>}
+          {tab==="today"&&<DayView day={shownDay} done={done} currentDay={currentDay} startDate={startDate} sealing={sealing} onToggle={(n)=>toggleDay(n,true)} onNav={(n)=>setViewDay(Math.min(Math.max(n,1),planDayCount()))} onToday={()=>setViewDay(null)}/>}
+          {tab==="week"&&<WeekView weekIdx={weekIdx==null?weekIndexForDay(currentDay,startDate):weekIdx} setWeekIdx={setWeekIdx} done={done} currentDay={currentDay} startDate={startDate} onOpen={openDay} onToggle={(n)=>toggleDay(n)}/>}
           {tab==="month"&&<MonthView cursor={monthCursor||{y:today.getFullYear(),m:today.getMonth()}} setCursor={setMonthCursor} done={done} startDate={startDate} currentDay={currentDay} today={today} onOpen={openDay}/>}
-          {tab==="plan"&&<PlanView theme={theme} accent={accent} onAppearanceChange={changeAppearance} textSize={textSize} onTextSizeChange={(v)=>{setTextSize(v);try{localStorage.setItem(TEXT_SIZE_KEY,String(v));}catch(e){}}} done={done} doneCount={doneCount} pace={pace} streak={streak} oldestUnread={oldestUnread} start={start} bibleVersion={bibleVersion} onBibleVersionChange={(v)=>{changeSettings(start,v);setToast(`Bible links set to ${v}`);}} onJump={openDay} onStartChange={(s)=>{changeSettings(s,bibleVersion);setToast("Start date updated");}} confirmReset={confirmReset} setConfirmReset={setConfirmReset} onReset={()=>{const e=new Set(),p={...pending};done.forEach(n=>p[n]="incomplete");setDone(e);setPending(p);saveState({start,bibleVersion,theme,accent,done:e,pending:p,settingsPending});setConfirmReset(false);setToast("Progress cleared");}} session={session} readerDisplayName={readerDisplayName} syncStatus={syncStatus} cloudBusy={cloudBusy} onSync={syncCloud} onSignOut={signOut}/>}
+          {tab==="plan"&&<PlanView theme={theme} accent={accent} onAppearanceChange={changeAppearance} textSize={textSize} onTextSizeChange={(v)=>{setTextSize(v);try{localStorage.setItem(TEXT_SIZE_KEY,String(v));}catch(e){}}} done={done} doneCount={doneCount} pace={pace} streak={streak} oldestUnread={oldestUnread} start={start} onJump={openDay} onStartChange={(s)=>{changeSettings(s,bibleVersion);setToast("Start date updated");}} confirmReset={confirmReset} setConfirmReset={setConfirmReset} onReset={()=>{const e=new Set(),p={...pending};done.forEach(n=>p[n]="incomplete");setDone(e);setPending(p);saveState({start,bibleVersion,theme,accent,done:e,pending:p,settingsPending});setConfirmReset(false);setToast("Progress cleared");}} session={session} readerDisplayName={readerDisplayName} syncStatus={syncStatus} cloudBusy={cloudBusy} onSync={syncCloud} onSignOut={signOut}/>}
         </div>
       </main>
 
@@ -360,7 +376,7 @@ function EpochRibbon({done,currentDay,onJump}){
   );
 }
 
-function DayView({day,done,currentDay,startDate,bibleVersion,onToggle,onNav,onToday,sealing}){
+function DayView({day,done,currentDay,startDate,onToggle,onNav,onToday,sealing}){
   const d=PLAN.days[day-1],epochs=epochNums(d);const e1=epochs[0]||1,e2=epochs[epochs.length-1]||e1,verses=d.verse_count,refs=d.readings;
   const groupTitles=[...new Set((d.context_groups||[]).map(g=>g.title).filter(Boolean))];
   const pages=(d.source_printed_pages||[]).slice().sort((a,b)=>a-b);
@@ -369,6 +385,7 @@ function DayView({day,done,currentDay,startDate,bibleVersion,onToggle,onNav,onTo
   const sameRef=(a,b)=>String(a||'').replace(/[‐-―]/g,'-').replace(/s+/g,'')===String(b||'').replace(/[‐-―]/g,'-').replace(/s+/g,'');
   const seenNote=new Set(),notes=(d.background_notes||[]).filter(n=>{const k=n.title+"|"+n.printedPage;if(seenNote.has(k))return false;seenNote.add(k);return true;});
   const seenVis=new Set(),visuals=(d.visuals||[]).filter(v=>{const k=v.title+"|"+v.printedPage;if(seenVis.has(k))return false;seenVis.add(k);return true;});
+  const editorial=d.editorial_readings||[];
   const date=dateForPlanDay(day,startDate);const isDone=done.has(day);const isToday=day===currentDay;
   const epochLabel=e1===e2?("Epoch "+e1+" — "+EPOCH_NAMES[e1]):("Epoch "+e1+" → "+e2+" — crossing into "+EPOCH_NAMES[e2]);
   return (
@@ -377,31 +394,38 @@ function DayView({day,done,currentDay,startDate,bibleVersion,onToggle,onNav,onTo
         <button className="nav-btn" onClick={()=>onNav(day-1)} disabled={day<=1}>‹</button>
         <div className="day-nav-mid">
           <div className="day-date">{fmtLong(date)}</div>
-          <div className="day-sub">Day {day} · Week {d.week}{!isToday&&<button className="link-btn" onClick={onToday}>· back to today</button>}</div>
+          <div className="day-sub">Day {day} · Week {weekIndexForDay(day,startDate)+1}{!isToday&&<button className="link-btn" onClick={onToday}>· back to today</button>}</div>
         </div>
         <button className="nav-btn" onClick={()=>onNav(day+1)} disabled={day>=planDayCount()}>›</button>
       </div>
       <article className={"card "+(isDone?"card-done":"")}>
-        <div className="card-epoch">
-          <span className="epoch-num">{e1===e2?e1:(e1+"–"+e2)}</span>
-          <div><div className="epoch-name">{epochLabel}</div><div className="epoch-era">{EPOCH_ERAS[e2]}</div></div>
-        </div>
-        <h2 className="reading-theme">{groupTitles.length?groupTitles.join(" · "):refs.map(r=>r.reference).join(" · ")}</h2>
-        <div className="load-row"><span>about {Math.round(d.estimated_minutes)} min</span><span className="load-dot">·</span><span>{verses} verses</span><span className="load-dot">·</span><span>{refs.length} reading{refs.length!==1?"s":""}</span>{pages.length>0&&<><span className="load-dot">·</span><span>printed p.{pages.length===1?pages[0]:pages[0]+"–"+pages[pages.length-1]}</span></>}</div>
-        <ul className="refs">{refs.map((r,i)=>(<li key={r.segment_id} className="ref"><span className="ref-pg">READ {i+1}</span><span className="ref-txt">{r.reference}</span>{r.publisher_block_reference&&r.covers_whole_block===false&&<span className="ref-block">part of {r.publisher_block_reference}</span>}<a className="read-link" href={`https://www.biblegateway.com/passage/?search=${encodeURIComponent(r.reference)}&version=${encodeURIComponent(bibleVersion)}`} target="_blank" rel="noopener noreferrer">Open in {bibleVersion} ↗</a></li>))}</ul>
+        <div className="card-epoch"><span className="epoch-name">{epochLabel}</span><span className="epoch-separator">·</span><span className="epoch-era">{EPOCH_ERAS[e2]}</span></div>
+        {groupTitles.length>0&&<h2 className="reading-theme">{groupTitles.join(" · ")}</h2>}
+        <ul className="refs">{refs.map((r,i)=>(<li key={r.segment_id} className="ref">{refs.length>1&&<span className="ref-pg">Reading {i+1}</span>}<span className="ref-txt">{r.reference}</span>{r.publisher_block_reference&&r.covers_whole_block===false&&<span className="ref-block">Part of {r.publisher_block_reference}</span>}</li>))}</ul>
+        <div className="load-row"><span>{Math.round(d.estimated_minutes)} min</span><span className="load-dot">·</span><span>{verses} verses</span>{refs.length>1&&<><span className="load-dot">·</span><span>{refs.length} readings</span></>}{pages.length>0&&<><span className="load-dot">·</span><span>p.{pages.length===1?pages[0]:pages[0]+"–"+pages[pages.length-1]}</span></>}</div>
+        {editorial.length>0&&<div className="apparatus required-reading">
+          <div className="app-head">Study material</div>
+          <ul className="app-list">{editorial.map((item,i)=>(<li key={item.kind+item.printedPage+i} className="app-item">
+            <span className="app-kind">{item.kind==="epoch-essay"?"Read · Epoch essay":"Read · Section introduction"}</span>
+            <span className="app-title">{item.title}</span>
+            {item.range&&<span className="app-cite">{item.range}</span>}
+            <span className="app-page">p.{item.printedPage}</span>
+          </li>))}</ul>
+        </div>}
         {notes.length>0&&<div className="apparatus">
-          <div className="app-head">Background notes on these pages</div>
+          <div className="app-head">Background notes</div>
           <ul className="app-list">{notes.map((n,i)=>(<li key={"n"+i} className="app-item">
+            <span className="app-kind">Read · Note</span>
             <span className="app-title">{n.title}</span>
             {n.scriptureCitation&&<span className="app-cite">{n.scriptureCitation}</span>}
             <span className="app-page">p.{n.printedPage}</span>
-            {n.topics&&n.topics.length>0&&<span className="app-tags">{[...new Set(n.topics.map(t=>t.category))].join(" · ")}</span>}
+            {n.topics&&n.topics.length>0&&<span className="app-tags"><strong>Topics covered:</strong> {[...new Set(n.topics.map(t=>t.category))].join(" · ")}</span>}
           </li>))}</ul>
         </div>}
         {visuals.length>0&&<div className="apparatus">
           <div className="app-head">Maps, charts and panels</div>
           <ul className="app-list">{visuals.map((v,i)=>(<li key={"v"+i} className="app-item">
-            <span className="app-kind">{v.kind.replace(/-/g," ")}</span>
+            <span className="app-kind">Review · {v.kind.replace(/-/g," ")}</span>
             <span className="app-title">{v.title}</span>
             <span className="app-page">p.{v.printedPage}</span>
           </li>))}</ul>
@@ -416,14 +440,15 @@ function DayView({day,done,currentDay,startDate,bibleVersion,onToggle,onNav,onTo
 }
 
 function WeekView({weekIdx,setWeekIdx,done,currentDay,startDate,onOpen,onToggle}){
-  const per=nightsPerWeek();const first=weekIdx*per+1;const days=[];for(let n=first;n<first+per&&n<=planDayCount();n++)days.push(n);
+  const days=PLAN.days.map(d=>d.day).filter(n=>weekIndexForDay(n,startDate)===weekIdx);
+  const weekStart=addDays(firstWeekStart(startDate),weekIdx*7),weekEnd=addDays(weekStart,4);
   const wkDone=days.filter(n=>done.has(n)).length;
   return (
     <section>
       <div className="day-nav">
         <button className="nav-btn" onClick={()=>setWeekIdx(weekIdx-1)} disabled={weekIdx<=0}>‹</button>
-        <div className="day-nav-mid"><div className="day-date">Week {weekIdx+1} of {weekCount()}</div><div className="day-sub">{wkDone} of {days.length} readings done</div></div>
-        <button className="nav-btn" onClick={()=>setWeekIdx(weekIdx+1)} disabled={weekIdx>=52}>›</button>
+        <div className="day-nav-mid"><div className="day-date">Week {weekIdx+1} of {weekCount(startDate)}</div><div className="day-sub">{fmtLong(weekStart)} – {fmtLong(weekEnd)} · {wkDone} of {days.length} readings done</div></div>
+        <button className="nav-btn" onClick={()=>setWeekIdx(weekIdx+1)} disabled={weekIdx>=weekCount(startDate)-1}>›</button>
       </div>
       <div className="wk-list">{days.map(n=>{const d=PLAN.days[n-1];const date=dateForPlanDay(n,startDate);const isDone=done.has(n);const isToday=n===currentDay;const refs=d.readings.map(r=>r.reference).join(" · ");
         return (<div key={n} className={"wk-row "+(isToday?"wk-today":"")}>
@@ -516,7 +541,7 @@ function PasswordResetGate({busy,email,message,onComplete}){
   </form></div></div>;
 }
 
-function PlanView({theme,accent,onAppearanceChange,textSize,onTextSizeChange,done,doneCount,pace,streak,oldestUnread,start,bibleVersion,onBibleVersionChange,onJump,onStartChange,confirmReset,setConfirmReset,onReset,session,readerDisplayName,syncStatus,cloudBusy,onSync,onSignOut}){
+function PlanView({theme,accent,onAppearanceChange,textSize,onTextSizeChange,done,doneCount,pace,streak,oldestUnread,start,onJump,onStartChange,confirmReset,setConfirmReset,onReset,session,readerDisplayName,syncStatus,cloudBusy,onSync,onSignOut}){
   const pct=Math.round((doneCount/planDayCount())*100);
   const paceTxt=pace===0?"On pace":pace>0?(pace+" day"+(pace>1?"s":"")+" ahead"):((-pace)+" day"+(pace<-1?"s":"")+" behind");
   return (
@@ -546,15 +571,13 @@ function PlanView({theme,accent,onAppearanceChange,textSize,onTextSizeChange,don
         <div className="set-note">Accents colour highlights only; the church’s blue and white remain the foundation.</div>
         <label className="set-row"><span>Text size</span><select value={textSize} onChange={e=>onTextSizeChange(parseFloat(e.target.value))}>{TEXT_SIZES.map(([label,v])=><option key={label} value={v}>{label}</option>)}</select></label>
         <div className="set-note">Applies to this device only, so each reader can set their own.</div>
-        <label className="set-row"><span>Bible version for links</span><select value={bibleVersion} onChange={e=>onBibleVersionChange(e.target.value)}>{VERSION_OPTIONS.map(v=><option key={v} value={v}>{v}</option>)}</select></label>
-        <div className="set-note">The schedule stores only book-and-chapter references, so it can be opened in any listed translation without changing the chronological order.</div>
         {!confirmReset?<button className="danger-btn" onClick={()=>setConfirmReset(true)}>Reset all progress</button>:
         <div className="confirm-row"><span>Clear all {doneCount} completed days?</span><button className="danger-btn solid" onClick={onReset}>Yes, clear</button><button className="ghost-btn" onClick={()=>setConfirmReset(false)}>Keep</button></div>}
       </div>
       <h2 className="sec-title">Cloud sync</h2>
       <div className="settings cloud-card">
         <div className="cloud-user"><span className="cloud-dot"/><span><strong>{readerName(session.user,readerDisplayName)}</strong><small>{session.user.email} · {syncStatus}</small></span></div>
-        <div className="set-note">This is the same sign-in used by Mmuso wa Modimo, and a password change applies to both apps. Completion, start date, Bible-link preference, theme, and accent follow this account across devices. Offline changes stay in this account’s private device cache until the connection returns.</div>
+        <div className="set-note">This is the same sign-in used by Mmuso wa Modimo, and a password change applies to both apps. Completion, start date, theme, and accent follow this account across devices. Offline changes stay in this account’s private device cache until the connection returns.</div>
         <div className="auth-actions"><button className="primary-btn" disabled={cloudBusy} onClick={onSync}>Sync now</button><button className="ghost-btn" disabled={cloudBusy} onClick={onSignOut}>Sign out on this device</button></div>
       </div>
       <div className="colophon">NKJV Chronological Study Bible · publisher-block order · {planDayCount()} sittings · 787 publisher blocks · 31,102 verses · reference-only, translation-neutral dataset</div>
@@ -635,27 +658,25 @@ function Styles(){
       .day-date{font-family:'Cormorant Garamond',Georgia,serif;font-size:calc(19px * var(--fs, 1));font-weight:600;}
       .day-sub{font-size:calc(12px * var(--fs, 1));color:var(--faded);margin-top:1px;}
       .link-btn{border:0;background:none;color:var(--gold);font-size:calc(12px * var(--fs, 1));cursor:pointer;padding:0 2px;}
-      .card{position:relative;overflow:hidden;background:linear-gradient(155deg,var(--card-bg-1) 0%,var(--card-bg-2) 100%);color:var(--card-text);border-radius:22px;padding:19px 18px 16px;box-shadow:var(--shadow);border:1px solid var(--card-border);}
-      .card::before{content:"";position:absolute;inset:0 0 auto;height:5px;background:linear-gradient(90deg,var(--card-highlight-strong),var(--card-highlight) 55%,#8fb7ff);}
+      .card{--card-title-size:calc(22px * var(--fs, 1));--card-primary-size:calc(16px * var(--fs, 1));--card-meta-size:calc(13px * var(--fs, 1));position:relative;overflow:hidden;background:var(--card-bg-1);color:var(--card-text);border-radius:18px;padding:21px 19px 17px;box-shadow:0 14px 38px rgba(24,38,101,.14);border:1px solid var(--card-border);font:400 var(--card-meta-size)/1.45 'Albert Sans',system-ui,sans-serif;}
+      .card::before{content:"";position:absolute;inset:0 0 auto;height:3px;background:var(--card-highlight);}
       .card-done{border-color:var(--card-highlight);}
-      .card-epoch{display:flex;gap:10px;align-items:center;padding-bottom:10px;border-bottom:1px solid rgba(24,38,101,.16);}
-      .epoch-num{font-family:'Cormorant Garamond',Georgia,serif;font-weight:700;font-size:calc(22px * var(--fs, 1));color:var(--card-accent);width:42px;height:42px;border:1.5px solid var(--card-accent);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-      .epoch-name{font-weight:600;font-size:calc(13.5px * var(--fs, 1));line-height:1.25;}
-      .epoch-era{font-size:calc(11px * var(--fs, 1));color:var(--card-muted);font-variant:small-caps;letter-spacing:.04em;}
-      .reading-theme{font-family:'Cormorant Garamond',Georgia,serif;font-size:calc(23px * var(--fs, 1));line-height:1.12;margin:14px 0 5px;color:var(--card-text);}
-      .load-row{display:flex;flex-wrap:wrap;gap:5px;font-size:calc(12px * var(--fs, 1));color:var(--card-muted);padding:9px 0 4px;}
-      .load-dot{color:var(--card-accent);}
-      .refs{list-style:none;padding:2px 0;}
-      .ref{display:flex;gap:8px;padding:9px 0;border-bottom:1px dashed rgba(24,38,101,.16);align-items:baseline;flex-wrap:wrap;}
+      .card-epoch{display:flex;flex-wrap:wrap;gap:0 6px;align-items:baseline;color:var(--card-muted);}
+      .epoch-name{font-size:var(--card-meta-size);font-weight:650;color:var(--card-accent);}
+      .epoch-separator,.epoch-era{font-size:var(--card-meta-size);color:var(--card-muted);}
+      .reading-theme{font:700 var(--card-title-size)/1.18 'Albert Sans',system-ui,sans-serif;margin:17px 0 6px;color:var(--card-text);letter-spacing:-.02em;}
+      .load-row{display:flex;flex-wrap:wrap;gap:6px;color:var(--card-muted);padding:5px 0 2px;font-size:var(--card-meta-size);}
+      .load-dot{color:var(--card-muted);}
+      .refs{list-style:none;padding:10px 0 0;}
+      .ref{display:block;padding:9px 0;border-bottom:1px solid rgba(24,38,101,.1);}
       .ref:last-child{border-bottom:0;}
-      .ref-pg{font-size:calc(11px * var(--fs, 1));color:var(--card-muted);min-width:44px;letter-spacing:.04em;}
-      .ref-txt{font-family:'Cormorant Garamond',Georgia,serif;font-size:calc(17px * var(--fs, 1));font-weight:600;line-height:1.3;flex:1;min-width:150px;}
-      .read-link{font-size:calc(11px * var(--fs, 1));color:var(--card-link);text-decoration:none;border-bottom:1px solid rgba(29,67,143,.35);white-space:nowrap;}
-      .seal-btn{width:100%;margin-top:12px;padding:13px;border-radius:11px;border:1.5px solid var(--card-highlight-strong);background:none;color:var(--card-highlight-strong);font-family:'Albert Sans',sans-serif;font-weight:600;font-size:calc(14px * var(--fs, 1));cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:background .25s,color .25s;}
+      .ref-pg{display:block;font-size:var(--card-meta-size);color:var(--card-muted);margin-bottom:2px;}
+      .ref-txt{display:block;font-size:var(--card-primary-size);font-weight:650;line-height:1.35;}
+      .seal-btn{width:100%;margin-top:15px;padding:12px;border-radius:10px;border:1px solid var(--card-highlight-strong);background:rgba(49,94,185,.04);color:var(--card-highlight-strong);font-family:'Albert Sans',sans-serif;font-weight:650;font-size:var(--card-meta-size);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:background .25s,color .25s;}
       .seal-btn.seal-on{background:linear-gradient(135deg,var(--card-highlight),var(--card-highlight-strong));color:#fff;border-color:transparent;}
       .seal-btn.sealing{animation:seal-pop .55s ease;}
       @keyframes seal-pop{0%{transform:scale(1);}35%{transform:scale(1.045);}100%{transform:scale(1);}}
-      .undo-hint{text-align:center;font-size:calc(11px * var(--fs, 1));color:var(--card-muted);margin-top:6px;}
+      .undo-hint{text-align:center;font-size:var(--card-meta-size);color:var(--card-muted);margin-top:6px;}
       .wk-list{display:flex;flex-direction:column;gap:7px;}
       .wk-row{display:flex;gap:8px;background:var(--surface);border:1px solid var(--surface-border);border-radius:15px;padding:11px 12px;align-items:center;box-shadow:0 5px 18px rgba(24,38,101,.06);backdrop-filter:blur(12px);}
       .wk-row.wk-today{border-color:var(--gold);}
@@ -741,23 +762,23 @@ function Styles(){
       .auth-actions{display:flex;gap:8px;flex-wrap:wrap;}
       .primary-btn{border:1px solid transparent;background:linear-gradient(135deg,var(--gold),var(--gold-deep));color:var(--done-text);border-radius:12px;padding:9px 14px;font-family:inherit;font-weight:650;font-size:calc(12.5px * var(--fs, 1));cursor:pointer;box-shadow:0 8px 20px var(--accent-soft);}
       button:disabled{opacity:.45;cursor:default;}
-      .ref-block{display:block;font-size:calc(11px * var(--fs, 1));color:var(--faded);letter-spacing:.02em;margin-top:2px;}
-  .apparatus{margin-top:18px;padding-top:14px;border-top:1px solid var(--line);}
-  .app-head{font-family:"Albert Sans",system-ui,sans-serif;font-size:calc(11px * var(--fs, 1));letter-spacing:.13em;text-transform:uppercase;color:var(--gold);margin-bottom:9px;}
-  .app-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:9px;}
-  .app-item{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 9px;font-size:calc(13px * var(--fs, 1));line-height:1.45;}
-  .app-kind{font-size:calc(11px * var(--fs, 1));letter-spacing:.1em;text-transform:uppercase;color:var(--olive-soft);border:1px solid var(--line);border-radius:2px;padding:1px 5px;}
-  .app-title{color:var(--vellum);font-family:"Cormorant Garamond",Georgia,serif;font-size:calc(15px * var(--fs, 1));}
-  .app-cite{color:var(--gold-deep);font-size:calc(12px * var(--fs, 1));}
-  .app-page{color:var(--faded);font-size:calc(11px * var(--fs, 1));}
-  .app-tags{flex-basis:100%;color:var(--faded);font-size:calc(11px * var(--fs, 1));letter-spacing:.04em;}
+      .ref-block{display:block;font-size:var(--card-meta-size);color:var(--card-muted);margin-top:2px;}
+  .apparatus{margin-top:16px;padding-top:14px;border-top:1px solid rgba(24,38,101,.12);}
+  .app-head{font:700 var(--card-meta-size)/1.35 "Albert Sans",system-ui,sans-serif;color:var(--card-accent);margin-bottom:5px;}
+  .app-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0;}
+  .app-item{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 9px;padding:9px 0;font-size:var(--card-meta-size);line-height:1.4;}
+  .app-item+.app-item{border-top:1px solid rgba(24,38,101,.08);}
+  .app-kind{flex-basis:100%;font-size:var(--card-meta-size);color:var(--card-muted);}
+  .app-title{flex:1 1 220px;color:var(--card-text);font:650 var(--card-primary-size)/1.35 "Albert Sans",system-ui,sans-serif;}
+  .app-cite{color:var(--card-muted);font-size:var(--card-meta-size);}
+  .app-page{color:var(--card-muted);font-size:var(--card-meta-size);}
+  .app-tags{flex-basis:100%;color:var(--card-muted);font-size:var(--card-meta-size);padding-top:3px;}
+  .app-tags strong{font-weight:650;color:inherit;}
   /* Apparatus is printed inside the light reading card. Override the dark-shell
      palette here so note titles and supporting labels remain legible. */
-  .card .app-head{color:var(--card-link);}
+  .card .app-head{color:var(--card-accent);}
   .card .app-title{color:var(--card-text);}
-  .card .app-cite{color:var(--card-link);}
-  .card .app-page,.card .app-tags{color:var(--card-muted);}
-  .card .app-kind{color:var(--card-accent);border-color:rgba(24,38,101,.28);}
+  .card .app-cite,.card .app-page,.card .app-tags,.card .app-kind{color:var(--card-muted);}
   .colophon{margin:20px 4px 8px;font-size:calc(11px * var(--fs, 1));color:var(--faded);text-align:center;line-height:1.5;}
       .tabs{flex-shrink:0;display:flex;background:var(--tab-bg);border-top:1px solid var(--surface-border);padding:6px 5px calc(9px + env(safe-area-inset-bottom));position:sticky;bottom:0;backdrop-filter:blur(18px) saturate(135%);}
       .tab{flex:1;border:0;background:none;color:var(--faded);display:flex;flex-direction:column;align-items:center;gap:2px;font-family:inherit;font-size:calc(11px * var(--fs, 1));letter-spacing:.06em;padding:6px 0;cursor:pointer;border-radius:9px;}
@@ -769,7 +790,6 @@ function Styles(){
         .main-inner{max-width:620px;padding-top:8px;}
         .hdr{padding:22px 28px 10px;}
         .hdr-title{font-size:calc(34px * var(--fs, 1));}
-        .ref-txt{font-size:calc(18px * var(--fs, 1));}
       }
 
       /* ── TABLET LANDSCAPE / DESKTOP: sidebar layout ── */
@@ -785,7 +805,6 @@ function Styles(){
         .main{grid-column:2;grid-row:1 / span 2;}
         .main-inner{max-width:760px;padding:24px 32px 40px;}
         .cal-cell{font-size:calc(15px * var(--fs, 1));border-radius:11px;}
-        .ref-txt{font-size:calc(19px * var(--fs, 1));}
         .toast{bottom:32px;left:auto;right:32px;transform:none;}
       }
     `}</style>

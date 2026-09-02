@@ -6,6 +6,7 @@ import crypto from "node:crypto";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const html = fs.readFileSync(path.join(root, "index.html"), "utf8");
+const cloudConfig = fs.readFileSync(path.join(root, "cloud-config.js"), "utf8");
 const serviceWorker = fs.readFileSync(path.join(root, "sw.js"), "utf8");
 const manifest = JSON.parse(fs.readFileSync(path.join(root, "manifest.json"), "utf8"));
 const match = html.match(/<script type="text\/babel"[^>]*>([\s\S]*?)<\/script>/);
@@ -53,6 +54,10 @@ const pngDimensionsMatch = canonicalIcons.filter(icon => icon.extension === "png
 const days = plan.days;
 const readings = days.flatMap(d => d.readings);
 const blockIds = new Set(readings.map(r => r.publisher_block_id));
+const dayIds = days.map(d => d.day_id);
+const segmentIds = readings.map(r => r.segment_id);
+const editorialReadings = days.flatMap(d => d.editorial_readings || []);
+const expectedDayIds = days.map((_, i) => `CRP4-D${String(i + 1).padStart(3, "0")}`);
 
 // The plan no longer stores dates, so the app and the generator must agree on
 // how a day ordinal becomes a calendar night. Re-derive the rule here.
@@ -66,6 +71,10 @@ const project = (n, startISO) => {
 };
 const projectedNightsAreLegal = [1, 2, 47, 120, days.length]
   .every(n => nights.includes(project(n, plan.schedule_policy.default_start_date).getDay()));
+const day128 = project(128, plan.schedule_policy.default_start_date);
+const projectedWeekdays = days.map((_, i) => project(i + 1, plan.schedule_policy.default_start_date).getDay());
+const weeksUseSundayThroughThursday = projectedWeekdays.every(day => day >= 0 && day <= 4)
+  && html.includes("const weekStart=addDays(firstWeekStart(startDate),weekIdx*7),weekEnd=addDays(weekStart,4)");
 
 const luminance = hex => {
   const rgb = hex.match(/../g).map(v => parseInt(v, 16) / 255).map(v => v <= .04045 ? v / 12.92 : ((v + .055) / 1.055) ** 2.4);
@@ -91,10 +100,19 @@ for (const [, dayIdx] of firstDayOfBlock) { if (dayIdx < lastSeen) blockOrderOk 
 const checks = {
   babel_compile: true,
   offline_assets: cachedAssets.every(a => fs.existsSync(path.join(root, a))),
-  validation_report: report.passed === true,
+  validation_report: report.passed === true && report.plan_id === plan.plan_id && report.day_count === plan.day_count,
+  plan_identity_consistent: cloudConfig.includes(`planId: "${plan.plan_id}"`) && migration.to?.plan_id === plan.plan_id,
+  day_ids_are_v4_sequence: dayIds.every((id, i) => id === expectedDayIds[i]) && new Set(dayIds).size === dayIds.length,
+  segment_ids_match_days: readings.every(r => r.segment_id.startsWith(`${r.segment_id.slice(0, 9)}-R`) && dayIds.includes(r.segment_id.slice(0, 9))) && new Set(segmentIds).size === segmentIds.length,
   day_count_matches: days.length === plan.day_count,
   verses: days.reduce((s, d) => s + d.verse_count, 0) === 31102,
   publisher_blocks: blockIds.size === plan.publisher_block_count,
+  epoch_essays_are_explicit: editorialReadings.filter(x => x.kind === "epoch-essay").length === 9,
+  editorial_readings_are_unique: new Set(editorialReadings.map(x => `${x.kind}|${x.printedPage}|${x.title}`)).size === editorialReadings.length,
+  required_material_is_labelled: html.includes("Read · Epoch essay") && html.includes("Read · Section introduction") && html.includes("Read · Note") && html.includes("Review · {v.kind.replace"),
+  note_topics_are_explained: html.includes("<strong>Topics covered:</strong>"),
+  external_bible_links_are_removed: !html.includes("biblegateway.com") && !html.includes("Bible version for links") && !html.includes('className="read-link"'),
+  day_panel_uses_three_type_sizes: html.includes("--card-title-size:") && html.includes("--card-primary-size:") && html.includes("--card-meta-size:"),
   // The boundary policy has changed: readings follow the publisher's own blocks,
   // so mid-chapter starts and ends are now REQUIRED to survive, not forbidden.
   publisher_boundaries: readings.every(r => r.boundary === "publisher_block"),
@@ -103,6 +121,10 @@ const checks = {
   translation_neutral: readings.every(r => r.translation_text === null),
   dates_not_stored: days.every(d => d.date === undefined && d.weekday === undefined),
   projection_lands_on_reading_nights: projectedNightsAreLegal,
+  day_128_is_2026_09_02: day128.getFullYear() === 2026 && day128.getMonth() === 8 && day128.getDate() === 2,
+  week_views_span_sunday_through_thursday: weeksUseSundayThroughThursday,
+  default_progress_through_day_128: html.includes('const DEFAULT_COMPLETED_THROUGH=128;') && html.includes('defaultSeedVersion:DEFAULT_SEED_VERSION'),
+  existing_cloud_choices_win_on_new_device: html.includes('cloudFirstUserRef.current===uid') && html.includes('if((existingRows||[]).length||existingSettings)'),
   migration_coverage: migration.map.length === days.length && days.every(d => Array.isArray(d.migration?.required_v2_days)),
   // Assert the invariant, not one particular cut: the plan must open on the first
   // verse of Genesis and close on the last of Revelation however the nights fall.
@@ -124,7 +146,7 @@ const checks = {
   recovery_url_cleanup: html.includes('url.searchParams.set(RECOVERY_QUERY_KEY,RECOVERY_QUERY_VALUE)') && html.includes('clearPasswordRecoveryRedirect()'),
   shared_account_password_copy: html.includes('same sign-in used by Mmuso wa Modimo') && html.includes('password change applies to both apps'),
   shared_account_password_policy: html.includes('const minimumPasswordLength=mode==="signup"?8:6;') && html.includes('const matches=password.length>=8&&password===confirmation;'),
-  light_card_apparatus_contrast: html.includes('.card .app-title{color:var(--card-text);}') && html.includes('.card .app-page,.card .app-tags{color:var(--card-muted);}'),
+  light_card_apparatus_contrast: html.includes('.card .app-title{color:var(--card-text);}') && html.includes('.card .app-cite,.card .app-page,.card .app-tags,.card .app-kind{color:var(--card-muted);}'),
   blue_white_light_dark_themes: html.includes(':root[data-theme="dark"]') && html.includes('theme==="dark"?"#101d55":"#ffffff"'),
   restrained_accent_choices: ["blue","pink","purple","teal"].every(name => html.includes(`data-accent="${name}"`) || name === "blue") && html.includes('Accents colour highlights only'),
   synced_appearance_preferences: html.includes('select("start_date,bible_version,theme,accent")') && html.includes('theme:validTheme(s.theme),accent:validAccent(s.accent)'),
@@ -136,6 +158,7 @@ const checks = {
   raster_install_icons: pngDimensionsMatch && ["icon-192.png","icon-512.png"].every(sourceName => manifest.icons?.some(icon => icon.src === iconBySource.get(sourceName).assetName && icon.sizes === iconBySource.get(sourceName).sizes && icon.type === "image/png")) && html.includes(`rel="apple-touch-icon" href="${iconBySource.get("icon-180.png").assetName}"`),
   manifest_refreshes_network_first: serviceWorker.includes('pathname.endsWith("/manifest.json")') && serviceWorker.includes('fetch(e.request, {cache:"no-store"})'),
   manifest_http_errors_fall_back_offline: serviceWorker.includes('if(!res.ok)throw new Error') && serviceWorker.includes('await cache.put(e.request,res.clone())'),
+  plan_and_cloud_config_refresh_network_first: serviceWorker.includes('["/cloud-config.js", "/data/reading-plan-v3.json"]') && serviceWorker.includes('Fresh content request failed'),
   service_worker_update_bypasses_http_cache: html.includes('register("sw.js",{updateViaCache:"none"})') && html.includes('registration.update()'),
   service_worker_cache_cleanup_is_scoped: serviceWorker.includes('k.startsWith("bible-year-") && k !== CACHE'),
   modern_supporting_palette: ["--sky:#dceaff", "--periwinkle:#e5e3ff", "--blush:#ffe9f2", "backdrop-filter:blur(18px)"].every(token => html.includes(token)),

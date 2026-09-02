@@ -4,7 +4,7 @@ An installable family reading-plan app following the publisher’s Scripture
 blocks and chronology in the NKJV Chronological Study Bible.
 
 ## Features
-- 244 manageable sittings containing all 787 publisher-defined Scripture blocks
+- 631 manageable sittings containing all 787 publisher-defined Scripture blocks
 - Publisher boundaries preserved, including intentional mid-chapter divisions
 - Context-aware daily themes and short context notes
 - Translation-neutral Bible references with selectable version links
