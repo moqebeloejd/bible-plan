@@ -1,12 +1,12 @@
 {
- "generated": "2026-08-30T07:48:04.728Z",
+ "generated": "2026-09-02T14:49:11.833Z",
  "from": {
   "plan_id": "nkjv-chronological-whole-chapter-365-v2",
   "days": 365
  },
  "to": {
   "plan_id": "nkjv-chronological-publisher-blocks-v3",
-  "days": 244
+  "days": 631
  },
  "rule": "A v3 sitting is complete only when every v2 day that carried any of its verses was complete. Conservative by design: it can under-credit but never over-credit.",
  "caveats": [
@@ -14,12 +14,12 @@
   "v2 places some chapters in the wrong chronological position (99 chapters drift, Psalm 90 among them). Completion is carried across by chapter identity, not by day number, so that defect does not propagate."
  ],
  "stats": {
-  "v3_days": 244,
+  "v3_days": 631,
   "unmapped_days": 0,
   "contributing_v2_days": {
    "min": 1,
-   "median": 3,
-   "max": 10
+   "median": 1,
+   "max": 6
   }
  },
  "unmapped": [],
@@ -29,13 +29,10 @@
    "day": 1,
    "chapters": [
     "Genesis 1",
-    "Genesis 2",
-    "Genesis 3",
-    "Genesis 4"
+    "Genesis 2"
    ],
    "requires_all_of": [
-    "CRP2-D001",
-    "CRP2-D002"
+    "CRP2-D001"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
@@ -43,14 +40,11 @@
    "day_id": "CRP3-D002",
    "day": 2,
    "chapters": [
-    "Genesis 5",
-    "Genesis 6",
-    "Genesis 7",
-    "Genesis 8"
+    "Genesis 2",
+    "Genesis 3"
    ],
    "requires_all_of": [
-    "CRP2-D002",
-    "CRP2-D003"
+    "CRP2-D001"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
@@ -58,13 +52,11 @@
    "day_id": "CRP3-D003",
    "day": 3,
    "chapters": [
-    "Genesis 10",
-    "Genesis 11",
-    "Genesis 9"
+    "Genesis 4",
+    "Genesis 5"
    ],
    "requires_all_of": [
-    "CRP2-D003",
-    "CRP2-D004"
+    "CRP2-D002"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
@@ -72,10 +64,77 @@
    "day_id": "CRP3-D004",
    "day": 4,
    "chapters": [
+    "Genesis 6"
+   ],
+   "requires_all_of": [
+    "CRP2-D002"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D005",
+   "day": 5,
+   "chapters": [
+    "Genesis 7"
+   ],
+   "requires_all_of": [
+    "CRP2-D003"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D006",
+   "day": 6,
+   "chapters": [
+    "Genesis 8"
+   ],
+   "requires_all_of": [
+    "CRP2-D003"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D007",
+   "day": 7,
+   "chapters": [
+    "Genesis 8",
+    "Genesis 9"
+   ],
+   "requires_all_of": [
+    "CRP2-D003"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D008",
+   "day": 8,
+   "chapters": [
+    "Genesis 10",
+    "Genesis 11"
+   ],
+   "requires_all_of": [
+    "CRP2-D004"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D009",
+   "day": 9,
+   "chapters": [
+    "Genesis 12"
+   ],
+   "requires_all_of": [
+    "CRP2-D004"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D010",
+   "day": 10,
+   "chapters": [
     "Genesis 12",
     "Genesis 13",
-    "Genesis 14",
-    "Genesis 15"
+    "Genesis 14"
    ],
    "requires_all_of": [
     "CRP2-D004",
@@ -84,28 +143,61 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D005",
-   "day": 5,
+   "day_id": "CRP3-D011",
+   "day": 11,
+   "chapters": [
+    "Genesis 14",
+    "Genesis 15"
+   ],
+   "requires_all_of": [
+    "CRP2-D005"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D012",
+   "day": 12,
    "chapters": [
     "Genesis 16",
     "Genesis 17",
+    "Genesis 18"
+   ],
+   "requires_all_of": [
+    "CRP2-D005",
+    "CRP2-D006"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D013",
+   "day": 13,
+   "chapters": [
     "Genesis 18",
     "Genesis 19",
     "Genesis 20"
    ],
    "requires_all_of": [
-    "CRP2-D005",
     "CRP2-D006",
     "CRP2-D007"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D006",
-   "day": 6,
+   "day_id": "CRP3-D014",
+   "day": 14,
    "chapters": [
     "Genesis 21",
-    "Genesis 22",
+    "Genesis 22"
+   ],
+   "requires_all_of": [
+    "CRP2-D007"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D015",
+   "day": 15,
+   "chapters": [
     "Genesis 23",
     "Genesis 24"
    ],
@@ -116,154 +208,302 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D007",
-   "day": 7,
+   "day_id": "CRP3-D016",
+   "day": 16,
    "chapters": [
     "Genesis 25",
-    "Genesis 26",
+    "Genesis 26"
+   ],
+   "requires_all_of": [
+    "CRP2-D008",
+    "CRP2-D009"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D017",
+   "day": 17,
+   "chapters": [
     "Genesis 27",
     "Genesis 28"
    ],
    "requires_all_of": [
-    "CRP2-D008",
     "CRP2-D009",
     "CRP2-D010"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D008",
-   "day": 8,
+   "day_id": "CRP3-D018",
+   "day": 18,
+   "chapters": [
+    "Genesis 28",
+    "Genesis 29"
+   ],
+   "requires_all_of": [
+    "CRP2-D010"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D019",
+   "day": 19,
    "chapters": [
     "Genesis 29",
-    "Genesis 30",
+    "Genesis 30"
+   ],
+   "requires_all_of": [
+    "CRP2-D010"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D020",
+   "day": 20,
+   "chapters": [
     "Genesis 31"
    ],
    "requires_all_of": [
-    "CRP2-D010",
     "CRP2-D011"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D009",
-   "day": 9,
+   "day_id": "CRP3-D021",
+   "day": 21,
+   "chapters": [
+    "Genesis 31",
+    "Genesis 32"
+   ],
+   "requires_all_of": [
+    "CRP2-D011"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D022",
+   "day": 22,
    "chapters": [
     "Genesis 32",
     "Genesis 33",
-    "Genesis 34",
+    "Genesis 34"
+   ],
+   "requires_all_of": [
+    "CRP2-D011",
+    "CRP2-D012"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D023",
+   "day": 23,
+   "chapters": [
     "Genesis 35",
     "Genesis 36"
    ],
    "requires_all_of": [
-    "CRP2-D011",
     "CRP2-D012",
     "CRP2-D013"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D010",
-   "day": 10,
+   "day_id": "CRP3-D024",
+   "day": 24,
    "chapters": [
-    "Genesis 37",
-    "Genesis 38",
-    "Genesis 39",
-    "Genesis 40"
+    "Genesis 37"
    ],
    "requires_all_of": [
-    "CRP2-D013",
+    "CRP2-D013"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D025",
+   "day": 25,
+   "chapters": [
+    "Genesis 38",
+    "Genesis 39"
+   ],
+   "requires_all_of": [
     "CRP2-D014"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D011",
-   "day": 11,
+   "day_id": "CRP3-D026",
+   "day": 26,
    "chapters": [
-    "Genesis 41",
-    "Genesis 42",
-    "Genesis 43"
+    "Genesis 40",
+    "Genesis 41"
    ],
    "requires_all_of": [
-    "CRP2-D015",
+    "CRP2-D014",
+    "CRP2-D015"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D027",
+   "day": 27,
+   "chapters": [
+    "Genesis 41",
+    "Genesis 42"
+   ],
+   "requires_all_of": [
+    "CRP2-D015"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D028",
+   "day": 28,
+   "chapters": [
+    "Genesis 43",
+    "Genesis 44"
+   ],
+   "requires_all_of": [
     "CRP2-D016"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D012",
-   "day": 12,
+   "day_id": "CRP3-D029",
+   "day": 29,
    "chapters": [
-    "Genesis 44",
     "Genesis 45",
     "Genesis 46"
    ],
    "requires_all_of": [
-    "CRP2-D016",
     "CRP2-D017"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D013",
-   "day": 13,
+   "day_id": "CRP3-D030",
+   "day": 30,
    "chapters": [
-    "Exodus 1",
-    "Exodus 2",
     "Genesis 47",
-    "Genesis 48",
+    "Genesis 48"
+   ],
+   "requires_all_of": [
+    "CRP2-D017",
+    "CRP2-D018"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D031",
+   "day": 31,
+   "chapters": [
     "Genesis 49",
     "Genesis 50"
    ],
    "requires_all_of": [
-    "CRP2-D017",
-    "CRP2-D018",
+    "CRP2-D018"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D032",
+   "day": 32,
+   "chapters": [
+    "Exodus 1",
+    "Exodus 2"
+   ],
+   "requires_all_of": [
     "CRP2-D019"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D014",
-   "day": 14,
+   "day_id": "CRP3-D033",
+   "day": 33,
    "chapters": [
     "Exodus 2",
-    "Exodus 3",
-    "Exodus 4",
-    "Exodus 5",
-    "Exodus 6"
+    "Exodus 3"
    ],
    "requires_all_of": [
-    "CRP2-D019",
+    "CRP2-D019"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D034",
+   "day": 34,
+   "chapters": [
+    "Exodus 4"
+   ],
+   "requires_all_of": [
     "CRP2-D020"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D015",
-   "day": 15,
+   "day_id": "CRP3-D035",
+   "day": 35,
    "chapters": [
-    "Exodus 10",
-    "Exodus 11",
-    "Exodus 12",
+    "Exodus 5",
+    "Exodus 6"
+   ],
+   "requires_all_of": [
+    "CRP2-D020"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D036",
+   "day": 36,
+   "chapters": [
     "Exodus 7",
+    "Exodus 8"
+   ],
+   "requires_all_of": [
+    "CRP2-D021"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D037",
+   "day": 37,
+   "chapters": [
     "Exodus 8",
     "Exodus 9"
    ],
    "requires_all_of": [
-    "CRP2-D021",
+    "CRP2-D021"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D038",
+   "day": 38,
+   "chapters": [
+    "Exodus 10",
+    "Exodus 11"
+   ],
+   "requires_all_of": [
     "CRP2-D022"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D016",
-   "day": 16,
+   "day_id": "CRP3-D039",
+   "day": 39,
+   "chapters": [
+    "Exodus 12"
+   ],
+   "requires_all_of": [
+    "CRP2-D022"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D040",
+   "day": 40,
    "chapters": [
     "Exodus 12",
-    "Exodus 13",
-    "Exodus 14",
-    "Exodus 15"
+    "Exodus 13"
    ],
    "requires_all_of": [
     "CRP2-D022",
@@ -272,8 +512,30 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D017",
-   "day": 17,
+   "day_id": "CRP3-D041",
+   "day": 41,
+   "chapters": [
+    "Exodus 14"
+   ],
+   "requires_all_of": [
+    "CRP2-D023"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D042",
+   "day": 42,
+   "chapters": [
+    "Exodus 15"
+   ],
+   "requires_all_of": [
+    "CRP2-D023"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D043",
+   "day": 43,
    "chapters": [
     "Exodus 16",
     "Exodus 17",
@@ -285,29 +547,47 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D018",
-   "day": 18,
+   "day_id": "CRP3-D044",
+   "day": 44,
    "chapters": [
     "Exodus 19",
-    "Exodus 20",
-    "Exodus 21",
-    "Exodus 22"
+    "Exodus 20"
    ],
    "requires_all_of": [
-    "CRP2-D025",
+    "CRP2-D025"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D045",
+   "day": 45,
+   "chapters": [
+    "Exodus 20",
+    "Exodus 21"
+   ],
+   "requires_all_of": [
+    "CRP2-D025"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D046",
+   "day": 46,
+   "chapters": [
+    "Exodus 22",
+    "Exodus 23"
+   ],
+   "requires_all_of": [
     "CRP2-D026"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D019",
-   "day": 19,
+   "day_id": "CRP3-D047",
+   "day": 47,
    "chapters": [
-    "Exodus 23",
     "Exodus 24",
-    "Exodus 25",
-    "Exodus 26",
-    "Exodus 27"
+    "Exodus 25"
    ],
    "requires_all_of": [
     "CRP2-D026",
@@ -316,10 +596,35 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D020",
-   "day": 20,
+   "day_id": "CRP3-D048",
+   "day": 48,
+   "chapters": [
+    "Exodus 26",
+    "Exodus 27",
+    "Exodus 28"
+   ],
+   "requires_all_of": [
+    "CRP2-D027",
+    "CRP2-D028"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D049",
+   "day": 49,
    "chapters": [
     "Exodus 28",
+    "Exodus 29"
+   ],
+   "requires_all_of": [
+    "CRP2-D028"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D050",
+   "day": 50,
+   "chapters": [
     "Exodus 29",
     "Exodus 30",
     "Exodus 31"
@@ -331,13 +636,11 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D021",
-   "day": 21,
+   "day_id": "CRP3-D051",
+   "day": 51,
    "chapters": [
     "Exodus 32",
-    "Exodus 33",
-    "Exodus 34",
-    "Exodus 35"
+    "Exodus 33"
    ],
    "requires_all_of": [
     "CRP2-D029",
@@ -346,11 +649,47 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D022",
-   "day": 22,
+   "day_id": "CRP3-D052",
+   "day": 52,
    "chapters": [
-    "Exodus 36",
+    "Exodus 33",
+    "Exodus 34",
+    "Exodus 35"
+   ],
+   "requires_all_of": [
+    "CRP2-D030"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D053",
+   "day": 53,
+   "chapters": [
+    "Exodus 35",
+    "Exodus 36"
+   ],
+   "requires_all_of": [
+    "CRP2-D030",
+    "CRP2-D031"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D054",
+   "day": 54,
+   "chapters": [
     "Exodus 37",
+    "Exodus 38"
+   ],
+   "requires_all_of": [
+    "CRP2-D031"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D055",
+   "day": 55,
+   "chapters": [
     "Exodus 38",
     "Exodus 39",
     "Exodus 40"
@@ -362,15 +701,24 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D023",
-   "day": 23,
+   "day_id": "CRP3-D056",
+   "day": 56,
    "chapters": [
     "Leviticus 1",
     "Leviticus 2",
-    "Leviticus 3",
+    "Leviticus 3"
+   ],
+   "requires_all_of": [
+    "CRP2-D033"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D057",
+   "day": 57,
+   "chapters": [
     "Leviticus 4",
-    "Leviticus 5",
-    "Leviticus 6"
+    "Leviticus 5"
    ],
    "requires_all_of": [
     "CRP2-D033",
@@ -379,103 +727,213 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D024",
-   "day": 24,
+   "day_id": "CRP3-D058",
+   "day": 58,
    "chapters": [
-    "Leviticus 10",
-    "Leviticus 11",
+    "Leviticus 5",
+    "Leviticus 6",
+    "Leviticus 7"
+   ],
+   "requires_all_of": [
+    "CRP2-D034"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D059",
+   "day": 59,
+   "chapters": [
     "Leviticus 7",
-    "Leviticus 8",
-    "Leviticus 9"
+    "Leviticus 8"
    ],
    "requires_all_of": [
     "CRP2-D034",
-    "CRP2-D035",
+    "CRP2-D035"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D060",
+   "day": 60,
+   "chapters": [
+    "Leviticus 10",
+    "Leviticus 9"
+   ],
+   "requires_all_of": [
+    "CRP2-D035"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D061",
+   "day": 61,
+   "chapters": [
+    "Leviticus 11",
+    "Leviticus 12"
+   ],
+   "requires_all_of": [
     "CRP2-D036"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D025",
-   "day": 25,
+   "day_id": "CRP3-D062",
+   "day": 62,
    "chapters": [
-    "Leviticus 12",
-    "Leviticus 13",
-    "Leviticus 14",
-    "Leviticus 15"
+    "Leviticus 13"
    ],
    "requires_all_of": [
-    "CRP2-D036",
+    "CRP2-D036"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D063",
+   "day": 63,
+   "chapters": [
+    "Leviticus 14"
+   ],
+   "requires_all_of": [
     "CRP2-D037"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D026",
-   "day": 26,
+   "day_id": "CRP3-D064",
+   "day": 64,
    "chapters": [
-    "Leviticus 16",
+    "Leviticus 15",
+    "Leviticus 16"
+   ],
+   "requires_all_of": [
+    "CRP2-D037",
+    "CRP2-D038"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D065",
+   "day": 65,
+   "chapters": [
     "Leviticus 17",
-    "Leviticus 18",
+    "Leviticus 18"
+   ],
+   "requires_all_of": [
+    "CRP2-D038"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D066",
+   "day": 66,
+   "chapters": [
     "Leviticus 19",
-    "Leviticus 20",
+    "Leviticus 20"
+   ],
+   "requires_all_of": [
+    "CRP2-D039"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D067",
+   "day": 67,
+   "chapters": [
     "Leviticus 21",
     "Leviticus 22"
    ],
    "requires_all_of": [
-    "CRP2-D038",
     "CRP2-D039",
     "CRP2-D040"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D027",
-   "day": 27,
+   "day_id": "CRP3-D068",
+   "day": 68,
    "chapters": [
-    "Leviticus 23",
+    "Leviticus 23"
+   ],
+   "requires_all_of": [
+    "CRP2-D040"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D069",
+   "day": 69,
+   "chapters": [
     "Leviticus 24"
    ],
    "requires_all_of": [
-    "CRP2-D040",
     "CRP2-D041"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D028",
-   "day": 28,
+   "day_id": "CRP3-D070",
+   "day": 70,
    "chapters": [
-    "Leviticus 25",
+    "Leviticus 25"
+   ],
+   "requires_all_of": [
+    "CRP2-D041"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D071",
+   "day": 71,
+   "chapters": [
     "Leviticus 26",
     "Leviticus 27"
    ],
    "requires_all_of": [
-    "CRP2-D041",
     "CRP2-D042"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D029",
-   "day": 29,
+   "day_id": "CRP3-D072",
+   "day": 72,
    "chapters": [
     "Numbers 1",
-    "Numbers 2",
+    "Numbers 2"
+   ],
+   "requires_all_of": [
+    "CRP2-D043"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D073",
+   "day": 73,
+   "chapters": [
     "Numbers 3",
     "Numbers 4"
    ],
    "requires_all_of": [
-    "CRP2-D043",
     "CRP2-D044"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D030",
-   "day": 30,
+   "day_id": "CRP3-D074",
+   "day": 74,
    "chapters": [
-    "Numbers 5",
+    "Numbers 4",
+    "Numbers 5"
+   ],
+   "requires_all_of": [
+    "CRP2-D044",
+    "CRP2-D045"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D075",
+   "day": 75,
+   "chapters": [
     "Numbers 6",
     "Numbers 7",
     "Numbers 8"
@@ -488,38 +946,76 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D031",
-   "day": 31,
+   "day_id": "CRP3-D076",
+   "day": 76,
    "chapters": [
     "Numbers 10",
-    "Numbers 11",
-    "Numbers 12",
-    "Numbers 13",
     "Numbers 9"
    ],
    "requires_all_of": [
-    "CRP2-D047",
+    "CRP2-D047"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D077",
+   "day": 77,
+   "chapters": [
+    "Numbers 11",
+    "Numbers 12"
+   ],
+   "requires_all_of": [
     "CRP2-D048"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D032",
-   "day": 32,
+   "day_id": "CRP3-D078",
+   "day": 78,
    "chapters": [
-    "Numbers 14",
-    "Numbers 15",
+    "Numbers 13"
+   ],
+   "requires_all_of": [
+    "CRP2-D048"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D079",
+   "day": 79,
+   "chapters": [
+    "Numbers 14"
+   ],
+   "requires_all_of": [
+    "CRP2-D049"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D080",
+   "day": 80,
+   "chapters": [
+    "Numbers 15"
+   ],
+   "requires_all_of": [
+    "CRP2-D049"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D081",
+   "day": 81,
+   "chapters": [
     "Numbers 16"
    ],
    "requires_all_of": [
-    "CRP2-D049",
     "CRP2-D050"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D033",
-   "day": 33,
+   "day_id": "CRP3-D082",
+   "day": 82,
    "chapters": [
     "Numbers 17",
     "Numbers 18",
@@ -533,79 +1029,140 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D034",
-   "day": 34,
+   "day_id": "CRP3-D083",
+   "day": 83,
    "chapters": [
     "Numbers 20",
-    "Numbers 21",
-    "Numbers 22",
-    "Numbers 23"
+    "Numbers 21"
    ],
    "requires_all_of": [
     "CRP2-D051",
+    "CRP2-D052"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D084",
+   "day": 84,
+   "chapters": [
+    "Numbers 21",
+    "Numbers 22"
+   ],
+   "requires_all_of": [
+    "CRP2-D052"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D085",
+   "day": 85,
+   "chapters": [
+    "Numbers 22",
+    "Numbers 23",
+    "Numbers 24"
+   ],
+   "requires_all_of": [
     "CRP2-D052",
     "CRP2-D053"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D035",
-   "day": 35,
+   "day_id": "CRP3-D086",
+   "day": 86,
    "chapters": [
-    "Numbers 24",
     "Numbers 25",
-    "Numbers 26",
-    "Numbers 27",
-    "Numbers 28"
+    "Numbers 26"
    ],
    "requires_all_of": [
     "CRP2-D053",
+    "CRP2-D054"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D087",
+   "day": 87,
+   "chapters": [
+    "Numbers 27",
+    "Numbers 28",
+    "Numbers 29"
+   ],
+   "requires_all_of": [
     "CRP2-D054",
     "CRP2-D055"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D036",
-   "day": 36,
+   "day_id": "CRP3-D088",
+   "day": 88,
    "chapters": [
     "Numbers 29",
     "Numbers 30",
+    "Numbers 31"
+   ],
+   "requires_all_of": [
+    "CRP2-D055",
+    "CRP2-D056"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D089",
+   "day": 89,
+   "chapters": [
     "Numbers 31",
     "Numbers 32"
    ],
    "requires_all_of": [
-    "CRP2-D055",
     "CRP2-D056",
     "CRP2-D057"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D037",
-   "day": 37,
+   "day_id": "CRP3-D090",
+   "day": 90,
    "chapters": [
-    "Deuteronomy 1",
     "Numbers 33",
-    "Numbers 34",
+    "Numbers 34"
+   ],
+   "requires_all_of": [
+    "CRP2-D057",
+    "CRP2-D058"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D091",
+   "day": 91,
+   "chapters": [
     "Numbers 35",
     "Numbers 36"
    ],
    "requires_all_of": [
-    "CRP2-D057",
-    "CRP2-D058",
+    "CRP2-D058"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D092",
+   "day": 92,
+   "chapters": [
+    "Deuteronomy 1"
+   ],
+   "requires_all_of": [
     "CRP2-D059"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D038",
-   "day": 38,
+   "day_id": "CRP3-D093",
+   "day": 93,
    "chapters": [
-    "Deuteronomy 1",
     "Deuteronomy 2",
-    "Deuteronomy 3",
-    "Deuteronomy 4"
+    "Deuteronomy 3"
    ],
    "requires_all_of": [
     "CRP2-D059",
@@ -614,49 +1171,111 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D039",
-   "day": 39,
+   "day_id": "CRP3-D094",
+   "day": 94,
+   "chapters": [
+    "Deuteronomy 4"
+   ],
+   "requires_all_of": [
+    "CRP2-D060"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D095",
+   "day": 95,
    "chapters": [
     "Deuteronomy 4",
     "Deuteronomy 5",
+    "Deuteronomy 6"
+   ],
+   "requires_all_of": [
+    "CRP2-D060",
+    "CRP2-D061"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D096",
+   "day": 96,
+   "chapters": [
     "Deuteronomy 6",
-    "Deuteronomy 7",
+    "Deuteronomy 7"
+   ],
+   "requires_all_of": [
+    "CRP2-D061"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D097",
+   "day": 97,
+   "chapters": [
     "Deuteronomy 8",
     "Deuteronomy 9"
    ],
    "requires_all_of": [
-    "CRP2-D060",
-    "CRP2-D061",
     "CRP2-D062"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D040",
-   "day": 40,
+   "day_id": "CRP3-D098",
+   "day": 98,
    "chapters": [
     "Deuteronomy 10",
-    "Deuteronomy 11",
+    "Deuteronomy 11"
+   ],
+   "requires_all_of": [
+    "CRP2-D062"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D099",
+   "day": 99,
+   "chapters": [
     "Deuteronomy 12",
     "Deuteronomy 13",
     "Deuteronomy 14"
    ],
    "requires_all_of": [
-    "CRP2-D062",
     "CRP2-D063"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D041",
-   "day": 41,
+   "day_id": "CRP3-D100",
+   "day": 100,
    "chapters": [
-    "Deuteronomy 15",
+    "Deuteronomy 14",
+    "Deuteronomy 15"
+   ],
+   "requires_all_of": [
+    "CRP2-D063",
+    "CRP2-D064"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D101",
+   "day": 101,
+   "chapters": [
     "Deuteronomy 16",
     "Deuteronomy 17",
+    "Deuteronomy 18"
+   ],
+   "requires_all_of": [
+    "CRP2-D064"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D102",
+   "day": 102,
+   "chapters": [
     "Deuteronomy 18",
-    "Deuteronomy 19",
-    "Deuteronomy 20"
+    "Deuteronomy 19"
    ],
    "requires_all_of": [
     "CRP2-D064",
@@ -665,14 +1284,24 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D042",
-   "day": 42,
+   "day_id": "CRP3-D103",
+   "day": 103,
+   "chapters": [
+    "Deuteronomy 20",
+    "Deuteronomy 21"
+   ],
+   "requires_all_of": [
+    "CRP2-D065"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D104",
+   "day": 104,
    "chapters": [
     "Deuteronomy 21",
     "Deuteronomy 22",
-    "Deuteronomy 23",
-    "Deuteronomy 24",
-    "Deuteronomy 25"
+    "Deuteronomy 23"
    ],
    "requires_all_of": [
     "CRP2-D065",
@@ -681,12 +1310,25 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D043",
-   "day": 43,
+   "day_id": "CRP3-D105",
+   "day": 105,
    "chapters": [
+    "Deuteronomy 23",
+    "Deuteronomy 24",
+    "Deuteronomy 25"
+   ],
+   "requires_all_of": [
+    "CRP2-D066"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D106",
+   "day": 106,
+   "chapters": [
+    "Deuteronomy 25",
     "Deuteronomy 26",
-    "Deuteronomy 27",
-    "Deuteronomy 28"
+    "Deuteronomy 27"
    ],
    "requires_all_of": [
     "CRP2-D066",
@@ -695,11 +1337,43 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D044",
-   "day": 44,
+   "day_id": "CRP3-D107",
+   "day": 107,
+   "chapters": [
+    "Deuteronomy 28"
+   ],
+   "requires_all_of": [
+    "CRP2-D067"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D108",
+   "day": 108,
    "chapters": [
     "Deuteronomy 29",
-    "Deuteronomy 30",
+    "Deuteronomy 30"
+   ],
+   "requires_all_of": [
+    "CRP2-D068"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D109",
+   "day": 109,
+   "chapters": [
+    "Deuteronomy 31"
+   ],
+   "requires_all_of": [
+    "CRP2-D068"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D110",
+   "day": 110,
+   "chapters": [
     "Deuteronomy 31",
     "Deuteronomy 32",
     "Deuteronomy 33"
@@ -711,15 +1385,11 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D045",
-   "day": 45,
+   "day_id": "CRP3-D111",
+   "day": 111,
    "chapters": [
     "Deuteronomy 34",
     "Joshua 1",
-    "Joshua 2",
-    "Joshua 3",
-    "Joshua 4",
-    "Joshua 5",
     "Psalms 90"
    ],
    "requires_all_of": [
@@ -730,11 +1400,59 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D046",
-   "day": 46,
+   "day_id": "CRP3-D112",
+   "day": 112,
+   "chapters": [
+    "Joshua 1",
+    "Joshua 2",
+    "Joshua 3"
+   ],
+   "requires_all_of": [
+    "CRP2-D070"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D113",
+   "day": 113,
+   "chapters": [
+    "Joshua 4",
+    "Joshua 5"
+   ],
+   "requires_all_of": [
+    "CRP2-D070"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D114",
+   "day": 114,
    "chapters": [
     "Joshua 6",
+    "Joshua 7"
+   ],
+   "requires_all_of": [
+    "CRP2-D071"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D115",
+   "day": 115,
+   "chapters": [
     "Joshua 7",
+    "Joshua 8"
+   ],
+   "requires_all_of": [
+    "CRP2-D071"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D116",
+   "day": 116,
+   "chapters": [
+    "Joshua 10",
     "Joshua 8",
     "Joshua 9"
    ],
@@ -745,10 +1463,21 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D047",
-   "day": 47,
+   "day_id": "CRP3-D117",
+   "day": 117,
    "chapters": [
     "Joshua 10",
+    "Joshua 11"
+   ],
+   "requires_all_of": [
+    "CRP2-D072"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D118",
+   "day": 118,
+   "chapters": [
     "Joshua 11",
     "Joshua 12",
     "Joshua 13",
@@ -761,32 +1490,64 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D048",
-   "day": 48,
+   "day_id": "CRP3-D119",
+   "day": 119,
    "chapters": [
     "Joshua 14",
     "Joshua 15",
-    "Joshua 16",
-    "Joshua 17",
-    "Joshua 18",
-    "Joshua 19"
+    "Joshua 16"
    ],
    "requires_all_of": [
     "CRP2-D073",
+    "CRP2-D074"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D120",
+   "day": 120,
+   "chapters": [
+    "Joshua 16",
+    "Joshua 17",
+    "Joshua 18"
+   ],
+   "requires_all_of": [
     "CRP2-D074",
     "CRP2-D075"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D049",
-   "day": 49,
+   "day_id": "CRP3-D121",
+   "day": 121,
    "chapters": [
-    "Joshua 20",
+    "Joshua 19",
+    "Joshua 20"
+   ],
+   "requires_all_of": [
+    "CRP2-D075",
+    "CRP2-D076"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D122",
+   "day": 122,
+   "chapters": [
     "Joshua 21",
+    "Joshua 22"
+   ],
+   "requires_all_of": [
+    "CRP2-D076"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D123",
+   "day": 123,
+   "chapters": [
     "Joshua 22",
-    "Joshua 23",
-    "Joshua 24"
+    "Joshua 23"
    ],
    "requires_all_of": [
     "CRP2-D076",
@@ -795,8 +1556,30 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D050",
-   "day": 50,
+   "day_id": "CRP3-D124",
+   "day": 124,
+   "chapters": [
+    "Joshua 24"
+   ],
+   "requires_all_of": [
+    "CRP2-D077"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D125",
+   "day": 125,
+   "chapters": [
+    "Judges 1"
+   ],
+   "requires_all_of": [
+    "CRP2-D077"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D126",
+   "day": 126,
    "chapters": [
     "Judges 1",
     "Judges 2",
@@ -809,28 +1592,56 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D051",
-   "day": 51,
+   "day_id": "CRP3-D127",
+   "day": 127,
    "chapters": [
-    "Judges 3",
-    "Judges 4",
+    "Judges 3"
+   ],
+   "requires_all_of": [
+    "CRP2-D078"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D128",
+   "day": 128,
+   "chapters": [
+    "Judges 4"
+   ],
+   "requires_all_of": [
+    "CRP2-D078"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D129",
+   "day": 129,
+   "chapters": [
     "Judges 5",
     "Judges 6"
    ],
    "requires_all_of": [
-    "CRP2-D078",
     "CRP2-D079"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D052",
-   "day": 52,
+   "day_id": "CRP3-D130",
+   "day": 130,
    "chapters": [
-    "Judges 6",
+    "Judges 6"
+   ],
+   "requires_all_of": [
+    "CRP2-D079"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D131",
+   "day": 131,
+   "chapters": [
     "Judges 7",
-    "Judges 8",
-    "Judges 9"
+    "Judges 8"
    ],
    "requires_all_of": [
     "CRP2-D079",
@@ -839,57 +1650,128 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D053",
-   "day": 53,
+   "day_id": "CRP3-D132",
+   "day": 132,
    "chapters": [
-    "Judges 10",
-    "Judges 11",
-    "Judges 12",
+    "Judges 8",
     "Judges 9"
    ],
    "requires_all_of": [
-    "CRP2-D080",
+    "CRP2-D080"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D133",
+   "day": 133,
+   "chapters": [
+    "Judges 9"
+   ],
+   "requires_all_of": [
+    "CRP2-D080"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D134",
+   "day": 134,
+   "chapters": [
+    "Judges 10",
+    "Judges 11"
+   ],
+   "requires_all_of": [
     "CRP2-D081"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D054",
-   "day": 54,
+   "day_id": "CRP3-D135",
+   "day": 135,
    "chapters": [
-    "Judges 13",
-    "Judges 14",
-    "Judges 15",
-    "Judges 16",
-    "Judges 17"
+    "Judges 11",
+    "Judges 12",
+    "Judges 13"
    ],
    "requires_all_of": [
-    "CRP2-D082",
+    "CRP2-D081",
+    "CRP2-D082"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D136",
+   "day": 136,
+   "chapters": [
+    "Judges 14",
+    "Judges 15"
+   ],
+   "requires_all_of": [
+    "CRP2-D082"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D137",
+   "day": 137,
+   "chapters": [
+    "Judges 16"
+   ],
+   "requires_all_of": [
+    "CRP2-D082"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D138",
+   "day": 138,
+   "chapters": [
+    "Judges 17",
+    "Judges 18"
+   ],
+   "requires_all_of": [
     "CRP2-D083"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D055",
-   "day": 55,
+   "day_id": "CRP3-D139",
+   "day": 139,
    "chapters": [
-    "Judges 18",
-    "Judges 19",
+    "Judges 19"
+   ],
+   "requires_all_of": [
+    "CRP2-D083"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D140",
+   "day": 140,
+   "chapters": [
     "Judges 20",
     "Judges 21"
    ],
    "requires_all_of": [
-    "CRP2-D083",
     "CRP2-D084"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D056",
-   "day": 56,
+   "day_id": "CRP3-D141",
+   "day": 141,
    "chapters": [
     "Ruth 1",
-    "Ruth 2",
+    "Ruth 2"
+   ],
+   "requires_all_of": [
+    "CRP2-D085"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D142",
+   "day": 142,
+   "chapters": [
     "Ruth 3",
     "Ruth 4"
    ],
@@ -899,15 +1781,24 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D057",
-   "day": 57,
+   "day_id": "CRP3-D143",
+   "day": 143,
    "chapters": [
     "1 Samuel 1",
+    "1 Samuel 2"
+   ],
+   "requires_all_of": [
+    "CRP2-D086"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D144",
+   "day": 144,
+   "chapters": [
     "1 Samuel 2",
     "1 Samuel 3",
-    "1 Samuel 4",
-    "1 Samuel 5",
-    "1 Samuel 6"
+    "1 Samuel 4"
    ],
    "requires_all_of": [
     "CRP2-D086",
@@ -916,70 +1807,152 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D058",
-   "day": 58,
+   "day_id": "CRP3-D145",
+   "day": 145,
    "chapters": [
-    "1 Samuel 10",
-    "1 Samuel 11",
-    "1 Samuel 12",
+    "1 Samuel 4",
+    "1 Samuel 5",
+    "1 Samuel 6"
+   ],
+   "requires_all_of": [
+    "CRP2-D087"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D146",
+   "day": 146,
+   "chapters": [
     "1 Samuel 7",
-    "1 Samuel 8",
-    "1 Samuel 9"
+    "1 Samuel 8"
    ],
    "requires_all_of": [
     "CRP2-D087",
-    "CRP2-D088",
+    "CRP2-D088"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D147",
+   "day": 147,
+   "chapters": [
+    "1 Samuel 9"
+   ],
+   "requires_all_of": [
+    "CRP2-D088"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D148",
+   "day": 148,
+   "chapters": [
+    "1 Samuel 10",
+    "1 Samuel 9"
+   ],
+   "requires_all_of": [
+    "CRP2-D088"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D149",
+   "day": 149,
+   "chapters": [
+    "1 Samuel 11",
+    "1 Samuel 12"
+   ],
+   "requires_all_of": [
     "CRP2-D089"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D059",
-   "day": 59,
+   "day_id": "CRP3-D150",
+   "day": 150,
    "chapters": [
-    "1 Samuel 13",
+    "1 Samuel 13"
+   ],
+   "requires_all_of": [
+    "CRP2-D089"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D151",
+   "day": 151,
+   "chapters": [
+    "1 Samuel 14"
+   ],
+   "requires_all_of": [
+    "CRP2-D090"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D152",
+   "day": 152,
+   "chapters": [
     "1 Samuel 14",
     "1 Samuel 15",
     "1 Samuel 16"
    ],
    "requires_all_of": [
-    "CRP2-D089",
     "CRP2-D090",
     "CRP2-D091"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D060",
-   "day": 60,
+   "day_id": "CRP3-D153",
+   "day": 153,
    "chapters": [
     "1 Samuel 17",
-    "1 Samuel 18",
-    "1 Samuel 19",
-    "Psalms 23",
-    "Psalms 59"
+    "Psalms 23"
    ],
    "requires_all_of": [
     "CRP2-D091",
-    "CRP2-D092",
-    "CRP2-D104",
     "CRP2-D108"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D061",
-   "day": 61,
+   "day_id": "CRP3-D154",
+   "day": 154,
+   "chapters": [
+    "1 Samuel 18",
+    "1 Samuel 19"
+   ],
+   "requires_all_of": [
+    "CRP2-D092"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D155",
+   "day": 155,
    "chapters": [
     "1 Samuel 19",
     "1 Samuel 20",
     "1 Samuel 21",
+    "Psalms 59"
+   ],
+   "requires_all_of": [
+    "CRP2-D092",
+    "CRP2-D093",
+    "CRP2-D104"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D156",
+   "day": 156,
+   "chapters": [
     "1 Samuel 22",
     "Psalms 34",
     "Psalms 56"
    ],
    "requires_all_of": [
-    "CRP2-D092",
     "CRP2-D093",
     "CRP2-D104",
     "CRP2-D112"
@@ -987,98 +1960,185 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D062",
-   "day": 62,
+   "day_id": "CRP3-D157",
+   "day": 157,
    "chapters": [
     "1 Samuel 23",
-    "1 Samuel 24",
-    "1 Samuel 25",
-    "Psalms 142",
     "Psalms 52",
-    "Psalms 57",
     "Psalms 63"
    ],
    "requires_all_of": [
     "CRP2-D093",
-    "CRP2-D094",
     "CRP2-D104",
-    "CRP2-D106",
+    "CRP2-D106"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D158",
+   "day": 158,
+   "chapters": [
+    "1 Samuel 24",
+    "Psalms 142",
+    "Psalms 57"
+   ],
+   "requires_all_of": [
+    "CRP2-D093",
     "CRP2-D115",
     "CRP2-D121"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D063",
-   "day": 63,
+   "day_id": "CRP3-D159",
+   "day": 159,
+   "chapters": [
+    "1 Samuel 25"
+   ],
+   "requires_all_of": [
+    "CRP2-D094"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D160",
+   "day": 160,
    "chapters": [
     "1 Samuel 26",
-    "1 Samuel 27",
-    "1 Samuel 28",
-    "1 Samuel 29",
-    "1 Samuel 30",
     "Psalms 54"
    ],
    "requires_all_of": [
     "CRP2-D094",
-    "CRP2-D095",
     "CRP2-D110"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D064",
-   "day": 64,
+   "day_id": "CRP3-D161",
+   "day": 161,
    "chapters": [
-    "1 Samuel 31",
+    "1 Samuel 27",
+    "1 Samuel 28"
+   ],
+   "requires_all_of": [
+    "CRP2-D094",
+    "CRP2-D095"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D162",
+   "day": 162,
+   "chapters": [
+    "1 Samuel 29",
+    "1 Samuel 30",
+    "1 Samuel 31"
+   ],
+   "requires_all_of": [
+    "CRP2-D095"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D163",
+   "day": 163,
+   "chapters": [
     "2 Samuel 1",
-    "2 Samuel 2",
-    "2 Samuel 3",
-    "2 Samuel 4",
     "Psalms 18"
    ],
    "requires_all_of": [
-    "CRP2-D095",
     "CRP2-D096",
-    "CRP2-D097",
     "CRP2-D111"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D065",
-   "day": 65,
+   "day_id": "CRP3-D164",
+   "day": 164,
    "chapters": [
-    "1 Chronicles 10",
-    "1 Chronicles 11",
-    "1 Chronicles 9",
+    "2 Samuel 2",
+    "2 Samuel 3"
+   ],
+   "requires_all_of": [
+    "CRP2-D096"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D165",
+   "day": 165,
+   "chapters": [
+    "2 Samuel 3",
+    "2 Samuel 4"
+   ],
+   "requires_all_of": [
+    "CRP2-D096",
+    "CRP2-D097"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D166",
+   "day": 166,
+   "chapters": [
     "2 Samuel 5",
     "2 Samuel 6",
     "2 Samuel 7"
    ],
    "requires_all_of": [
-    "CRP2-D097",
+    "CRP2-D097"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D167",
+   "day": 167,
+   "chapters": [
+    "1 Chronicles 10",
+    "1 Chronicles 11",
+    "1 Chronicles 9"
+   ],
+   "requires_all_of": [
     "CRP2-D098",
     "CRP2-D254"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D066",
-   "day": 66,
+   "day_id": "CRP3-D168",
+   "day": 168,
    "chapters": [
     "1 Chronicles 12",
-    "1 Chronicles 13",
+    "1 Chronicles 13"
+   ],
+   "requires_all_of": [
+    "CRP2-D098",
+    "CRP2-D099"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D169",
+   "day": 169,
+   "chapters": [
     "1 Chronicles 14",
-    "1 Chronicles 15",
+    "1 Chronicles 15"
+   ],
+   "requires_all_of": [
+    "CRP2-D099"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D170",
+   "day": 170,
+   "chapters": [
     "Psalms 19",
     "Psalms 29",
     "Psalms 32",
     "Psalms 8"
    ],
    "requires_all_of": [
-    "CRP2-D098",
-    "CRP2-D099",
     "CRP2-D111",
     "CRP2-D112",
     "CRP2-D126"
@@ -1086,19 +2146,26 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D067",
-   "day": 67,
+   "day_id": "CRP3-D171",
+   "day": 171,
    "chapters": [
-    "1 Chronicles 16",
-    "Psalms 103",
-    "Psalms 108",
-    "Psalms 138",
     "Psalms 65",
     "Psalms 68"
    ],
    "requires_all_of": [
-    "CRP2-D099",
-    "CRP2-D110",
+    "CRP2-D110"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D172",
+   "day": 172,
+   "chapters": [
+    "Psalms 103",
+    "Psalms 108",
+    "Psalms 138"
+   ],
+   "requires_all_of": [
     "CRP2-D120",
     "CRP2-D121",
     "CRP2-D128"
@@ -1106,64 +2173,124 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D068",
-   "day": 68,
+   "day_id": "CRP3-D173",
+   "day": 173,
+   "chapters": [
+    "1 Chronicles 16"
+   ],
+   "requires_all_of": [
+    "CRP2-D099"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D174",
+   "day": 174,
    "chapters": [
     "Psalms 105",
     "Psalms 106",
-    "Psalms 39",
-    "Psalms 50",
-    "Psalms 62",
-    "Psalms 73",
-    "Psalms 74",
-    "Psalms 75",
-    "Psalms 76",
     "Psalms 96"
    ],
    "requires_all_of": [
-    "CRP2-D106",
-    "CRP2-D109",
     "CRP2-D112",
-    "CRP2-D115",
     "CRP2-D120",
-    "CRP2-D122",
-    "CRP2-D125",
     "CRP2-D127"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D069",
-   "day": 69,
+   "day_id": "CRP3-D175",
+   "day": 175,
    "chapters": [
-    "Psalms 77",
+    "Psalms 39",
+    "Psalms 50",
+    "Psalms 62",
+    "Psalms 73"
+   ],
+   "requires_all_of": [
+    "CRP2-D106",
+    "CRP2-D109",
+    "CRP2-D115",
+    "CRP2-D122"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D176",
+   "day": 176,
+   "chapters": [
+    "Psalms 74",
+    "Psalms 75",
+    "Psalms 76",
+    "Psalms 77"
+   ],
+   "requires_all_of": [
+    "CRP2-D122",
+    "CRP2-D125"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D177",
+   "day": 177,
+   "chapters": [
     "Psalms 78",
-    "Psalms 79",
+    "Psalms 79"
+   ],
+   "requires_all_of": [
+    "CRP2-D117",
+    "CRP2-D123"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D178",
+   "day": 178,
+   "chapters": [
     "Psalms 80",
     "Psalms 81",
-    "Psalms 82",
+    "Psalms 82"
+   ],
+   "requires_all_of": [
+    "CRP2-D123",
+    "CRP2-D125"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D179",
+   "day": 179,
+   "chapters": [
+    "1 Chronicles 17",
     "Psalms 83",
     "Psalms 88"
    ],
    "requires_all_of": [
-    "CRP2-D117",
-    "CRP2-D122",
+    "CRP2-D100",
     "CRP2-D123",
-    "CRP2-D125",
     "CRP2-D158"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D070",
-   "day": 70,
+   "day_id": "CRP3-D180",
+   "day": 180,
    "chapters": [
-    "1 Chronicles 17",
-    "2 Samuel 10",
-    "2 Samuel 11",
-    "2 Samuel 12",
     "2 Samuel 8",
     "2 Samuel 9"
+   ],
+   "requires_all_of": [
+    "CRP2-D100"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D181",
+   "day": 181,
+   "chapters": [
+    "2 Samuel 10",
+    "2 Samuel 11",
+    "2 Samuel 12"
    ],
    "requires_all_of": [
     "CRP2-D100",
@@ -1172,26 +2299,55 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D071",
-   "day": 71,
+   "day_id": "CRP3-D182",
+   "day": 182,
    "chapters": [
     "2 Samuel 12",
-    "2 Samuel 13",
-    "2 Samuel 14",
     "Psalms 51"
    ],
    "requires_all_of": [
     "CRP2-D101",
-    "CRP2-D102",
     "CRP2-D108"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D072",
-   "day": 72,
+   "day_id": "CRP3-D183",
+   "day": 183,
    "chapters": [
-    "2 Samuel 15",
+    "2 Samuel 13"
+   ],
+   "requires_all_of": [
+    "CRP2-D101"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D184",
+   "day": 184,
+   "chapters": [
+    "2 Samuel 14"
+   ],
+   "requires_all_of": [
+    "CRP2-D102"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D185",
+   "day": 185,
+   "chapters": [
+    "2 Samuel 15"
+   ],
+   "requires_all_of": [
+    "CRP2-D102"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D186",
+   "day": 186,
+   "chapters": [
     "2 Samuel 16",
     "Psalms 3",
     "Psalms 7"
@@ -1204,46 +2360,74 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D073",
-   "day": 73,
+   "day_id": "CRP3-D187",
+   "day": 187,
    "chapters": [
     "2 Samuel 16",
     "2 Samuel 17",
+    "2 Samuel 18"
+   ],
+   "requires_all_of": [
+    "CRP2-D102",
+    "CRP2-D103"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D188",
+   "day": 188,
+   "chapters": [
     "2 Samuel 18",
+    "2 Samuel 19"
+   ],
+   "requires_all_of": [
+    "CRP2-D103"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D189",
+   "day": 189,
+   "chapters": [
     "2 Samuel 19",
     "2 Samuel 20"
    ],
    "requires_all_of": [
-    "CRP2-D102",
     "CRP2-D103",
     "CRP2-D104"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D074",
-   "day": 74,
+   "day_id": "CRP3-D190",
+   "day": 190,
    "chapters": [
-    "1 Chronicles 18",
-    "2 Samuel 21",
-    "2 Samuel 22",
-    "2 Samuel 23"
+    "2 Samuel 21"
    ],
    "requires_all_of": [
-    "CRP2-D104",
-    "CRP2-D105",
-    "CRP2-D106"
+    "CRP2-D104"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D075",
-   "day": 75,
+   "day_id": "CRP3-D191",
+   "day": 191,
+   "chapters": [
+    "2 Samuel 22",
+    "2 Samuel 23"
+   ],
+   "requires_all_of": [
+    "CRP2-D105"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D192",
+   "day": 192,
    "chapters": [
     "1 Chronicles 18",
     "1 Chronicles 19",
     "1 Chronicles 20",
-    "2 Samuel 24",
     "Psalms 60"
    ],
    "requires_all_of": [
@@ -1254,43 +2438,79 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D076",
-   "day": 76,
+   "day_id": "CRP3-D193",
+   "day": 193,
    "chapters": [
-    "1 Chronicles 21",
-    "1 Kings 1",
+    "2 Samuel 24"
+   ],
+   "requires_all_of": [
+    "CRP2-D106"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D194",
+   "day": 194,
+   "chapters": [
+    "1 Kings 1"
+   ],
+   "requires_all_of": [
+    "CRP2-D107"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D195",
+   "day": 195,
+   "chapters": [
     "1 Kings 2"
    ],
    "requires_all_of": [
-    "CRP2-D107",
+    "CRP2-D107"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D196",
+   "day": 196,
+   "chapters": [
+    "1 Chronicles 21"
+   ],
+   "requires_all_of": [
     "CRP2-D108"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D077",
-   "day": 77,
+   "day_id": "CRP3-D197",
+   "day": 197,
    "chapters": [
     "Psalms 10",
     "Psalms 11",
     "Psalms 12",
-    "Psalms 13",
-    "Psalms 14",
-    "Psalms 16",
-    "Psalms 17",
-    "Psalms 22",
-    "Psalms 25",
-    "Psalms 26",
-    "Psalms 27",
     "Psalms 4",
     "Psalms 5",
     "Psalms 6",
     "Psalms 9"
    ],
    "requires_all_of": [
+    "CRP2-D114",
+    "CRP2-D126"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D198",
+   "day": 198,
+   "chapters": [
+    "Psalms 13",
+    "Psalms 14",
+    "Psalms 16",
+    "Psalms 17",
+    "Psalms 22"
+   ],
+   "requires_all_of": [
     "CRP2-D108",
-    "CRP2-D109",
-    "CRP2-D111",
     "CRP2-D114",
     "CRP2-D119",
     "CRP2-D123",
@@ -1299,72 +2519,136 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D078",
-   "day": 78,
+   "day_id": "CRP3-D199",
+   "day": 199,
    "chapters": [
+    "Psalms 25",
+    "Psalms 26",
+    "Psalms 27",
     "Psalms 28",
-    "Psalms 31",
+    "Psalms 31"
+   ],
+   "requires_all_of": [
+    "CRP2-D109",
+    "CRP2-D111",
+    "CRP2-D113"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D200",
+   "day": 200,
+   "chapters": [
     "Psalms 35",
     "Psalms 36",
     "Psalms 38",
     "Psalms 40",
-    "Psalms 41",
+    "Psalms 41"
+   ],
+   "requires_all_of": [
+    "CRP2-D109",
+    "CRP2-D113",
+    "CRP2-D119"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D201",
+   "day": 201,
+   "chapters": [
     "Psalms 53",
     "Psalms 55",
     "Psalms 58",
     "Psalms 61",
     "Psalms 64",
-    "Psalms 69",
-    "Psalms 70",
-    "Psalms 71"
+    "Psalms 69"
    ],
    "requires_all_of": [
-    "CRP2-D109",
     "CRP2-D110",
-    "CRP2-D111",
-    "CRP2-D113",
     "CRP2-D115",
-    "CRP2-D116",
-    "CRP2-D117",
-    "CRP2-D119",
-    "CRP2-D122"
+    "CRP2-D116"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D079",
-   "day": 79,
+   "day_id": "CRP3-D202",
+   "day": 202,
    "chapters": [
-    "1 Chronicles 22",
     "Psalms 102",
+    "Psalms 70",
+    "Psalms 71",
+    "Psalms 86"
+   ],
+   "requires_all_of": [
+    "CRP2-D117",
+    "CRP2-D122",
+    "CRP2-D127",
+    "CRP2-D128"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D203",
+   "day": 203,
+   "chapters": [
     "Psalms 109",
     "Psalms 139",
     "Psalms 140",
     "Psalms 141",
-    "Psalms 143",
-    "Psalms 30",
-    "Psalms 37",
-    "Psalms 86"
+    "Psalms 143"
    ],
    "requires_all_of": [
-    "CRP2-D114",
-    "CRP2-D115",
-    "CRP2-D119",
     "CRP2-D121",
-    "CRP2-D127",
     "CRP2-D128",
     "CRP2-D129"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D080",
-   "day": 80,
+   "day_id": "CRP3-D204",
+   "day": 204,
+   "chapters": [
+    "1 Chronicles 22",
+    "Psalms 37"
+   ],
+   "requires_all_of": [
+    "CRP2-D114",
+    "CRP2-D115"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D205",
+   "day": 205,
    "chapters": [
     "1 Chronicles 23",
     "1 Chronicles 24",
+    "Psalms 30"
+   ],
+   "requires_all_of": [
+    "CRP2-D116",
+    "CRP2-D118",
+    "CRP2-D119"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D206",
+   "day": 206,
+   "chapters": [
+    "1 Chronicles 24",
     "1 Chronicles 25",
-    "1 Chronicles 26",
+    "1 Chronicles 26"
+   ],
+   "requires_all_of": [
+    "CRP2-D118"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D207",
+   "day": 207,
+   "chapters": [
     "Psalms 15",
     "Psalms 24",
     "Psalms 42",
@@ -1374,8 +2658,6 @@
    ],
    "requires_all_of": [
     "CRP2-D111",
-    "CRP2-D116",
-    "CRP2-D118",
     "CRP2-D119",
     "CRP2-D120",
     "CRP2-D123"
@@ -1383,53 +2665,83 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D081",
-   "day": 81,
+   "day_id": "CRP3-D208",
+   "day": 208,
    "chapters": [
-    "1 Chronicles 26",
-    "1 Chronicles 27",
-    "1 Chronicles 28",
-    "1 Chronicles 29",
     "Psalms 46",
     "Psalms 47",
     "Psalms 48",
     "Psalms 49",
-    "Psalms 84",
-    "Psalms 85",
-    "Psalms 87"
+    "Psalms 84"
    ],
    "requires_all_of": [
-    "CRP2-D118",
     "CRP2-D121",
     "CRP2-D122",
-    "CRP2-D124",
-    "CRP2-D125",
     "CRP2-D127"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D082",
-   "day": 82,
+   "day_id": "CRP3-D209",
+   "day": 209,
    "chapters": [
-    "Psalms 101",
-    "Psalms 110",
-    "Psalms 144",
+    "1 Chronicles 26",
+    "1 Chronicles 27",
+    "Psalms 85",
+    "Psalms 87"
+   ],
+   "requires_all_of": [
+    "CRP2-D118",
+    "CRP2-D124",
+    "CRP2-D127"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D210",
+   "day": 210,
+   "chapters": [
+    "1 Chronicles 28",
+    "1 Chronicles 29"
+   ],
+   "requires_all_of": [
+    "CRP2-D124",
+    "CRP2-D125"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D211",
+   "day": 211,
+   "chapters": [
     "Psalms 2",
     "Psalms 20",
     "Psalms 21",
     "Psalms 72",
     "Psalms 93",
-    "Psalms 94",
+    "Psalms 94"
+   ],
+   "requires_all_of": [
+    "CRP2-D119",
+    "CRP2-D124",
+    "CRP2-D126",
+    "CRP2-D159"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D212",
+   "day": 212,
+   "chapters": [
+    "Psalms 101",
+    "Psalms 110",
+    "Psalms 144",
     "Psalms 95",
     "Psalms 97",
     "Psalms 98",
     "Psalms 99"
    ],
    "requires_all_of": [
-    "CRP2-D119",
-    "CRP2-D124",
-    "CRP2-D126",
     "CRP2-D127",
     "CRP2-D129",
     "CRP2-D159",
@@ -1438,34 +2750,48 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D083",
-   "day": 83,
+   "day_id": "CRP3-D213",
+   "day": 213,
    "chapters": [
     "1 Kings 3",
-    "1 Kings 4",
-    "Proverbs 1",
-    "Proverbs 2",
-    "Proverbs 3",
-    "Proverbs 4"
+    "1 Kings 4"
    ],
    "requires_all_of": [
-    "CRP2-D129",
+    "CRP2-D129"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D214",
+   "day": 214,
+   "chapters": [
+    "Proverbs 1",
+    "Proverbs 2"
+   ],
+   "requires_all_of": [
+    "CRP2-D130"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D215",
+   "day": 215,
+   "chapters": [
+    "Proverbs 3",
+    "Proverbs 4",
+    "Proverbs 5",
+    "Proverbs 6"
+   ],
+   "requires_all_of": [
     "CRP2-D130",
     "CRP2-D131"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D084",
-   "day": 84,
+   "day_id": "CRP3-D216",
+   "day": 216,
    "chapters": [
-    "Proverbs 10",
-    "Proverbs 11",
-    "Proverbs 12",
-    "Proverbs 13",
-    "Proverbs 14",
-    "Proverbs 15",
-    "Proverbs 5",
     "Proverbs 6",
     "Proverbs 7",
     "Proverbs 8",
@@ -1473,17 +2799,31 @@
    ],
    "requires_all_of": [
     "CRP2-D131",
-    "CRP2-D132",
+    "CRP2-D132"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D217",
+   "day": 217,
+   "chapters": [
+    "Proverbs 10",
+    "Proverbs 11",
+    "Proverbs 12",
+    "Proverbs 13",
+    "Proverbs 14",
+    "Proverbs 15"
+   ],
+   "requires_all_of": [
     "CRP2-D133",
     "CRP2-D134"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D085",
-   "day": 85,
+   "day_id": "CRP3-D218",
+   "day": 218,
    "chapters": [
-    "1 Kings 5",
     "Proverbs 16",
     "Proverbs 17",
     "Proverbs 18",
@@ -1495,77 +2835,122 @@
    "requires_all_of": [
     "CRP2-D135",
     "CRP2-D136",
-    "CRP2-D137",
     "CRP2-D231"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D086",
-   "day": 86,
+   "day_id": "CRP3-D219",
+   "day": 219,
    "chapters": [
-    "1 Kings 6",
-    "1 Kings 7",
-    "1 Kings 8",
-    "1 Kings 9"
+    "1 Kings 5",
+    "1 Kings 6"
    ],
    "requires_all_of": [
-    "CRP2-D137",
+    "CRP2-D137"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D220",
+   "day": 220,
+   "chapters": [
+    "1 Kings 7"
+   ],
+   "requires_all_of": [
+    "CRP2-D137"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D221",
+   "day": 221,
+   "chapters": [
+    "1 Kings 8"
+   ],
+   "requires_all_of": [
     "CRP2-D138"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D087",
-   "day": 87,
+   "day_id": "CRP3-D222",
+   "day": 222,
    "chapters": [
-    "1 Kings 10",
-    "1 Kings 9",
-    "Ecclesiastes 1",
-    "Ecclesiastes 2",
-    "Ecclesiastes 3",
-    "Ecclesiastes 4",
-    "Ecclesiastes 5"
+    "1 Kings 8",
+    "1 Kings 9"
    ],
    "requires_all_of": [
-    "CRP2-D138",
-    "CRP2-D139",
-    "CRP2-D140"
+    "CRP2-D138"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D088",
-   "day": 88,
+   "day_id": "CRP3-D223",
+   "day": 223,
    "chapters": [
-    "1 Kings 11",
+    "1 Kings 10",
+    "1 Kings 9"
+   ],
+   "requires_all_of": [
+    "CRP2-D138",
+    "CRP2-D139"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D224",
+   "day": 224,
+   "chapters": [
+    "Ecclesiastes 1",
+    "Ecclesiastes 2",
+    "Ecclesiastes 3"
+   ],
+   "requires_all_of": [
+    "CRP2-D139"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D225",
+   "day": 225,
+   "chapters": [
+    "Ecclesiastes 3",
+    "Ecclesiastes 4",
+    "Ecclesiastes 5",
+    "Ecclesiastes 6",
+    "Ecclesiastes 7",
+    "Ecclesiastes 8"
+   ],
+   "requires_all_of": [
+    "CRP2-D139",
+    "CRP2-D140",
+    "CRP2-D141"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D226",
+   "day": 226,
+   "chapters": [
     "Ecclesiastes 10",
     "Ecclesiastes 11",
     "Ecclesiastes 12",
-    "Ecclesiastes 6",
-    "Ecclesiastes 7",
     "Ecclesiastes 8",
     "Ecclesiastes 9"
    ],
    "requires_all_of": [
-    "CRP2-D140",
-    "CRP2-D141",
-    "CRP2-D143"
+    "CRP2-D141"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D089",
-   "day": 89,
+   "day_id": "CRP3-D227",
+   "day": 227,
    "chapters": [
+    "1 Kings 11",
     "Song of Solomon 1",
-    "Song of Solomon 2",
-    "Song of Solomon 3",
-    "Song of Solomon 4",
-    "Song of Solomon 5",
-    "Song of Solomon 6",
-    "Song of Solomon 7",
-    "Song of Solomon 8"
+    "Song of Solomon 2"
    ],
    "requires_all_of": [
     "CRP2-D142",
@@ -1574,40 +2959,118 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D090",
-   "day": 90,
+   "day_id": "CRP3-D228",
+   "day": 228,
    "chapters": [
-    "1 Kings 11",
-    "2 Chronicles 1",
-    "2 Chronicles 2",
-    "2 Chronicles 3",
-    "2 Chronicles 4"
+    "Song of Solomon 2",
+    "Song of Solomon 3",
+    "Song of Solomon 4",
+    "Song of Solomon 5",
+    "Song of Solomon 6"
    ],
    "requires_all_of": [
-    "CRP2-D143",
+    "CRP2-D142",
+    "CRP2-D143"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D229",
+   "day": 229,
+   "chapters": [
+    "Song of Solomon 6",
+    "Song of Solomon 7",
+    "Song of Solomon 8"
+   ],
+   "requires_all_of": [
+    "CRP2-D143"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D230",
+   "day": 230,
+   "chapters": [
+    "1 Kings 11"
+   ],
+   "requires_all_of": [
+    "CRP2-D143"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D231",
+   "day": 231,
+   "chapters": [
+    "2 Chronicles 1",
+    "2 Chronicles 2"
+   ],
+   "requires_all_of": [
     "CRP2-D144"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D091",
-   "day": 91,
+   "day_id": "CRP3-D232",
+   "day": 232,
+   "chapters": [
+    "2 Chronicles 3",
+    "2 Chronicles 4"
+   ],
+   "requires_all_of": [
+    "CRP2-D144"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D233",
+   "day": 233,
    "chapters": [
     "2 Chronicles 5",
-    "2 Chronicles 6",
-    "2 Chronicles 7",
+    "2 Chronicles 6"
+   ],
+   "requires_all_of": [
+    "CRP2-D145"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D234",
+   "day": 234,
+   "chapters": [
+    "2 Chronicles 7"
+   ],
+   "requires_all_of": [
+    "CRP2-D145"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D235",
+   "day": 235,
+   "chapters": [
     "2 Chronicles 8",
     "2 Chronicles 9"
    ],
    "requires_all_of": [
-    "CRP2-D145",
     "CRP2-D146"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D092",
-   "day": 92,
+   "day_id": "CRP3-D236",
+   "day": 236,
+   "chapters": [
+    "1 Kings 12"
+   ],
+   "requires_all_of": [
+    "CRP2-D146"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D237",
+   "day": 237,
    "chapters": [
     "1 Kings 12",
     "1 Kings 13",
@@ -1620,10 +3083,21 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D093",
-   "day": 93,
+   "day_id": "CRP3-D238",
+   "day": 238,
    "chapters": [
     "1 Kings 14",
+    "1 Kings 15"
+   ],
+   "requires_all_of": [
+    "CRP2-D147"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D239",
+   "day": 239,
+   "chapters": [
     "1 Kings 15",
     "1 Kings 16",
     "2 Chronicles 10",
@@ -1637,29 +3111,36 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D094",
-   "day": 94,
+   "day_id": "CRP3-D240",
+   "day": 240,
    "chapters": [
     "2 Chronicles 12",
-    "2 Chronicles 13",
+    "2 Chronicles 13"
+   ],
+   "requires_all_of": [
+    "CRP2-D148"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D241",
+   "day": 241,
+   "chapters": [
     "2 Chronicles 14",
     "2 Chronicles 15",
     "2 Chronicles 16"
    ],
    "requires_all_of": [
-    "CRP2-D148",
     "CRP2-D149"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D095",
-   "day": 95,
+   "day_id": "CRP3-D242",
+   "day": 242,
    "chapters": [
     "1 Kings 16",
-    "1 Kings 17",
-    "1 Kings 18",
-    "1 Kings 19"
+    "1 Kings 17"
    ],
    "requires_all_of": [
     "CRP2-D149",
@@ -1668,10 +3149,43 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D096",
-   "day": 96,
+   "day_id": "CRP3-D243",
+   "day": 243,
    "chapters": [
-    "1 Kings 20",
+    "1 Kings 18"
+   ],
+   "requires_all_of": [
+    "CRP2-D150"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D244",
+   "day": 244,
+   "chapters": [
+    "1 Kings 18",
+    "1 Kings 19"
+   ],
+   "requires_all_of": [
+    "CRP2-D150"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D245",
+   "day": 245,
+   "chapters": [
+    "1 Kings 20"
+   ],
+   "requires_all_of": [
+    "CRP2-D151"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D246",
+   "day": 246,
+   "chapters": [
     "1 Kings 21",
     "1 Kings 22"
    ],
@@ -1682,12 +3196,34 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D097",
-   "day": 97,
+   "day_id": "CRP3-D247",
+   "day": 247,
    "chapters": [
-    "2 Chronicles 17",
+    "1 Kings 22",
+    "2 Chronicles 17"
+   ],
+   "requires_all_of": [
+    "CRP2-D152"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D248",
+   "day": 248,
+   "chapters": [
     "2 Chronicles 18",
-    "2 Chronicles 19",
+    "2 Chronicles 19"
+   ],
+   "requires_all_of": [
+    "CRP2-D153"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D249",
+   "day": 249,
+   "chapters": [
+    "1 Kings 22",
     "2 Chronicles 20"
    ],
    "requires_all_of": [
@@ -1697,28 +3233,58 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D098",
-   "day": 98,
+   "day_id": "CRP3-D250",
+   "day": 250,
    "chapters": [
-    "1 Kings 22",
     "2 Kings 1",
+    "2 Kings 2"
+   ],
+   "requires_all_of": [
+    "CRP2-D154"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D251",
+   "day": 251,
+   "chapters": [
     "2 Kings 2",
     "2 Kings 3",
     "2 Kings 4"
    ],
    "requires_all_of": [
-    "CRP2-D152",
     "CRP2-D154",
     "CRP2-D155"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D099",
-   "day": 99,
+   "day_id": "CRP3-D252",
+   "day": 252,
    "chapters": [
-    "2 Kings 4",
+    "2 Kings 4"
+   ],
+   "requires_all_of": [
+    "CRP2-D155"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D253",
+   "day": 253,
+   "chapters": [
     "2 Kings 5",
+    "2 Kings 6"
+   ],
+   "requires_all_of": [
+    "CRP2-D155"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D254",
+   "day": 254,
+   "chapters": [
     "2 Kings 6",
     "2 Kings 7",
     "2 Kings 8"
@@ -1730,11 +3296,22 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D100",
-   "day": 100,
+   "day_id": "CRP3-D255",
+   "day": 255,
+   "chapters": [
+    "2 Kings 8",
+    "2 Kings 9"
+   ],
+   "requires_all_of": [
+    "CRP2-D156"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D256",
+   "day": 256,
    "chapters": [
     "2 Kings 10",
-    "2 Kings 8",
     "2 Kings 9"
    ],
    "requires_all_of": [
@@ -1744,49 +3321,91 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D101",
-   "day": 101,
+   "day_id": "CRP3-D257",
+   "day": 257,
    "chapters": [
     "2 Chronicles 21",
-    "2 Chronicles 22",
-    "2 Kings 11",
-    "2 Kings 12",
-    "2 Kings 13"
+    "2 Chronicles 22"
    ],
    "requires_all_of": [
-    "CRP2-D157",
+    "CRP2-D157"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D258",
+   "day": 258,
+   "chapters": [
+    "2 Kings 11",
+    "2 Kings 12"
+   ],
+   "requires_all_of": [
     "CRP2-D158"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D102",
-   "day": 102,
+   "day_id": "CRP3-D259",
+   "day": 259,
    "chapters": [
-    "2 Chronicles 22",
-    "2 Chronicles 23",
-    "2 Chronicles 24",
-    "2 Chronicles 25",
+    "2 Kings 13"
+   ],
+   "requires_all_of": [
+    "CRP2-D158"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D260",
+   "day": 260,
+   "chapters": [
     "2 Kings 14"
    ],
    "requires_all_of": [
+    "CRP2-D159"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D261",
+   "day": 261,
+   "chapters": [
+    "2 Chronicles 22",
+    "2 Chronicles 23"
+   ],
+   "requires_all_of": [
     "CRP2-D157",
-    "CRP2-D159",
     "CRP2-D160"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D103",
-   "day": 103,
+   "day_id": "CRP3-D262",
+   "day": 262,
+   "chapters": [
+    "2 Chronicles 24"
+   ],
+   "requires_all_of": [
+    "CRP2-D160"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D263",
+   "day": 263,
+   "chapters": [
+    "2 Chronicles 25"
+   ],
+   "requires_all_of": [
+    "CRP2-D160"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D264",
+   "day": 264,
    "chapters": [
     "2 Kings 14",
-    "Amos 1",
-    "Amos 2",
-    "Amos 3",
-    "Amos 4",
-    "Amos 5",
-    "Amos 6",
     "Jonah 1",
     "Jonah 2",
     "Jonah 3",
@@ -1794,77 +3413,172 @@
    ],
    "requires_all_of": [
     "CRP2-D159",
+    "CRP2-D161"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D265",
+   "day": 265,
+   "chapters": [
+    "Amos 1",
+    "Amos 2",
+    "Amos 3"
+   ],
+   "requires_all_of": [
+    "CRP2-D161"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D266",
+   "day": 266,
+   "chapters": [
+    "Amos 3",
+    "Amos 4",
+    "Amos 5",
+    "Amos 6"
+   ],
+   "requires_all_of": [
     "CRP2-D161",
     "CRP2-D162"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D104",
-   "day": 104,
+   "day_id": "CRP3-D267",
+   "day": 267,
    "chapters": [
     "Amos 6",
     "Amos 7",
     "Amos 8",
-    "Amos 9",
-    "Hosea 1",
-    "Hosea 2",
-    "Hosea 3",
-    "Hosea 4",
-    "Hosea 5"
+    "Amos 9"
    ],
    "requires_all_of": [
-    "CRP2-D162",
+    "CRP2-D162"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D268",
+   "day": 268,
+   "chapters": [
+    "Hosea 1",
+    "Hosea 2",
+    "Hosea 3"
+   ],
+   "requires_all_of": [
     "CRP2-D163"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D105",
-   "day": 105,
+   "day_id": "CRP3-D269",
+   "day": 269,
    "chapters": [
-    "Hosea 10",
-    "Hosea 11",
-    "Hosea 12",
-    "Hosea 13",
-    "Hosea 14",
+    "Hosea 4",
     "Hosea 5",
-    "Hosea 6",
+    "Hosea 6"
+   ],
+   "requires_all_of": [
+    "CRP2-D163"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D270",
+   "day": 270,
+   "chapters": [
     "Hosea 7",
     "Hosea 8",
     "Hosea 9"
    ],
    "requires_all_of": [
-    "CRP2-D163",
+    "CRP2-D164"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D271",
+   "day": 271,
+   "chapters": [
+    "Hosea 10",
+    "Hosea 11",
+    "Hosea 12",
+    "Hosea 13",
+    "Hosea 14"
+   ],
+   "requires_all_of": [
     "CRP2-D164",
     "CRP2-D165"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D106",
-   "day": 106,
+   "day_id": "CRP3-D272",
+   "day": 272,
    "chapters": [
     "2 Kings 15",
-    "Isaiah 1",
-    "Isaiah 2",
-    "Isaiah 3",
-    "Isaiah 4",
-    "Isaiah 5",
     "Isaiah 6"
    ],
    "requires_all_of": [
     "CRP2-D165",
-    "CRP2-D166",
     "CRP2-D167"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D107",
-   "day": 107,
+   "day_id": "CRP3-D273",
+   "day": 273,
    "chapters": [
-    "2 Chronicles 26",
+    "Isaiah 1",
+    "Isaiah 2"
+   ],
+   "requires_all_of": [
+    "CRP2-D165",
+    "CRP2-D166"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D274",
+   "day": 274,
+   "chapters": [
+    "Isaiah 3",
+    "Isaiah 4",
+    "Isaiah 5"
+   ],
+   "requires_all_of": [
+    "CRP2-D166"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D275",
+   "day": 275,
+   "chapters": [
+    "2 Chronicles 26"
+   ],
+   "requires_all_of": [
+    "CRP2-D167"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D276",
+   "day": 276,
+   "chapters": [
+    "2 Kings 15"
+   ],
+   "requires_all_of": [
+    "CRP2-D167"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D277",
+   "day": 277,
+   "chapters": [
     "2 Kings 15",
     "2 Kings 16"
    ],
@@ -1874,51 +3588,103 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D108",
-   "day": 108,
+   "day_id": "CRP3-D278",
+   "day": 278,
    "chapters": [
-    "2 Kings 16",
-    "Isaiah 10",
-    "Isaiah 17",
     "Isaiah 7",
+    "Isaiah 8"
+   ],
+   "requires_all_of": [
+    "CRP2-D168"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D279",
+   "day": 279,
+   "chapters": [
+    "Isaiah 10",
     "Isaiah 8",
     "Isaiah 9"
    ],
    "requires_all_of": [
-    "CRP2-D167",
     "CRP2-D168",
     "CRP2-D170"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D109",
-   "day": 109,
+   "day_id": "CRP3-D280",
+   "day": 280,
    "chapters": [
     "2 Kings 16",
     "Isaiah 14",
-    "Micah 1",
-    "Micah 2",
-    "Micah 3",
-    "Micah 4",
-    "Micah 5",
-    "Micah 6",
-    "Micah 7"
+    "Isaiah 17"
    ],
    "requires_all_of": [
     "CRP2-D167",
+    "CRP2-D168",
+    "CRP2-D169"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D281",
+   "day": 281,
+   "chapters": [
+    "Micah 1",
+    "Micah 2"
+   ],
+   "requires_all_of": [
+    "CRP2-D169"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D282",
+   "day": 282,
+   "chapters": [
+    "Micah 3",
+    "Micah 4",
+    "Micah 5",
+    "Micah 6"
+   ],
+   "requires_all_of": [
     "CRP2-D169",
     "CRP2-D170"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D110",
-   "day": 110,
+   "day_id": "CRP3-D283",
+   "day": 283,
+   "chapters": [
+    "Micah 6",
+    "Micah 7"
+   ],
+   "requires_all_of": [
+    "CRP2-D170"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D284",
+   "day": 284,
    "chapters": [
     "2 Chronicles 27",
     "2 Chronicles 28",
-    "2 Kings 17",
+    "2 Kings 17"
+   ],
+   "requires_all_of": [
+    "CRP2-D171",
+    "CRP2-D172"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D285",
+   "day": 285,
+   "chapters": [
     "Isaiah 28",
     "Isaiah 29"
    ],
@@ -1929,31 +3695,46 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D111",
-   "day": 111,
+   "day_id": "CRP3-D286",
+   "day": 286,
    "chapters": [
-    "2 Kings 17",
+    "2 Kings 17"
+   ],
+   "requires_all_of": [
+    "CRP2-D172"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D287",
+   "day": 287,
+   "chapters": [
     "2 Kings 18",
-    "Isaiah 10",
-    "Isaiah 11",
-    "Isaiah 12"
+    "Isaiah 10"
    ],
    "requires_all_of": [
     "CRP2-D170",
-    "CRP2-D171",
-    "CRP2-D172",
-    "CRP2-D173",
     "CRP2-D174"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D112",
-   "day": 112,
+   "day_id": "CRP3-D288",
+   "day": 288,
    "chapters": [
-    "Isaiah 18",
-    "Isaiah 19",
-    "Isaiah 20",
+    "Isaiah 11",
+    "Isaiah 12"
+   ],
+   "requires_all_of": [
+    "CRP2-D171",
+    "CRP2-D173"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D289",
+   "day": 289,
+   "chapters": [
     "Proverbs 25",
     "Proverbs 26",
     "Proverbs 27",
@@ -1962,40 +3743,71 @@
    ],
    "requires_all_of": [
     "CRP2-D173",
-    "CRP2-D174",
     "CRP2-D203"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D113",
-   "day": 113,
+   "day_id": "CRP3-D290",
+   "day": 290,
+   "chapters": [
+    "Isaiah 18",
+    "Isaiah 19",
+    "Isaiah 20"
+   ],
+   "requires_all_of": [
+    "CRP2-D174"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D291",
+   "day": 291,
    "chapters": [
     "Isaiah 15",
     "Isaiah 16",
-    "Isaiah 22",
+    "Isaiah 22"
+   ],
+   "requires_all_of": [
+    "CRP2-D172",
+    "CRP2-D174",
+    "CRP2-D177"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D292",
+   "day": 292,
+   "chapters": [
     "Isaiah 30",
     "Isaiah 31",
     "Isaiah 32"
    ],
    "requires_all_of": [
-    "CRP2-D172",
-    "CRP2-D174",
     "CRP2-D175",
-    "CRP2-D177",
     "CRP2-D199"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D114",
-   "day": 114,
+   "day_id": "CRP3-D293",
+   "day": 293,
+   "chapters": [
+    "2 Kings 20",
+    "Isaiah 38"
+   ],
+   "requires_all_of": [
+    "CRP2-D175"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D294",
+   "day": 294,
    "chapters": [
     "2 Kings 18",
-    "2 Kings 19",
     "2 Kings 20",
     "Isaiah 36",
-    "Isaiah 38",
     "Isaiah 39"
    ],
    "requires_all_of": [
@@ -2006,92 +3818,192 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D115",
-   "day": 115,
+   "day_id": "CRP3-D295",
+   "day": 295,
    "chapters": [
-    "2 Kings 19",
-    "2 Kings 20",
+    "2 Kings 18",
+    "2 Kings 19"
+   ],
+   "requires_all_of": [
+    "CRP2-D174",
+    "CRP2-D176"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D296",
+   "day": 296,
+   "chapters": [
     "Isaiah 36",
     "Isaiah 37"
    ],
    "requires_all_of": [
-    "CRP2-D175",
     "CRP2-D176",
     "CRP2-D177"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D116",
-   "day": 116,
+   "day_id": "CRP3-D297",
+   "day": 297,
+   "chapters": [
+    "2 Kings 19"
+   ],
+   "requires_all_of": [
+    "CRP2-D176"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D298",
+   "day": 298,
+   "chapters": [
+    "2 Kings 20",
+    "Isaiah 37"
+   ],
+   "requires_all_of": [
+    "CRP2-D175",
+    "CRP2-D177"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D299",
+   "day": 299,
    "chapters": [
     "Isaiah 22",
-    "Isaiah 23",
+    "Isaiah 23"
+   ],
+   "requires_all_of": [
+    "CRP2-D177"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D300",
+   "day": 300,
+   "chapters": [
     "Isaiah 24",
     "Isaiah 25",
     "Isaiah 26",
     "Isaiah 27"
    ],
    "requires_all_of": [
-    "CRP2-D177",
     "CRP2-D178"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D117",
-   "day": 117,
+   "day_id": "CRP3-D301",
+   "day": 301,
    "chapters": [
-    "2 Chronicles 29",
+    "2 Chronicles 29"
+   ],
+   "requires_all_of": [
+    "CRP2-D179"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D302",
+   "day": 302,
+   "chapters": [
     "2 Chronicles 30",
-    "2 Chronicles 31",
+    "2 Chronicles 31"
+   ],
+   "requires_all_of": [
+    "CRP2-D179"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D303",
+   "day": 303,
+   "chapters": [
     "2 Chronicles 32"
    ],
    "requires_all_of": [
-    "CRP2-D179",
     "CRP2-D180"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D118",
-   "day": 118,
+   "day_id": "CRP3-D304",
+   "day": 304,
    "chapters": [
-    "2 Kings 21",
-    "2 Kings 22",
+    "2 Kings 21"
+   ],
+   "requires_all_of": [
+    "CRP2-D180"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D305",
+   "day": 305,
+   "chapters": [
+    "2 Kings 22"
+   ],
+   "requires_all_of": [
+    "CRP2-D180"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D306",
+   "day": 306,
+   "chapters": [
     "Zephaniah 1",
     "Zephaniah 2",
     "Zephaniah 3"
    ],
    "requires_all_of": [
-    "CRP2-D180",
     "CRP2-D181"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D119",
-   "day": 119,
+   "day_id": "CRP3-D307",
+   "day": 307,
    "chapters": [
-    "2 Chronicles 33",
-    "2 Chronicles 34",
-    "2 Chronicles 35",
     "2 Kings 23"
    ],
    "requires_all_of": [
+    "CRP2-D182"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D308",
+   "day": 308,
+   "chapters": [
+    "2 Chronicles 33",
+    "2 Chronicles 34"
+   ],
+   "requires_all_of": [
     "CRP2-D181",
+    "CRP2-D182"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D309",
+   "day": 309,
+   "chapters": [
+    "2 Chronicles 34",
+    "2 Chronicles 35"
+   ],
+   "requires_all_of": [
     "CRP2-D182",
     "CRP2-D184"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D120",
-   "day": 120,
+   "day_id": "CRP3-D310",
+   "day": 310,
    "chapters": [
     "2 Kings 23",
-    "Jeremiah 1",
-    "Jeremiah 2",
     "Psalms 100",
     "Psalms 33",
     "Psalms 66",
@@ -2101,56 +4013,106 @@
     "CRP2-D116",
     "CRP2-D122",
     "CRP2-D157",
-    "CRP2-D182",
+    "CRP2-D182"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D311",
+   "day": 311,
+   "chapters": [
+    "Jeremiah 1"
+   ],
+   "requires_all_of": [
     "CRP2-D183"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D121",
-   "day": 121,
+   "day_id": "CRP3-D312",
+   "day": 312,
+   "chapters": [
+    "Jeremiah 2"
+   ],
+   "requires_all_of": [
+    "CRP2-D183"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D313",
+   "day": 313,
    "chapters": [
     "Jeremiah 3",
-    "Jeremiah 4",
+    "Jeremiah 4"
+   ],
+   "requires_all_of": [
+    "CRP2-D183",
+    "CRP2-D184"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D314",
+   "day": 314,
+   "chapters": [
     "Jeremiah 5",
     "Jeremiah 6"
    ],
    "requires_all_of": [
-    "CRP2-D183",
     "CRP2-D184",
     "CRP2-D185"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D122",
-   "day": 122,
+   "day_id": "CRP3-D315",
+   "day": 315,
    "chapters": [
-    "2 Chronicles 35",
-    "2 Chronicles 36",
-    "2 Kings 23",
-    "Jeremiah 22",
     "Nahum 1",
     "Nahum 2",
     "Nahum 3"
    ],
    "requires_all_of": [
+    "CRP2-D185"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D316",
+   "day": 316,
+   "chapters": [
+    "2 Chronicles 35",
+    "2 Chronicles 36",
+    "2 Kings 23",
+    "Jeremiah 22"
+   ],
+   "requires_all_of": [
     "CRP2-D182",
     "CRP2-D184",
-    "CRP2-D185",
     "CRP2-D188",
     "CRP2-D208"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D123",
-   "day": 123,
+   "day_id": "CRP3-D317",
+   "day": 317,
    "chapters": [
-    "2 Kings 23",
     "Habakkuk 1",
     "Habakkuk 2",
-    "Habakkuk 3",
+    "Habakkuk 3"
+   ],
+   "requires_all_of": [
+    "CRP2-D186"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D318",
+   "day": 318,
+   "chapters": [
+    "2 Kings 23",
     "Jeremiah 26",
     "Jeremiah 7",
     "Jeremiah 8"
@@ -2164,36 +4126,65 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D124",
-   "day": 124,
+   "day_id": "CRP3-D319",
+   "day": 319,
    "chapters": [
     "Jeremiah 11",
     "Jeremiah 12",
-    "Jeremiah 13",
-    "Jeremiah 18",
-    "Jeremiah 26",
+    "Jeremiah 26"
+   ],
+   "requires_all_of": [
+    "CRP2-D187",
+    "CRP2-D188"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D320",
+   "day": 320,
+   "chapters": [
     "Jeremiah 46",
     "Jeremiah 47"
    ],
    "requires_all_of": [
     "CRP2-D187",
-    "CRP2-D188",
     "CRP2-D205"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D125",
-   "day": 125,
+   "day_id": "CRP3-D321",
+   "day": 321,
    "chapters": [
-    "Jeremiah 14",
-    "Jeremiah 15",
+    "Jeremiah 13",
+    "Jeremiah 18"
+   ],
+   "requires_all_of": [
+    "CRP2-D187"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D322",
+   "day": 322,
+   "chapters": [
     "Jeremiah 25",
+    "Jeremiah 36"
+   ],
+   "requires_all_of": [
+    "CRP2-D189"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D323",
+   "day": 323,
+   "chapters": [
+    "Jeremiah 15",
     "Jeremiah 36",
     "Jeremiah 45"
    ],
    "requires_all_of": [
-    "CRP2-D188",
     "CRP2-D189",
     "CRP2-D190",
     "CRP2-D202"
@@ -2201,66 +4192,136 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D126",
-   "day": 126,
+   "day_id": "CRP3-D324",
+   "day": 324,
+   "chapters": [
+    "Jeremiah 14",
+    "Jeremiah 15"
+   ],
+   "requires_all_of": [
+    "CRP2-D188",
+    "CRP2-D190"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D325",
+   "day": 325,
+   "chapters": [
+    "Jeremiah 16",
+    "Jeremiah 17"
+   ],
+   "requires_all_of": [
+    "CRP2-D189",
+    "CRP2-D190"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D326",
+   "day": 326,
    "chapters": [
     "Jeremiah 10",
-    "Jeremiah 16",
-    "Jeremiah 17",
     "Jeremiah 8",
     "Jeremiah 9"
    ],
    "requires_all_of": [
-    "CRP2-D189",
     "CRP2-D190",
     "CRP2-D192"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D127",
-   "day": 127,
+   "day_id": "CRP3-D327",
+   "day": 327,
    "chapters": [
     "2 Kings 24",
-    "Jeremiah 18",
-    "Jeremiah 19",
-    "Jeremiah 20",
-    "Jeremiah 23",
     "Jeremiah 35"
    ],
    "requires_all_of": [
-    "CRP2-D187",
-    "CRP2-D190",
     "CRP2-D193",
-    "CRP2-D194",
     "CRP2-D195"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D128",
-   "day": 128,
+   "day_id": "CRP3-D328",
+   "day": 328,
    "chapters": [
-    "2 Chronicles 36",
+    "Jeremiah 23"
+   ],
+   "requires_all_of": [
+    "CRP2-D194"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D329",
+   "day": 329,
+   "chapters": [
+    "Jeremiah 18",
+    "Jeremiah 19",
+    "Jeremiah 20"
+   ],
+   "requires_all_of": [
+    "CRP2-D187",
+    "CRP2-D190"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D330",
+   "day": 330,
+   "chapters": [
     "2 Kings 24",
-    "Daniel 1",
     "Jeremiah 13",
-    "Jeremiah 22",
-    "Jeremiah 24"
+    "Jeremiah 22"
    ],
    "requires_all_of": [
     "CRP2-D187",
     "CRP2-D188",
+    "CRP2-D195"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D331",
+   "day": 331,
+   "chapters": [
+    "2 Chronicles 36",
+    "Jeremiah 24"
+   ],
+   "requires_all_of": [
     "CRP2-D193",
-    "CRP2-D195",
-    "CRP2-D196",
     "CRP2-D208"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D129",
-   "day": 129,
+   "day_id": "CRP3-D332",
+   "day": 332,
+   "chapters": [
+    "Daniel 1"
+   ],
+   "requires_all_of": [
+    "CRP2-D196"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D333",
+   "day": 333,
+   "chapters": [
+    "Daniel 2"
+   ],
+   "requires_all_of": [
+    "CRP2-D196"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D334",
+   "day": 334,
    "chapters": [
     "Daniel 2",
     "Daniel 3",
@@ -2273,18 +4334,15 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D130",
-   "day": 130,
+   "day_id": "CRP3-D335",
+   "day": 335,
    "chapters": [
     "2 Kings 24",
-    "Jeremiah 25",
     "Jeremiah 27",
     "Jeremiah 48",
-    "Jeremiah 49",
     "Jeremiah 52"
    ],
    "requires_all_of": [
-    "CRP2-D189",
     "CRP2-D195",
     "CRP2-D198",
     "CRP2-D213"
@@ -2292,25 +4350,47 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D131",
-   "day": 131,
+   "day_id": "CRP3-D336",
+   "day": 336,
    "chapters": [
-    "Jeremiah 27",
-    "Jeremiah 28",
-    "Jeremiah 29"
+    "Jeremiah 49"
    ],
    "requires_all_of": [
+    "CRP2-D198"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D337",
+   "day": 337,
+   "chapters": [
+    "Jeremiah 25",
+    "Jeremiah 27",
+    "Jeremiah 28"
+   ],
+   "requires_all_of": [
+    "CRP2-D189",
     "CRP2-D195",
     "CRP2-D199"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D132",
-   "day": 132,
+   "day_id": "CRP3-D338",
+   "day": 338,
    "chapters": [
-    "Jeremiah 50",
-    "Jeremiah 51"
+    "Jeremiah 29"
+   ],
+   "requires_all_of": [
+    "CRP2-D199"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D339",
+   "day": 339,
+   "chapters": [
+    "Jeremiah 50"
    ],
    "requires_all_of": [
     "CRP2-D200"
@@ -2318,19 +4398,41 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D133",
-   "day": 133,
+   "day_id": "CRP3-D340",
+   "day": 340,
    "chapters": [
     "2 Chronicles 36",
-    "2 Kings 24",
-    "2 Kings 25",
+    "Jeremiah 51"
+   ],
+   "requires_all_of": [
+    "CRP2-D200",
+    "CRP2-D208"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D341",
+   "day": 341,
+   "chapters": [
     "Ezekiel 1",
     "Ezekiel 2",
-    "Ezekiel 3",
+    "Ezekiel 3"
+   ],
+   "requires_all_of": [
+    "CRP2-D202",
+    "CRP2-D212"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D342",
+   "day": 342,
+   "chapters": [
+    "2 Kings 24",
+    "2 Kings 25",
     "Jeremiah 10",
     "Jeremiah 21",
     "Jeremiah 22",
-    "Jeremiah 34",
     "Jeremiah 52"
    ],
    "requires_all_of": [
@@ -2338,72 +4440,115 @@
     "CRP2-D192",
     "CRP2-D195",
     "CRP2-D196",
-    "CRP2-D201",
-    "CRP2-D202",
-    "CRP2-D208",
-    "CRP2-D212",
     "CRP2-D213",
     "CRP2-D215"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D134",
-   "day": 134,
+   "day_id": "CRP3-D343",
+   "day": 343,
    "chapters": [
-    "Jeremiah 30",
-    "Jeremiah 31",
-    "Jeremiah 37",
+    "Jeremiah 34",
     "Jeremiah 46"
    ],
    "requires_all_of": [
     "CRP2-D201",
-    "CRP2-D204",
     "CRP2-D205"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D135",
-   "day": 135,
+   "day_id": "CRP3-D344",
+   "day": 344,
+   "chapters": [
+    "Jeremiah 30",
+    "Jeremiah 37"
+   ],
+   "requires_all_of": [
+    "CRP2-D201",
+    "CRP2-D205"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D345",
+   "day": 345,
+   "chapters": [
+    "Jeremiah 31"
+   ],
+   "requires_all_of": [
+    "CRP2-D204"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D346",
+   "day": 346,
+   "chapters": [
+    "Jeremiah 32"
+   ],
+   "requires_all_of": [
+    "CRP2-D204"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D347",
+   "day": 347,
    "chapters": [
     "Jeremiah 23",
-    "Jeremiah 32",
-    "Jeremiah 33",
-    "Jeremiah 38"
+    "Jeremiah 33"
    ],
    "requires_all_of": [
     "CRP2-D194",
-    "CRP2-D201",
-    "CRP2-D204",
-    "CRP2-D205"
+    "CRP2-D201"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D136",
-   "day": 136,
+   "day_id": "CRP3-D348",
+   "day": 348,
    "chapters": [
     "2 Chronicles 36",
-    "Ezekiel 10",
-    "Ezekiel 11",
-    "Ezekiel 8",
-    "Ezekiel 9"
+    "Jeremiah 38"
    ],
    "requires_all_of": [
-    "CRP2-D206",
+    "CRP2-D205",
     "CRP2-D208"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D137",
-   "day": 137,
+   "day_id": "CRP3-D349",
+   "day": 349,
+   "chapters": [
+    "Ezekiel 8",
+    "Ezekiel 9"
+   ],
+   "requires_all_of": [
+    "CRP2-D206"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D350",
+   "day": 350,
+   "chapters": [
+    "Ezekiel 10",
+    "Ezekiel 11"
+   ],
+   "requires_all_of": [
+    "CRP2-D206"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D351",
+   "day": 351,
    "chapters": [
     "Ezekiel 13",
-    "Ezekiel 14",
-    "Ezekiel 15",
-    "Ezekiel 16"
+    "Ezekiel 14"
    ],
    "requires_all_of": [
     "CRP2-D206",
@@ -2412,52 +4557,116 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D138",
-   "day": 138,
+   "day_id": "CRP3-D352",
+   "day": 352,
    "chapters": [
-    "Ezekiel 17",
-    "Ezekiel 18",
+    "Ezekiel 14",
+    "Ezekiel 15",
+    "Ezekiel 16"
+   ],
+   "requires_all_of": [
+    "CRP2-D207"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D353",
+   "day": 353,
+   "chapters": [
+    "Ezekiel 16",
+    "Ezekiel 17"
+   ],
+   "requires_all_of": [
+    "CRP2-D207",
+    "CRP2-D208"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D354",
+   "day": 354,
+   "chapters": [
+    "Ezekiel 18"
+   ],
+   "requires_all_of": [
+    "CRP2-D208"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D355",
+   "day": 355,
+   "chapters": [
     "Ezekiel 20",
     "Ezekiel 21"
    ],
    "requires_all_of": [
-    "CRP2-D208",
     "CRP2-D209",
     "CRP2-D210"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D139",
-   "day": 139,
+   "day_id": "CRP3-D356",
+   "day": 356,
    "chapters": [
-    "Ezekiel 21",
     "Ezekiel 22",
-    "Ezekiel 23",
-    "Ezekiel 24"
+    "Ezekiel 23"
    ],
    "requires_all_of": [
-    "CRP2-D210",
     "CRP2-D211",
     "CRP2-D214"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D140",
-   "day": 140,
+   "day_id": "CRP3-D357",
+   "day": 357,
    "chapters": [
-    "Ezekiel 29",
+    "Ezekiel 21",
+    "Ezekiel 24"
+   ],
+   "requires_all_of": [
+    "CRP2-D210",
+    "CRP2-D211"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D358",
+   "day": 358,
+   "chapters": [
     "Ezekiel 3",
-    "Ezekiel 30",
-    "Ezekiel 31",
     "Ezekiel 4",
-    "Ezekiel 5",
+    "Ezekiel 5"
+   ],
+   "requires_all_of": [
+    "CRP2-D212"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D359",
+   "day": 359,
+   "chapters": [
     "Ezekiel 6",
     "Ezekiel 7"
    ],
    "requires_all_of": [
     "CRP2-D212",
+    "CRP2-D213"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D360",
+   "day": 360,
+   "chapters": [
+    "Ezekiel 29",
+    "Ezekiel 30",
+    "Ezekiel 31"
+   ],
+   "requires_all_of": [
     "CRP2-D213",
     "CRP2-D218",
     "CRP2-D219"
@@ -2465,68 +4674,120 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D141",
-   "day": 141,
+   "day_id": "CRP3-D361",
+   "day": 361,
    "chapters": [
     "2 Kings 25",
     "Jeremiah 39",
-    "Jeremiah 52",
-    "Lamentations 1",
-    "Lamentations 2"
+    "Jeremiah 52"
    ],
    "requires_all_of": [
     "CRP2-D202",
     "CRP2-D213",
+    "CRP2-D215"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D362",
+   "day": 362,
+   "chapters": [
+    "Jeremiah 39",
+    "Jeremiah 52",
+    "Lamentations 1"
+   ],
+   "requires_all_of": [
+    "CRP2-D202",
+    "CRP2-D213",
+    "CRP2-D214"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D363",
+   "day": 363,
+   "chapters": [
+    "Lamentations 2",
+    "Lamentations 3"
+   ],
+   "requires_all_of": [
     "CRP2-D214",
     "CRP2-D215"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D142",
-   "day": 142,
+   "day_id": "CRP3-D364",
+   "day": 364,
    "chapters": [
     "2 Kings 25",
-    "Jeremiah 39",
-    "Jeremiah 40",
-    "Jeremiah 41",
-    "Lamentations 3",
     "Lamentations 4",
     "Lamentations 5"
    ],
    "requires_all_of": [
-    "CRP2-D202",
-    "CRP2-D209",
     "CRP2-D215",
     "CRP2-D216"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D143",
-   "day": 143,
+   "day_id": "CRP3-D365",
+   "day": 365,
    "chapters": [
-    "2 Chronicles 36",
-    "Ezekiel 12",
+    "Jeremiah 39",
+    "Jeremiah 40",
+    "Jeremiah 41"
+   ],
+   "requires_all_of": [
+    "CRP2-D202",
+    "CRP2-D209"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D366",
+   "day": 366,
+   "chapters": [
     "Jeremiah 42",
     "Jeremiah 43",
     "Jeremiah 44"
    ],
    "requires_all_of": [
+    "CRP2-D210"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D367",
+   "day": 367,
+   "chapters": [
+    "2 Chronicles 36",
+    "Ezekiel 12"
+   ],
+   "requires_all_of": [
     "CRP2-D208",
-    "CRP2-D210",
     "CRP2-D216"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D144",
-   "day": 144,
+   "day_id": "CRP3-D368",
+   "day": 368,
+   "chapters": [
+    "Psalms 89"
+   ],
+   "requires_all_of": [
+    "CRP2-D217"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D369",
+   "day": 369,
    "chapters": [
     "Ezekiel 19",
     "Ezekiel 22",
-    "Ezekiel 33",
-    "Psalms 89"
+    "Ezekiel 33"
    ],
    "requires_all_of": [
     "CRP2-D214",
@@ -2536,60 +4797,128 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D145",
-   "day": 145,
+   "day_id": "CRP3-D370",
+   "day": 370,
    "chapters": [
     "Ezekiel 25",
-    "Ezekiel 26",
-    "Ezekiel 27",
-    "Ezekiel 28",
-    "Ezekiel 32"
+    "Ezekiel 26"
    ],
    "requires_all_of": [
     "CRP2-D217",
+    "CRP2-D218"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D371",
+   "day": 371,
+   "chapters": [
+    "Ezekiel 27",
+    "Ezekiel 28"
+   ],
+   "requires_all_of": [
     "CRP2-D218",
     "CRP2-D219"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D146",
-   "day": 146,
+   "day_id": "CRP3-D372",
+   "day": 372,
    "chapters": [
-    "Ezekiel 33",
-    "Ezekiel 34",
-    "Ezekiel 35",
-    "Ezekiel 36",
-    "Jeremiah 52",
-    "Obadiah 1",
+    "Ezekiel 32",
     "Psalms 137"
    ],
    "requires_all_of": [
+    "CRP2-D219"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D373",
+   "day": 373,
+   "chapters": [
+    "Jeremiah 52",
+    "Obadiah 1"
+   ],
+   "requires_all_of": [
     "CRP2-D213",
-    "CRP2-D219",
+    "CRP2-D220"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D374",
+   "day": 374,
+   "chapters": [
+    "Ezekiel 33"
+   ],
+   "requires_all_of": [
+    "CRP2-D220"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D375",
+   "day": 375,
+   "chapters": [
+    "Ezekiel 34",
+    "Ezekiel 35"
+   ],
+   "requires_all_of": [
     "CRP2-D220",
     "CRP2-D221"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D147",
-   "day": 147,
+   "day_id": "CRP3-D376",
+   "day": 376,
    "chapters": [
-    "Ezekiel 36",
-    "Ezekiel 37",
+    "Ezekiel 36"
+   ],
+   "requires_all_of": [
+    "CRP2-D221"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D377",
+   "day": 377,
+   "chapters": [
+    "Ezekiel 37"
+   ],
+   "requires_all_of": [
+    "CRP2-D221"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D378",
+   "day": 378,
+   "chapters": [
     "Ezekiel 38",
     "Ezekiel 39"
    ],
    "requires_all_of": [
-    "CRP2-D221",
     "CRP2-D222"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D148",
-   "day": 148,
+   "day_id": "CRP3-D379",
+   "day": 379,
+   "chapters": [
+    "Ezekiel 40"
+   ],
+   "requires_all_of": [
+    "CRP2-D223"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D380",
+   "day": 380,
    "chapters": [
     "Ezekiel 40",
     "Ezekiel 41",
@@ -2601,15 +4930,23 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D149",
-   "day": 149,
+   "day_id": "CRP3-D381",
+   "day": 381,
    "chapters": [
     "Ezekiel 43",
-    "Ezekiel 44",
+    "Ezekiel 44"
+   ],
+   "requires_all_of": [
+    "CRP2-D224"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D382",
+   "day": 382,
+   "chapters": [
     "Ezekiel 45",
-    "Ezekiel 46",
-    "Ezekiel 47",
-    "Ezekiel 48"
+    "Ezekiel 46"
    ],
    "requires_all_of": [
     "CRP2-D224",
@@ -2618,52 +4955,102 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D150",
-   "day": 150,
+   "day_id": "CRP3-D383",
+   "day": 383,
+   "chapters": [
+    "Ezekiel 46",
+    "Ezekiel 47",
+    "Ezekiel 48"
+   ],
+   "requires_all_of": [
+    "CRP2-D225"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D384",
+   "day": 384,
+   "chapters": [
+    "Ezekiel 29",
+    "Ezekiel 30"
+   ],
+   "requires_all_of": [
+    "CRP2-D218",
+    "CRP2-D219"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D385",
+   "day": 385,
    "chapters": [
     "2 Kings 25",
-    "Ezekiel 29",
-    "Ezekiel 30",
     "Isaiah 13",
-    "Isaiah 14",
     "Jeremiah 52"
    ],
    "requires_all_of": [
-    "CRP2-D169",
     "CRP2-D213",
     "CRP2-D215",
-    "CRP2-D218",
-    "CRP2-D219",
     "CRP2-D226"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D151",
-   "day": 151,
+   "day_id": "CRP3-D386",
+   "day": 386,
    "chapters": [
-    "Daniel 5",
-    "Isaiah 21",
+    "Isaiah 14",
+    "Isaiah 21"
+   ],
+   "requires_all_of": [
+    "CRP2-D169",
+    "CRP2-D199"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D387",
+   "day": 387,
+   "chapters": [
     "Isaiah 33",
     "Isaiah 34",
     "Isaiah 35"
    ],
    "requires_all_of": [
-    "CRP2-D199",
     "CRP2-D226"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D152",
-   "day": 152,
+   "day_id": "CRP3-D388",
+   "day": 388,
+   "chapters": [
+    "Daniel 5"
+   ],
+   "requires_all_of": [
+    "CRP2-D226"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D389",
+   "day": 389,
    "chapters": [
     "Isaiah 40",
+    "Isaiah 41"
+   ],
+   "requires_all_of": [
+    "CRP2-D227"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D390",
+   "day": 390,
+   "chapters": [
     "Isaiah 41",
     "Isaiah 42",
-    "Isaiah 43",
-    "Isaiah 44",
-    "Isaiah 45"
+    "Isaiah 43"
    ],
    "requires_all_of": [
     "CRP2-D227",
@@ -2672,12 +5059,34 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D153",
-   "day": 153,
+   "day_id": "CRP3-D391",
+   "day": 391,
+   "chapters": [
+    "Isaiah 44",
+    "Isaiah 45"
+   ],
+   "requires_all_of": [
+    "CRP2-D228"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D392",
+   "day": 392,
    "chapters": [
     "Isaiah 46",
     "Isaiah 47",
-    "Isaiah 48",
+    "Isaiah 48"
+   ],
+   "requires_all_of": [
+    "CRP2-D229"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D393",
+   "day": 393,
+   "chapters": [
     "Isaiah 49",
     "Isaiah 50",
     "Isaiah 51"
@@ -2689,91 +5098,144 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D154",
-   "day": 154,
+   "day_id": "CRP3-D394",
+   "day": 394,
    "chapters": [
-    "2 Chronicles 36",
     "Isaiah 52",
     "Isaiah 53",
     "Isaiah 54",
-    "Isaiah 55",
+    "Isaiah 55"
+   ],
+   "requires_all_of": [
+    "CRP2-D230"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D395",
+   "day": 395,
+   "chapters": [
+    "2 Chronicles 36",
     "Proverbs 22",
     "Proverbs 23",
     "Proverbs 24"
    ],
    "requires_all_of": [
     "CRP2-D208",
-    "CRP2-D230",
     "CRP2-D231"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D155",
-   "day": 155,
+   "day_id": "CRP3-D396",
+   "day": 396,
    "chapters": [
-    "Job 1",
-    "Job 2",
-    "Job 3",
     "Proverbs 30",
     "Proverbs 31"
    ],
    "requires_all_of": [
-    "CRP2-D232",
+    "CRP2-D232"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D397",
+   "day": 397,
+   "chapters": [
+    "Job 1",
+    "Job 2"
+   ],
+   "requires_all_of": [
+    "CRP2-D232"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D398",
+   "day": 398,
+   "chapters": [
+    "Job 3",
+    "Job 4",
+    "Job 5"
+   ],
+   "requires_all_of": [
     "CRP2-D233"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D156",
-   "day": 156,
+   "day_id": "CRP3-D399",
+   "day": 399,
    "chapters": [
-    "Job 10",
-    "Job 4",
-    "Job 5",
     "Job 6",
     "Job 7",
-    "Job 8",
+    "Job 8"
+   ],
+   "requires_all_of": [
+    "CRP2-D234"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D400",
+   "day": 400,
+   "chapters": [
+    "Job 10",
     "Job 9"
    ],
    "requires_all_of": [
-    "CRP2-D233",
-    "CRP2-D234",
     "CRP2-D235"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D157",
-   "day": 157,
+   "day_id": "CRP3-D401",
+   "day": 401,
    "chapters": [
     "Job 11",
     "Job 12",
     "Job 13",
-    "Job 14",
-    "Job 15",
-    "Job 16",
-    "Job 17",
-    "Job 18"
+    "Job 14"
    ],
    "requires_all_of": [
     "CRP2-D235",
-    "CRP2-D236",
+    "CRP2-D236"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D402",
+   "day": 402,
+   "chapters": [
+    "Job 15",
+    "Job 16",
+    "Job 17"
+   ],
+   "requires_all_of": [
     "CRP2-D237"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D158",
-   "day": 158,
+   "day_id": "CRP3-D403",
+   "day": 403,
    "chapters": [
-    "Job 19",
+    "Job 18",
+    "Job 19"
+   ],
+   "requires_all_of": [
+    "CRP2-D237",
+    "CRP2-D238"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D404",
+   "day": 404,
+   "chapters": [
     "Job 20",
     "Job 21",
-    "Job 22",
-    "Job 23",
-    "Job 24",
-    "Job 25"
+    "Job 22"
    ],
    "requires_all_of": [
     "CRP2-D238",
@@ -2782,12 +5244,35 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D159",
-   "day": 159,
+   "day_id": "CRP3-D405",
+   "day": 405,
+   "chapters": [
+    "Job 23",
+    "Job 24",
+    "Job 25"
+   ],
+   "requires_all_of": [
+    "CRP2-D239"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D406",
+   "day": 406,
    "chapters": [
     "Job 26",
     "Job 27",
-    "Job 28",
+    "Job 28"
+   ],
+   "requires_all_of": [
+    "CRP2-D240"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D407",
+   "day": 407,
+   "chapters": [
     "Job 29",
     "Job 30",
     "Job 31"
@@ -2799,73 +5284,127 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D160",
-   "day": 160,
+   "day_id": "CRP3-D408",
+   "day": 408,
    "chapters": [
     "Job 32",
     "Job 33",
-    "Job 34",
+    "Job 34"
+   ],
+   "requires_all_of": [
+    "CRP2-D242"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D409",
+   "day": 409,
+   "chapters": [
     "Job 35",
     "Job 36",
-    "Job 37",
+    "Job 37"
+   ],
+   "requires_all_of": [
+    "CRP2-D243"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D410",
+   "day": 410,
+   "chapters": [
     "Job 38",
     "Job 39",
     "Job 40"
    ],
    "requires_all_of": [
-    "CRP2-D242",
-    "CRP2-D243",
     "CRP2-D244",
     "CRP2-D245"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D161",
-   "day": 161,
+   "day_id": "CRP3-D411",
+   "day": 411,
    "chapters": [
-    "Ezra 1",
-    "Ezra 2",
     "Job 40",
     "Job 41",
     "Job 42"
    ],
    "requires_all_of": [
-    "CRP2-D245",
+    "CRP2-D245"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D412",
+   "day": 412,
+   "chapters": [
+    "Ezra 1"
+   ],
+   "requires_all_of": [
     "CRP2-D246"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D162",
-   "day": 162,
+   "day_id": "CRP3-D413",
+   "day": 413,
+   "chapters": [
+    "Ezra 2"
+   ],
+   "requires_all_of": [
+    "CRP2-D246"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D414",
+   "day": 414,
    "chapters": [
     "Ezra 3",
     "Ezra 4",
-    "Ezra 5",
-    "Haggai 1",
-    "Haggai 2"
+    "Ezra 5"
    ],
    "requires_all_of": [
     "CRP2-D246",
-    "CRP2-D247",
     "CRP2-D248",
     "CRP2-D251"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D163",
-   "day": 163,
+   "day_id": "CRP3-D415",
+   "day": 415,
+   "chapters": [
+    "Haggai 1",
+    "Haggai 2"
+   ],
+   "requires_all_of": [
+    "CRP2-D247"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D416",
+   "day": 416,
    "chapters": [
     "Zechariah 1",
     "Zechariah 2",
-    "Zechariah 3",
+    "Zechariah 3"
+   ],
+   "requires_all_of": [
+    "CRP2-D247"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D417",
+   "day": 417,
+   "chapters": [
     "Zechariah 4",
     "Zechariah 5",
-    "Zechariah 6",
-    "Zechariah 7",
-    "Zechariah 8"
+    "Zechariah 6"
    ],
    "requires_all_of": [
     "CRP2-D247",
@@ -2874,98 +5413,232 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D164",
-   "day": 164,
+   "day_id": "CRP3-D418",
+   "day": 418,
    "chapters": [
-    "Daniel 6",
+    "Zechariah 7",
+    "Zechariah 8"
+   ],
+   "requires_all_of": [
+    "CRP2-D248"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D419",
+   "day": 419,
+   "chapters": [
     "Ezra 5",
     "Ezra 6"
    ],
    "requires_all_of": [
-    "CRP2-D248",
+    "CRP2-D248"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D420",
+   "day": 420,
+   "chapters": [
+    "Daniel 6"
+   ],
+   "requires_all_of": [
     "CRP2-D249"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D165",
-   "day": 165,
+   "day_id": "CRP3-D421",
+   "day": 421,
    "chapters": [
     "1 Chronicles 1",
-    "1 Chronicles 2",
-    "1 Chronicles 3",
-    "1 Chronicles 4",
-    "1 Chronicles 5"
+    "1 Chronicles 2"
    ],
    "requires_all_of": [
     "CRP2-D249",
+    "CRP2-D250"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D422",
+   "day": 422,
+   "chapters": [
+    "1 Chronicles 2",
+    "1 Chronicles 3",
+    "1 Chronicles 4"
+   ],
+   "requires_all_of": [
     "CRP2-D250",
     "CRP2-D251"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D166",
-   "day": 166,
+   "day_id": "CRP3-D423",
+   "day": 423,
+   "chapters": [
+    "1 Chronicles 4",
+    "1 Chronicles 5",
+    "1 Chronicles 6"
+   ],
+   "requires_all_of": [
+    "CRP2-D251",
+    "CRP2-D252"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D424",
+   "day": 424,
    "chapters": [
     "1 Chronicles 6",
+    "1 Chronicles 7"
+   ],
+   "requires_all_of": [
+    "CRP2-D252",
+    "CRP2-D253"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D425",
+   "day": 425,
+   "chapters": [
     "1 Chronicles 7",
     "1 Chronicles 8",
     "1 Chronicles 9"
    ],
    "requires_all_of": [
-    "CRP2-D252",
     "CRP2-D253",
     "CRP2-D254"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D167",
-   "day": 167,
+   "day_id": "CRP3-D426",
+   "day": 426,
    "chapters": [
-    "Esther 1",
-    "Esther 2",
+    "Esther 1"
+   ],
+   "requires_all_of": [
+    "CRP2-D254"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D427",
+   "day": 427,
+   "chapters": [
+    "Esther 2"
+   ],
+   "requires_all_of": [
+    "CRP2-D254"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D428",
+   "day": 428,
+   "chapters": [
     "Esther 3",
     "Esther 4",
+    "Esther 5"
+   ],
+   "requires_all_of": [
+    "CRP2-D255"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D429",
+   "day": 429,
+   "chapters": [
     "Esther 5",
     "Esther 6",
     "Esther 7",
     "Esther 8"
    ],
    "requires_all_of": [
-    "CRP2-D254",
     "CRP2-D255"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D168",
-   "day": 168,
+   "day_id": "CRP3-D430",
+   "day": 430,
    "chapters": [
     "Esther 10",
-    "Esther 9",
-    "Ezra 4",
-    "Malachi 1",
-    "Malachi 2",
-    "Malachi 3",
-    "Malachi 4"
+    "Esther 9"
    ],
    "requires_all_of": [
-    "CRP2-D251",
     "CRP2-D256"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D169",
-   "day": 169,
+   "day_id": "CRP3-D431",
+   "day": 431,
+   "chapters": [
+    "Ezra 4"
+   ],
+   "requires_all_of": [
+    "CRP2-D251"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D432",
+   "day": 432,
+   "chapters": [
+    "Malachi 1",
+    "Malachi 2"
+   ],
+   "requires_all_of": [
+    "CRP2-D256"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D433",
+   "day": 433,
+   "chapters": [
+    "Malachi 3",
+    "Malachi 4"
+   ],
+   "requires_all_of": [
+    "CRP2-D256"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D434",
+   "day": 434,
+   "chapters": [
+    "Ezra 7"
+   ],
+   "requires_all_of": [
+    "CRP2-D257"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D435",
+   "day": 435,
+   "chapters": [
+    "Ezra 8"
+   ],
+   "requires_all_of": [
+    "CRP2-D257"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D436",
+   "day": 436,
    "chapters": [
     "Ezra 10",
-    "Ezra 7",
-    "Ezra 8",
-    "Ezra 9",
-    "Nehemiah 1"
+    "Ezra 9"
    ],
    "requires_all_of": [
     "CRP2-D257",
@@ -2974,41 +5647,72 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D170",
-   "day": 170,
+   "day_id": "CRP3-D437",
+   "day": 437,
    "chapters": [
-    "Nehemiah 2",
-    "Nehemiah 3",
-    "Nehemiah 4",
-    "Nehemiah 5",
-    "Nehemiah 6"
+    "Nehemiah 1",
+    "Nehemiah 2"
    ],
    "requires_all_of": [
-    "CRP2-D258",
+    "CRP2-D258"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D438",
+   "day": 438,
+   "chapters": [
+    "Nehemiah 3",
+    "Nehemiah 4"
+   ],
+   "requires_all_of": [
     "CRP2-D259"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D171",
-   "day": 171,
+   "day_id": "CRP3-D439",
+   "day": 439,
+   "chapters": [
+    "Nehemiah 5",
+    "Nehemiah 6"
+   ],
+   "requires_all_of": [
+    "CRP2-D259"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D440",
+   "day": 440,
+   "chapters": [
+    "Nehemiah 6",
+    "Nehemiah 7"
+   ],
+   "requires_all_of": [
+    "CRP2-D259",
+    "CRP2-D260"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D441",
+   "day": 441,
    "chapters": [
     "Nehemiah 10",
-    "Nehemiah 6",
     "Nehemiah 7",
     "Nehemiah 8",
     "Nehemiah 9"
    ],
    "requires_all_of": [
-    "CRP2-D259",
     "CRP2-D260",
     "CRP2-D261"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D172",
-   "day": 172,
+   "day_id": "CRP3-D442",
+   "day": 442,
    "chapters": [
     "Psalms 1",
     "Psalms 119",
@@ -3022,11 +5726,21 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D173",
-   "day": 173,
+   "day_id": "CRP3-D443",
+   "day": 443,
    "chapters": [
     "Nehemiah 11",
-    "Nehemiah 12",
+    "Nehemiah 12"
+   ],
+   "requires_all_of": [
+    "CRP2-D264"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D444",
+   "day": 444,
+   "chapters": [
     "Psalms 120",
     "Psalms 121",
     "Psalms 122",
@@ -3047,66 +5761,80 @@
     "CRP2-D128",
     "CRP2-D193",
     "CRP2-D194",
-    "CRP2-D264",
     "CRP2-D265"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D174",
-   "day": 174,
+   "day_id": "CRP3-D445",
+   "day": 445,
    "chapters": [
     "Nehemiah 12",
-    "Psalms 104",
-    "Psalms 107",
-    "Psalms 111",
-    "Psalms 112",
-    "Psalms 113",
-    "Psalms 114",
-    "Psalms 115",
-    "Psalms 116",
-    "Psalms 117",
-    "Psalms 118"
+    "Psalms 104"
    ],
    "requires_all_of": [
-    "CRP2-D191",
-    "CRP2-D192",
     "CRP2-D262",
     "CRP2-D264"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D175",
-   "day": 175,
+   "day_id": "CRP3-D446",
+   "day": 446,
    "chapters": [
-    "Nehemiah 13",
-    "Psalms 135",
-    "Psalms 136",
-    "Psalms 145",
-    "Psalms 146",
-    "Psalms 147",
-    "Psalms 148",
-    "Psalms 149",
-    "Psalms 150",
-    "Psalms 92"
+    "Psalms 107",
+    "Psalms 111",
+    "Psalms 112",
+    "Psalms 113",
+    "Psalms 114",
+    "Psalms 115",
+    "Psalms 116"
    ],
    "requires_all_of": [
-    "CRP2-D194",
-    "CRP2-D195",
-    "CRP2-D222",
-    "CRP2-D265",
-    "CRP2-D266"
+    "CRP2-D191",
+    "CRP2-D192",
+    "CRP2-D262"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D176",
-   "day": 176,
+   "day_id": "CRP3-D447",
+   "day": 447,
    "chapters": [
-    "Joel 1",
-    "Joel 2",
-    "Joel 3",
+    "Psalms 117",
+    "Psalms 118",
+    "Psalms 135",
+    "Psalms 136",
+    "Psalms 145"
+   ],
+   "requires_all_of": [
+    "CRP2-D192",
+    "CRP2-D194",
+    "CRP2-D195",
+    "CRP2-D262",
+    "CRP2-D265"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D448",
+   "day": 448,
+   "chapters": [
+    "Psalms 146",
+    "Psalms 147",
+    "Psalms 148",
+    "Psalms 149",
+    "Psalms 150"
+   ],
+   "requires_all_of": [
+    "CRP2-D265"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D449",
+   "day": 449,
+   "chapters": [
     "Nehemiah 13"
    ],
    "requires_all_of": [
@@ -3115,11 +5843,58 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D177",
-   "day": 177,
+   "day_id": "CRP3-D450",
+   "day": 450,
+   "chapters": [
+    "Nehemiah 13",
+    "Psalms 92"
+   ],
+   "requires_all_of": [
+    "CRP2-D222",
+    "CRP2-D266"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D451",
+   "day": 451,
+   "chapters": [
+    "Joel 1",
+    "Joel 2"
+   ],
+   "requires_all_of": [
+    "CRP2-D266"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D452",
+   "day": 452,
+   "chapters": [
+    "Joel 2",
+    "Joel 3"
+   ],
+   "requires_all_of": [
+    "CRP2-D266"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D453",
+   "day": 453,
    "chapters": [
     "Isaiah 56",
-    "Isaiah 57",
+    "Isaiah 57"
+   ],
+   "requires_all_of": [
+    "CRP2-D267"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D454",
+   "day": 454,
+   "chapters": [
     "Isaiah 58",
     "Isaiah 59"
    ],
@@ -3129,32 +5904,47 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D178",
-   "day": 178,
+   "day_id": "CRP3-D455",
+   "day": 455,
    "chapters": [
     "Isaiah 60",
-    "Isaiah 61",
-    "Isaiah 62",
-    "Isaiah 63",
-    "Isaiah 64",
-    "Isaiah 65",
-    "Isaiah 66"
+    "Isaiah 61"
    ],
    "requires_all_of": [
-    "CRP2-D267",
+    "CRP2-D267"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D456",
+   "day": 456,
+   "chapters": [
+    "Isaiah 62",
+    "Isaiah 63",
+    "Isaiah 64"
+   ],
+   "requires_all_of": [
     "CRP2-D268"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D179",
-   "day": 179,
+   "day_id": "CRP3-D457",
+   "day": 457,
+   "chapters": [
+    "Isaiah 65",
+    "Isaiah 66"
+   ],
+   "requires_all_of": [
+    "CRP2-D268"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D458",
+   "day": 458,
    "chapters": [
     "Zechariah 10",
-    "Zechariah 11",
-    "Zechariah 12",
-    "Zechariah 13",
-    "Zechariah 14",
     "Zechariah 9"
    ],
    "requires_all_of": [
@@ -3163,11 +5953,56 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D180",
-   "day": 180,
+   "day_id": "CRP3-D459",
+   "day": 459,
+   "chapters": [
+    "Zechariah 11",
+    "Zechariah 12",
+    "Zechariah 13"
+   ],
+   "requires_all_of": [
+    "CRP2-D269"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D460",
+   "day": 460,
+   "chapters": [
+    "Zechariah 14"
+   ],
+   "requires_all_of": [
+    "CRP2-D269"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D461",
+   "day": 461,
+   "chapters": [
+    "Daniel 7"
+   ],
+   "requires_all_of": [
+    "CRP2-D270"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D462",
+   "day": 462,
    "chapters": [
     "Daniel 7",
-    "Daniel 8",
+    "Daniel 8"
+   ],
+   "requires_all_of": [
+    "CRP2-D270"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D463",
+   "day": 463,
+   "chapters": [
     "Daniel 9"
    ],
    "requires_all_of": [
@@ -3176,10 +6011,21 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D181",
-   "day": 181,
+   "day_id": "CRP3-D464",
+   "day": 464,
    "chapters": [
     "Daniel 10",
+    "Daniel 11"
+   ],
+   "requires_all_of": [
+    "CRP2-D271"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D465",
+   "day": 465,
+   "chapters": [
     "Daniel 11",
     "Daniel 12"
    ],
@@ -3189,47 +6035,111 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D182",
-   "day": 182,
+   "day_id": "CRP3-D466",
+   "day": 466,
    "chapters": [
-    "John 1",
-    "Luke 1",
+    "John 1"
+   ],
+   "requires_all_of": [
+    "CRP2-D274"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D467",
+   "day": 467,
+   "chapters": [
+    "Luke 1"
+   ],
+   "requires_all_of": [
+    "CRP2-D272"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D468",
+   "day": 468,
+   "chapters": [
     "Matthew 1"
    ],
    "requires_all_of": [
-    "CRP2-D272",
-    "CRP2-D273",
-    "CRP2-D274"
+    "CRP2-D273"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D183",
-   "day": 183,
+   "day_id": "CRP3-D469",
+   "day": 469,
    "chapters": [
-    "Luke 2",
-    "Matthew 1",
+    "Luke 2"
+   ],
+   "requires_all_of": [
+    "CRP2-D273"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D470",
+   "day": 470,
+   "chapters": [
     "Matthew 2"
    ],
    "requires_all_of": [
+    "CRP2-D274"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D471",
+   "day": 471,
+   "chapters": [
+    "Luke 2",
+    "Matthew 3"
+   ],
+   "requires_all_of": [
     "CRP2-D273",
     "CRP2-D274"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D184",
-   "day": 184,
+   "day_id": "CRP3-D472",
+   "day": 472,
    "chapters": [
     "John 1",
     "Luke 3",
-    "Luke 4",
-    "Mark 1",
-    "Matthew 3",
-    "Matthew 4"
+    "Mark 1"
    ],
    "requires_all_of": [
     "CRP2-D274",
+    "CRP2-D275"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D473",
+   "day": 473,
+   "chapters": [
+    "John 1",
+    "Luke 3",
+    "Mark 1",
+    "Matthew 3"
+   ],
+   "requires_all_of": [
+    "CRP2-D274",
+    "CRP2-D275"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D474",
+   "day": 474,
+   "chapters": [
+    "Luke 4",
+    "Mark 1",
+    "Matthew 4"
+   ],
+   "requires_all_of": [
     "CRP2-D275",
     "CRP2-D277",
     "CRP2-D278"
@@ -3237,24 +6147,70 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D185",
-   "day": 185,
+   "day_id": "CRP3-D475",
+   "day": 475,
    "chapters": [
-    "John 1",
-    "John 2",
-    "John 3"
+    "John 1"
    ],
    "requires_all_of": [
-    "CRP2-D274",
+    "CRP2-D274"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D476",
+   "day": 476,
+   "chapters": [
+    "John 2"
+   ],
+   "requires_all_of": [
     "CRP2-D276"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D186",
-   "day": 186,
+   "day_id": "CRP3-D477",
+   "day": 477,
    "chapters": [
-    "John 4",
+    "John 3"
+   ],
+   "requires_all_of": [
+    "CRP2-D276"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D478",
+   "day": 478,
+   "chapters": [
+    "John 4"
+   ],
+   "requires_all_of": [
+    "CRP2-D277"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D479",
+   "day": 479,
+   "chapters": [
+    "Luke 4",
+    "Mark 1",
+    "Matthew 4",
+    "Matthew 8"
+   ],
+   "requires_all_of": [
+    "CRP2-D275",
+    "CRP2-D277",
+    "CRP2-D278",
+    "CRP2-D282"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D480",
+   "day": 480,
+   "chapters": [
     "Luke 4",
     "Luke 5",
     "Mark 1",
@@ -3270,144 +6226,256 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D187",
-   "day": 187,
+   "day_id": "CRP3-D481",
+   "day": 481,
    "chapters": [
     "Luke 5",
-    "Luke 6",
     "Mark 1",
     "Mark 2",
-    "Mark 3",
-    "Matthew 12",
-    "Matthew 8",
     "Matthew 9"
    ],
    "requires_all_of": [
     "CRP2-D275",
     "CRP2-D278",
+    "CRP2-D283"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D482",
+   "day": 482,
+   "chapters": [
+    "Luke 5",
+    "Mark 2",
+    "Mark 3",
+    "Matthew 12"
+   ],
+   "requires_all_of": [
+    "CRP2-D278",
     "CRP2-D279",
+    "CRP2-D284"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D483",
+   "day": 483,
+   "chapters": [
+    "Luke 6",
+    "Mark 3",
+    "Matthew 12"
+   ],
+   "requires_all_of": [
+    "CRP2-D279",
+    "CRP2-D284"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D484",
+   "day": 484,
+   "chapters": [
+    "Matthew 5"
+   ],
+   "requires_all_of": [
+    "CRP2-D280"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D485",
+   "day": 485,
+   "chapters": [
+    "Luke 6",
+    "Matthew 6"
+   ],
+   "requires_all_of": [
+    "CRP2-D279",
+    "CRP2-D280"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D486",
+   "day": 486,
+   "chapters": [
+    "Luke 11",
+    "Luke 12",
+    "Luke 6",
+    "Matthew 7"
+   ],
+   "requires_all_of": [
+    "CRP2-D279",
+    "CRP2-D281",
+    "CRP2-D291",
+    "CRP2-D295"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D487",
+   "day": 487,
+   "chapters": [
+    "John 4",
+    "Luke 7",
+    "Matthew 8"
+   ],
+   "requires_all_of": [
+    "CRP2-D277",
+    "CRP2-D281",
+    "CRP2-D282"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D488",
+   "day": 488,
+   "chapters": [
+    "Luke 7",
+    "Matthew 11"
+   ],
+   "requires_all_of": [
+    "CRP2-D281",
+    "CRP2-D284"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D489",
+   "day": 489,
+   "chapters": [
+    "Mark 3",
+    "Matthew 12"
+   ],
+   "requires_all_of": [
+    "CRP2-D279",
+    "CRP2-D284"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D490",
+   "day": 490,
+   "chapters": [
+    "Luke 11",
+    "Luke 8",
+    "Matthew 13"
+   ],
+   "requires_all_of": [
+    "CRP2-D285",
+    "CRP2-D291"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D491",
+   "day": 491,
+   "chapters": [
+    "Luke 13",
+    "Luke 8",
+    "Mark 4"
+   ],
+   "requires_all_of": [
     "CRP2-D282",
+    "CRP2-D285",
+    "CRP2-D295"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D492",
+   "day": 492,
+   "chapters": [
+    "Mark 4",
+    "Mark 5",
+    "Matthew 8"
+   ],
+   "requires_all_of": [
+    "CRP2-D282",
+    "CRP2-D286"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D493",
+   "day": 493,
+   "chapters": [
+    "Luke 8",
+    "Mark 5",
+    "Matthew 9"
+   ],
+   "requires_all_of": [
+    "CRP2-D283",
+    "CRP2-D285",
+    "CRP2-D286"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D494",
+   "day": 494,
+   "chapters": [
+    "Luke 8",
+    "Mark 6",
+    "Matthew 13"
+   ],
+   "requires_all_of": [
+    "CRP2-D285",
+    "CRP2-D287"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D495",
+   "day": 495,
+   "chapters": [
+    "John 5"
+   ],
+   "requires_all_of": [
+    "CRP2-D286"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D496",
+   "day": 496,
+   "chapters": [
+    "Matthew 10",
+    "Matthew 11",
+    "Matthew 9"
+   ],
+   "requires_all_of": [
     "CRP2-D283",
     "CRP2-D284"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D188",
-   "day": 188,
+   "day_id": "CRP3-D497",
+   "day": 497,
    "chapters": [
-    "Luke 11",
-    "Luke 12",
-    "Luke 6",
-    "Matthew 5",
-    "Matthew 6"
-   ],
-   "requires_all_of": [
-    "CRP2-D279",
-    "CRP2-D280",
-    "CRP2-D291",
-    "CRP2-D295"
-   ],
-   "rule": "complete when every listed v2 day is complete"
-  },
-  {
-   "day_id": "CRP3-D189",
-   "day": 189,
-   "chapters": [
-    "John 4",
-    "Luke 11",
-    "Luke 6",
-    "Luke 7",
-    "Matthew 11",
-    "Matthew 7",
-    "Matthew 8"
-   ],
-   "requires_all_of": [
-    "CRP2-D277",
-    "CRP2-D279",
-    "CRP2-D281",
-    "CRP2-D282",
-    "CRP2-D284",
-    "CRP2-D291"
-   ],
-   "rule": "complete when every listed v2 day is complete"
-  },
-  {
-   "day_id": "CRP3-D190",
-   "day": 190,
-   "chapters": [
-    "Luke 11",
-    "Luke 13",
-    "Luke 8",
-    "Mark 3",
-    "Mark 4",
-    "Matthew 12",
-    "Matthew 13"
-   ],
-   "requires_all_of": [
-    "CRP2-D279",
-    "CRP2-D282",
-    "CRP2-D284",
-    "CRP2-D285",
-    "CRP2-D291",
-    "CRP2-D295"
-   ],
-   "rule": "complete when every listed v2 day is complete"
-  },
-  {
-   "day_id": "CRP3-D191",
-   "day": 191,
-   "chapters": [
-    "Luke 8",
-    "Mark 4",
-    "Mark 5",
-    "Mark 6",
-    "Matthew 13",
-    "Matthew 8",
-    "Matthew 9"
-   ],
-   "requires_all_of": [
-    "CRP2-D282",
-    "CRP2-D283",
-    "CRP2-D285",
-    "CRP2-D286",
-    "CRP2-D287"
-   ],
-   "rule": "complete when every listed v2 day is complete"
-  },
-  {
-   "day_id": "CRP3-D192",
-   "day": 192,
-   "chapters": [
-    "John 5",
-    "Luke 3",
     "Luke 9",
     "Mark 6",
-    "Matthew 10",
-    "Matthew 11",
-    "Matthew 14",
-    "Matthew 9"
+    "Matthew 14"
    ],
    "requires_all_of": [
-    "CRP2-D275",
-    "CRP2-D283",
-    "CRP2-D284",
-    "CRP2-D286",
     "CRP2-D287",
     "CRP2-D290"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D193",
-   "day": 193,
+   "day_id": "CRP3-D498",
+   "day": 498,
    "chapters": [
     "John 6",
+    "Luke 3",
     "Luke 9",
     "Mark 6",
     "Matthew 14"
    ],
    "requires_all_of": [
+    "CRP2-D275",
     "CRP2-D287",
     "CRP2-D288",
     "CRP2-D290"
@@ -3415,18 +6483,68 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D194",
-   "day": 194,
+   "day_id": "CRP3-D499",
+   "day": 499,
    "chapters": [
-    "Luke 9",
+    "John 6",
+    "Mark 6",
+    "Matthew 14"
+   ],
+   "requires_all_of": [
+    "CRP2-D287",
+    "CRP2-D288"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D500",
+   "day": 500,
+   "chapters": [
+    "John 6",
+    "Matthew 15"
+   ],
+   "requires_all_of": [
+    "CRP2-D288",
+    "CRP2-D289"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D501",
+   "day": 501,
+   "chapters": [
     "Mark 7",
+    "Matthew 15"
+   ],
+   "requires_all_of": [
+    "CRP2-D289"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D502",
+   "day": 502,
+   "chapters": [
     "Mark 8",
-    "Mark 9",
     "Matthew 15",
     "Matthew 16"
    ],
    "requires_all_of": [
     "CRP2-D289",
+    "CRP2-D292"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D503",
+   "day": 503,
+   "chapters": [
+    "Luke 9",
+    "Mark 8",
+    "Mark 9",
+    "Matthew 16"
+   ],
+   "requires_all_of": [
     "CRP2-D290",
     "CRP2-D292",
     "CRP2-D293"
@@ -3434,10 +6552,24 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D195",
-   "day": 195,
+   "day_id": "CRP3-D504",
+   "day": 504,
    "chapters": [
-    "John 7",
+    "Luke 9",
+    "Mark 9",
+    "Matthew 17"
+   ],
+   "requires_all_of": [
+    "CRP2-D290",
+    "CRP2-D292",
+    "CRP2-D293"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D505",
+   "day": 505,
+   "chapters": [
     "Luke 9",
     "Mark 9",
     "Matthew 17",
@@ -3452,85 +6584,176 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D196",
-   "day": 196,
+   "day_id": "CRP3-D506",
+   "day": 506,
+   "chapters": [
+    "John 7"
+   ],
+   "requires_all_of": [
+    "CRP2-D293"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D507",
+   "day": 507,
+   "chapters": [
+    "John 7",
+    "John 8"
+   ],
+   "requires_all_of": [
+    "CRP2-D293",
+    "CRP2-D294"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D508",
+   "day": 508,
+   "chapters": [
+    "John 9"
+   ],
+   "requires_all_of": [
+    "CRP2-D294"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D509",
+   "day": 509,
    "chapters": [
     "John 10",
-    "John 7",
-    "John 8",
-    "John 9",
-    "Luke 9",
     "Matthew 8"
    ],
    "requires_all_of": [
     "CRP2-D282",
-    "CRP2-D290",
-    "CRP2-D293",
-    "CRP2-D294",
     "CRP2-D296"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D197",
-   "day": 197,
+   "day_id": "CRP3-D510",
+   "day": 510,
    "chapters": [
-    "Luke 10",
-    "Luke 11",
-    "Luke 12",
+    "Luke 9",
     "Matthew 11"
    ],
    "requires_all_of": [
     "CRP2-D284",
+    "CRP2-D290"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D511",
+   "day": 511,
+   "chapters": [
+    "Luke 10"
+   ],
+   "requires_all_of": [
+    "CRP2-D291"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D512",
+   "day": 512,
+   "chapters": [
+    "Luke 10",
+    "Luke 11",
+    "Luke 12"
+   ],
+   "requires_all_of": [
     "CRP2-D291",
     "CRP2-D295"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D198",
-   "day": 198,
+   "day_id": "CRP3-D513",
+   "day": 513,
+   "chapters": [
+    "Luke 12",
+    "Luke 13"
+   ],
+   "requires_all_of": [
+    "CRP2-D295"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D514",
+   "day": 514,
    "chapters": [
     "Luke 13",
+    "Luke 14"
+   ],
+   "requires_all_of": [
+    "CRP2-D295",
+    "CRP2-D296"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D515",
+   "day": 515,
+   "chapters": [
     "Luke 14",
     "Luke 15",
     "Matthew 18"
    ],
    "requires_all_of": [
-    "CRP2-D295",
     "CRP2-D296",
     "CRP2-D297"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D199",
-   "day": 199,
+   "day_id": "CRP3-D516",
+   "day": 516,
    "chapters": [
     "Luke 16",
-    "Luke 17",
-    "Luke 18",
     "Matthew 18"
    ],
    "requires_all_of": [
     "CRP2-D297",
+    "CRP2-D298"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D517",
+   "day": 517,
+   "chapters": [
+    "Luke 17"
+   ],
+   "requires_all_of": [
+    "CRP2-D298"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D518",
+   "day": 518,
+   "chapters": [
+    "Luke 18",
+    "Matthew 19"
+   ],
+   "requires_all_of": [
     "CRP2-D298",
     "CRP2-D299"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D200",
-   "day": 200,
+   "day_id": "CRP3-D519",
+   "day": 519,
    "chapters": [
-    "John 10",
     "Luke 18",
     "Mark 10",
-    "Matthew 19",
-    "Matthew 20"
+    "Matthew 19"
    ],
    "requires_all_of": [
-    "CRP2-D296",
     "CRP2-D298",
     "CRP2-D299",
     "CRP2-D300"
@@ -3538,28 +6761,94 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D201",
-   "day": 201,
+   "day_id": "CRP3-D520",
+   "day": 520,
    "chapters": [
-    "John 11",
     "Luke 18",
-    "Luke 19",
     "Mark 10",
     "Matthew 20"
    ],
    "requires_all_of": [
     "CRP2-D299",
-    "CRP2-D300",
-    "CRP2-D301"
+    "CRP2-D300"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D202",
-   "day": 202,
+   "day_id": "CRP3-D521",
+   "day": 521,
+   "chapters": [
+    "John 10",
+    "John 11"
+   ],
+   "requires_all_of": [
+    "CRP2-D296",
+    "CRP2-D300"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D522",
+   "day": 522,
+   "chapters": [
+    "Luke 18",
+    "Mark 10",
+    "Matthew 20"
+   ],
+   "requires_all_of": [
+    "CRP2-D299",
+    "CRP2-D300"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D523",
+   "day": 523,
+   "chapters": [
+    "John 12",
+    "Luke 18",
+    "Luke 19",
+    "Matthew 21"
+   ],
+   "requires_all_of": [
+    "CRP2-D299",
+    "CRP2-D301",
+    "CRP2-D302"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D524",
+   "day": 524,
    "chapters": [
     "John 12",
     "Luke 19",
+    "Mark 11"
+   ],
+   "requires_all_of": [
+    "CRP2-D301",
+    "CRP2-D302"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D525",
+   "day": 525,
+   "chapters": [
+    "Luke 19",
+    "Mark 11",
+    "Matthew 21"
+   ],
+   "requires_all_of": [
+    "CRP2-D301",
+    "CRP2-D302"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D526",
+   "day": 526,
+   "chapters": [
     "Luke 20",
     "Mark 11",
     "Matthew 21"
@@ -3572,10 +6861,9 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D203",
-   "day": 203,
+   "day_id": "CRP3-D527",
+   "day": 527,
    "chapters": [
-    "Luke 20",
     "Mark 12",
     "Matthew 21",
     "Matthew 22"
@@ -3588,41 +6876,101 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D204",
-   "day": 204,
+   "day_id": "CRP3-D528",
+   "day": 528,
+   "chapters": [
+    "Luke 20",
+    "Mark 12",
+    "Matthew 22"
+   ],
+   "requires_all_of": [
+    "CRP2-D303",
+    "CRP2-D304"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D529",
+   "day": 529,
+   "chapters": [
+    "Luke 20",
+    "Mark 12",
+    "Matthew 22",
+    "Matthew 23"
+   ],
+   "requires_all_of": [
+    "CRP2-D303",
+    "CRP2-D304"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D530",
+   "day": 530,
    "chapters": [
     "Luke 20",
     "Luke 21",
     "Mark 12",
-    "Mark 13",
-    "Matthew 23",
     "Matthew 24"
    ],
    "requires_all_of": [
     "CRP2-D303",
-    "CRP2-D304",
     "CRP2-D305",
     "CRP2-D306"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D205",
-   "day": 205,
+   "day_id": "CRP3-D531",
+   "day": 531,
+   "chapters": [
+    "Luke 21",
+    "Mark 13"
+   ],
+   "requires_all_of": [
+    "CRP2-D305",
+    "CRP2-D306"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D532",
+   "day": 532,
+   "chapters": [
+    "Mark 13",
+    "Matthew 24",
+    "Matthew 25"
+   ],
+   "requires_all_of": [
+    "CRP2-D305",
+    "CRP2-D306"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D533",
+   "day": 533,
    "chapters": [
     "John 12",
     "Luke 21",
-    "Luke 22",
-    "Mark 13",
-    "Mark 14",
-    "Matthew 24",
-    "Matthew 25",
     "Matthew 26"
    ],
    "requires_all_of": [
     "CRP2-D302",
-    "CRP2-D305",
     "CRP2-D306",
+    "CRP2-D308"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D534",
+   "day": 534,
+   "chapters": [
+    "Luke 22",
+    "Mark 14",
+    "Matthew 26"
+   ],
+   "requires_all_of": [
     "CRP2-D307",
     "CRP2-D308",
     "CRP2-D310"
@@ -3630,8 +6978,20 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D206",
-   "day": 206,
+   "day_id": "CRP3-D535",
+   "day": 535,
+   "chapters": [
+    "John 13",
+    "Luke 22"
+   ],
+   "requires_all_of": [
+    "CRP2-D307"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D536",
+   "day": 536,
    "chapters": [
     "John 13",
     "John 14",
@@ -3648,14 +7008,50 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D207",
-   "day": 207,
+   "day_id": "CRP3-D537",
+   "day": 537,
    "chapters": [
     "John 14",
     "John 15",
-    "John 16",
+    "John 16"
+   ],
+   "requires_all_of": [
+    "CRP2-D309"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D538",
+   "day": 538,
+   "chapters": [
     "John 17",
+    "Matthew 26"
+   ],
+   "requires_all_of": [
+    "CRP2-D308",
+    "CRP2-D310"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D539",
+   "day": 539,
+   "chapters": [
     "John 18",
+    "Luke 22",
+    "Mark 14"
+   ],
+   "requires_all_of": [
+    "CRP2-D307",
+    "CRP2-D310",
+    "CRP2-D311"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D540",
+   "day": 540,
+   "chapters": [
     "Luke 22",
     "Mark 14",
     "Matthew 26"
@@ -3663,28 +7059,60 @@
    "requires_all_of": [
     "CRP2-D307",
     "CRP2-D308",
-    "CRP2-D309",
-    "CRP2-D310",
-    "CRP2-D311"
+    "CRP2-D310"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D208",
-   "day": 208,
+   "day_id": "CRP3-D541",
+   "day": 541,
    "chapters": [
     "John 18",
-    "Luke 22",
-    "Luke 23",
-    "Mark 14",
-    "Mark 15",
-    "Matthew 26",
     "Matthew 27"
    ],
    "requires_all_of": [
-    "CRP2-D307",
-    "CRP2-D308",
-    "CRP2-D310",
+    "CRP2-D311",
+    "CRP2-D313"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D542",
+   "day": 542,
+   "chapters": [
+    "John 18",
+    "Luke 23",
+    "Mark 15"
+   ],
+   "requires_all_of": [
+    "CRP2-D311",
+    "CRP2-D312"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D543",
+   "day": 543,
+   "chapters": [
+    "John 19",
+    "Mark 15",
+    "Matthew 27"
+   ],
+   "requires_all_of": [
+    "CRP2-D311",
+    "CRP2-D313"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D544",
+   "day": 544,
+   "chapters": [
+    "Luke 23",
+    "Mark 15",
+    "Matthew 27"
+   ],
+   "requires_all_of": [
     "CRP2-D311",
     "CRP2-D312",
     "CRP2-D313"
@@ -3692,8 +7120,8 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D209",
-   "day": 209,
+   "day_id": "CRP3-D545",
+   "day": 545,
    "chapters": [
     "John 19",
     "Luke 23",
@@ -3708,8 +7136,8 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D210",
-   "day": 210,
+   "day_id": "CRP3-D546",
+   "day": 546,
    "chapters": [
     "John 20",
     "Luke 24",
@@ -3723,30 +7151,76 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D211",
-   "day": 211,
+   "day_id": "CRP3-D547",
+   "day": 547,
    "chapters": [
-    "Acts 1",
-    "Acts 2",
-    "John 21",
+    "John 20",
     "Luke 24",
+    "Mark 16"
+   ],
+   "requires_all_of": [
+    "CRP2-D314",
+    "CRP2-D315"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D548",
+   "day": 548,
+   "chapters": [
+    "John 20",
+    "John 21",
     "Mark 16",
     "Matthew 28"
    ],
    "requires_all_of": [
     "CRP2-D314",
-    "CRP2-D315",
+    "CRP2-D315"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D549",
+   "day": 549,
+   "chapters": [
+    "Acts 1",
+    "Luke 24",
+    "Mark 16"
+   ],
+   "requires_all_of": [
+    "CRP2-D314",
+    "CRP2-D315"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D550",
+   "day": 550,
+   "chapters": [
+    "Acts 1"
+   ],
+   "requires_all_of": [
+    "CRP2-D315"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D551",
+   "day": 551,
+   "chapters": [
+    "Acts 2"
+   ],
+   "requires_all_of": [
     "CRP2-D316"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D212",
-   "day": 212,
+   "day_id": "CRP3-D552",
+   "day": 552,
    "chapters": [
     "Acts 3",
-    "Acts 4",
-    "Acts 5"
+    "Acts 4"
    ],
    "requires_all_of": [
     "CRP2-D316",
@@ -3755,8 +7229,20 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D213",
-   "day": 213,
+   "day_id": "CRP3-D553",
+   "day": 553,
+   "chapters": [
+    "Acts 4",
+    "Acts 5"
+   ],
+   "requires_all_of": [
+    "CRP2-D317"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D554",
+   "day": 554,
    "chapters": [
     "Acts 6",
     "Acts 7",
@@ -3769,28 +7255,68 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D214",
-   "day": 214,
+   "day_id": "CRP3-D555",
+   "day": 555,
    "chapters": [
-    "Acts 10",
-    "Acts 11",
-    "Acts 12",
+    "Acts 8"
+   ],
+   "requires_all_of": [
+    "CRP2-D319"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D556",
+   "day": 556,
+   "chapters": [
     "Acts 9"
    ],
    "requires_all_of": [
-    "CRP2-D319",
+    "CRP2-D319"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D557",
+   "day": 557,
+   "chapters": [
+    "Acts 10"
+   ],
+   "requires_all_of": [
+    "CRP2-D320"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D558",
+   "day": 558,
+   "chapters": [
+    "Acts 11",
+    "Acts 12"
+   ],
+   "requires_all_of": [
     "CRP2-D320",
     "CRP2-D321"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D215",
-   "day": 215,
+   "day_id": "CRP3-D559",
+   "day": 559,
+   "chapters": [
+    "Acts 13"
+   ],
+   "requires_all_of": [
+    "CRP2-D321"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D560",
+   "day": 560,
    "chapters": [
     "Acts 13",
-    "Acts 14",
-    "Acts 15"
+    "Acts 14"
    ],
    "requires_all_of": [
     "CRP2-D321",
@@ -3799,11 +7325,43 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D216",
-   "day": 216,
+   "day_id": "CRP3-D561",
+   "day": 561,
    "chapters": [
-    "Galatians 1",
+    "Acts 15"
+   ],
+   "requires_all_of": [
+    "CRP2-D322"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D562",
+   "day": 562,
+   "chapters": [
+    "Galatians 1"
+   ],
+   "requires_all_of": [
+    "CRP2-D323"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D563",
+   "day": 563,
+   "chapters": [
     "Galatians 2",
+    "Galatians 3"
+   ],
+   "requires_all_of": [
+    "CRP2-D323"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D564",
+   "day": 564,
+   "chapters": [
     "Galatians 3",
     "Galatians 4",
     "Galatians 5",
@@ -3816,11 +7374,21 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D217",
-   "day": 217,
+   "day_id": "CRP3-D565",
+   "day": 565,
    "chapters": [
     "James 1",
-    "James 2",
+    "James 2"
+   ],
+   "requires_all_of": [
+    "CRP2-D325"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D566",
+   "day": 566,
+   "chapters": [
     "James 3",
     "James 4",
     "James 5"
@@ -3832,148 +7400,286 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D218",
-   "day": 218,
+   "day_id": "CRP3-D567",
+   "day": 567,
    "chapters": [
-    "1 Thessalonians 1",
-    "1 Thessalonians 2",
     "Acts 15",
     "Acts 16",
+    "Acts 17"
+   ],
+   "requires_all_of": [
+    "CRP2-D322",
+    "CRP2-D326"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D568",
+   "day": 568,
+   "chapters": [
     "Acts 17",
     "Acts 18"
    ],
    "requires_all_of": [
-    "CRP2-D322",
     "CRP2-D326",
-    "CRP2-D327",
     "CRP2-D328"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D219",
-   "day": 219,
+   "day_id": "CRP3-D569",
+   "day": 569,
+   "chapters": [
+    "1 Thessalonians 1",
+    "1 Thessalonians 2"
+   ],
+   "requires_all_of": [
+    "CRP2-D327"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D570",
+   "day": 570,
    "chapters": [
     "1 Thessalonians 3",
     "1 Thessalonians 4",
-    "1 Thessalonians 5",
-    "2 Thessalonians 1",
-    "2 Thessalonians 2",
-    "2 Thessalonians 3",
-    "Acts 18"
+    "1 Thessalonians 5"
    ],
    "requires_all_of": [
-    "CRP2-D327",
+    "CRP2-D327"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D571",
+   "day": 571,
+   "chapters": [
+    "2 Thessalonians 1",
+    "2 Thessalonians 2",
+    "2 Thessalonians 3"
+   ],
+   "requires_all_of": [
     "CRP2-D328"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D220",
-   "day": 220,
+   "day_id": "CRP3-D572",
+   "day": 572,
    "chapters": [
-    "1 Corinthians 1",
-    "1 Corinthians 2",
-    "1 Corinthians 3",
-    "1 Corinthians 4",
     "Acts 18",
     "Acts 19"
    ],
    "requires_all_of": [
     "CRP2-D328",
-    "CRP2-D329",
+    "CRP2-D329"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D573",
+   "day": 573,
+   "chapters": [
+    "1 Corinthians 1",
+    "1 Corinthians 2"
+   ],
+   "requires_all_of": [
+    "CRP2-D329"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D574",
+   "day": 574,
+   "chapters": [
+    "1 Corinthians 3",
+    "1 Corinthians 4"
+   ],
+   "requires_all_of": [
     "CRP2-D330"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D221",
-   "day": 221,
+   "day_id": "CRP3-D575",
+   "day": 575,
+   "chapters": [
+    "1 Corinthians 5",
+    "1 Corinthians 6"
+   ],
+   "requires_all_of": [
+    "CRP2-D330"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D576",
+   "day": 576,
+   "chapters": [
+    "1 Corinthians 7",
+    "1 Corinthians 8"
+   ],
+   "requires_all_of": [
+    "CRP2-D331"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D577",
+   "day": 577,
    "chapters": [
     "1 Corinthians 10",
-    "1 Corinthians 5",
-    "1 Corinthians 6",
-    "1 Corinthians 7",
-    "1 Corinthians 8",
     "1 Corinthians 9"
    ],
    "requires_all_of": [
-    "CRP2-D330",
     "CRP2-D331",
     "CRP2-D332"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D222",
-   "day": 222,
+   "day_id": "CRP3-D578",
+   "day": 578,
    "chapters": [
+    "1 Corinthians 10",
     "1 Corinthians 11",
+    "1 Corinthians 12"
+   ],
+   "requires_all_of": [
+    "CRP2-D332",
+    "CRP2-D333"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D579",
+   "day": 579,
+   "chapters": [
     "1 Corinthians 12",
     "1 Corinthians 13",
+    "1 Corinthians 14"
+   ],
+   "requires_all_of": [
+    "CRP2-D333"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D580",
+   "day": 580,
+   "chapters": [
     "1 Corinthians 14",
     "1 Corinthians 15"
    ],
    "requires_all_of": [
-    "CRP2-D332",
     "CRP2-D333",
     "CRP2-D334"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D223",
-   "day": 223,
+   "day_id": "CRP3-D581",
+   "day": 581,
    "chapters": [
     "1 Corinthians 16",
-    "2 Corinthians 1",
-    "2 Corinthians 2",
-    "2 Corinthians 3",
-    "2 Corinthians 4",
-    "2 Corinthians 5",
-    "2 Corinthians 6",
-    "2 Corinthians 7",
     "Acts 19",
     "Acts 20"
    ],
    "requires_all_of": [
     "CRP2-D329",
     "CRP2-D334",
-    "CRP2-D335",
-    "CRP2-D336",
     "CRP2-D340"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D224",
-   "day": 224,
+   "day_id": "CRP3-D582",
+   "day": 582,
+   "chapters": [
+    "2 Corinthians 1",
+    "2 Corinthians 2"
+   ],
+   "requires_all_of": [
+    "CRP2-D335"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D583",
+   "day": 583,
+   "chapters": [
+    "2 Corinthians 2",
+    "2 Corinthians 3",
+    "2 Corinthians 4",
+    "2 Corinthians 5"
+   ],
+   "requires_all_of": [
+    "CRP2-D335",
+    "CRP2-D336"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D584",
+   "day": 584,
+   "chapters": [
+    "2 Corinthians 5",
+    "2 Corinthians 6",
+    "2 Corinthians 7"
+   ],
+   "requires_all_of": [
+    "CRP2-D336"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D585",
+   "day": 585,
+   "chapters": [
+    "2 Corinthians 8",
+    "2 Corinthians 9"
+   ],
+   "requires_all_of": [
+    "CRP2-D336"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D586",
+   "day": 586,
    "chapters": [
     "2 Corinthians 10",
     "2 Corinthians 11",
     "2 Corinthians 12",
     "2 Corinthians 13",
-    "2 Corinthians 8",
-    "2 Corinthians 9",
     "Acts 20"
    ],
    "requires_all_of": [
-    "CRP2-D336",
     "CRP2-D337",
     "CRP2-D340"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D225",
-   "day": 225,
+   "day_id": "CRP3-D587",
+   "day": 587,
    "chapters": [
     "Romans 1",
+    "Romans 2"
+   ],
+   "requires_all_of": [
+    "CRP2-D338"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D588",
+   "day": 588,
+   "chapters": [
     "Romans 2",
     "Romans 3",
-    "Romans 4",
-    "Romans 5",
-    "Romans 6"
+    "Romans 4"
    ],
    "requires_all_of": [
     "CRP2-D338",
@@ -3982,51 +7688,93 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D226",
-   "day": 226,
+   "day_id": "CRP3-D589",
+   "day": 589,
    "chapters": [
-    "Romans 10",
-    "Romans 11",
-    "Romans 12",
-    "Romans 13",
-    "Romans 14",
-    "Romans 15",
-    "Romans 7",
+    "Romans 5",
+    "Romans 6",
+    "Romans 7"
+   ],
+   "requires_all_of": [
+    "CRP2-D339"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D590",
+   "day": 590,
+   "chapters": [
     "Romans 8",
     "Romans 9"
    ],
    "requires_all_of": [
-    "CRP2-D339",
     "CRP2-D340",
+    "CRP2-D341"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D591",
+   "day": 591,
+   "chapters": [
+    "Romans 10",
+    "Romans 11",
+    "Romans 9"
+   ],
+   "requires_all_of": [
+    "CRP2-D341"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D592",
+   "day": 592,
+   "chapters": [
+    "Romans 11",
+    "Romans 12",
+    "Romans 13",
+    "Romans 14",
+    "Romans 15"
+   ],
+   "requires_all_of": [
     "CRP2-D341",
     "CRP2-D342"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D227",
-   "day": 227,
+   "day_id": "CRP3-D593",
+   "day": 593,
    "chapters": [
-    "Acts 20",
-    "Acts 21",
     "Romans 15",
     "Romans 16"
    ],
    "requires_all_of": [
-    "CRP2-D340",
     "CRP2-D342",
     "CRP2-D343"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D228",
-   "day": 228,
+   "day_id": "CRP3-D594",
+   "day": 594,
+   "chapters": [
+    "Acts 20",
+    "Acts 21"
+   ],
+   "requires_all_of": [
+    "CRP2-D340",
+    "CRP2-D343"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D595",
+   "day": 595,
    "chapters": [
     "Acts 21",
     "Acts 22",
-    "Acts 23",
-    "Acts 24"
+    "Acts 23"
    ],
    "requires_all_of": [
     "CRP2-D343",
@@ -4035,10 +7783,33 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D229",
-   "day": 229,
+   "day_id": "CRP3-D596",
+   "day": 596,
+   "chapters": [
+    "Acts 23",
+    "Acts 24"
+   ],
+   "requires_all_of": [
+    "CRP2-D344"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D597",
+   "day": 597,
    "chapters": [
     "Philippians 1",
+    "Philippians 2"
+   ],
+   "requires_all_of": [
+    "CRP2-D345"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D598",
+   "day": 598,
+   "chapters": [
     "Philippians 2",
     "Philippians 3",
     "Philippians 4"
@@ -4050,69 +7821,116 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D230",
-   "day": 230,
+   "day_id": "CRP3-D599",
+   "day": 599,
    "chapters": [
     "Acts 25",
-    "Acts 26",
+    "Acts 26"
+   ],
+   "requires_all_of": [
+    "CRP2-D346"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D600",
+   "day": 600,
+   "chapters": [
     "Acts 27",
     "Acts 28"
    ],
    "requires_all_of": [
-    "CRP2-D346",
     "CRP2-D347"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D231",
-   "day": 231,
+   "day_id": "CRP3-D601",
+   "day": 601,
    "chapters": [
-    "Acts 28",
-    "Colossians 1",
-    "Colossians 2",
-    "Colossians 3",
-    "Colossians 4",
+    "Acts 28"
+   ],
+   "requires_all_of": [
+    "CRP2-D347"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D602",
+   "day": 602,
+   "chapters": [
     "Philemon 1"
    ],
    "requires_all_of": [
-    "CRP2-D347",
+    "CRP2-D348"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D603",
+   "day": 603,
+   "chapters": [
+    "Colossians 1",
+    "Colossians 2",
+    "Colossians 3",
+    "Colossians 4"
+   ],
+   "requires_all_of": [
     "CRP2-D348",
     "CRP2-D349"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D232",
-   "day": 232,
+   "day_id": "CRP3-D604",
+   "day": 604,
    "chapters": [
     "Ephesians 1",
     "Ephesians 2",
+    "Ephesians 3"
+   ],
+   "requires_all_of": [
+    "CRP2-D349",
+    "CRP2-D350"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D605",
+   "day": 605,
+   "chapters": [
     "Ephesians 3",
     "Ephesians 4",
     "Ephesians 5",
     "Ephesians 6"
    ],
    "requires_all_of": [
-    "CRP2-D349",
     "CRP2-D350",
     "CRP2-D351"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D233",
-   "day": 233,
+   "day_id": "CRP3-D606",
+   "day": 606,
    "chapters": [
     "1 Timothy 1",
     "1 Timothy 2",
+    "1 Timothy 3"
+   ],
+   "requires_all_of": [
+    "CRP2-D351"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D607",
+   "day": 607,
+   "chapters": [
     "1 Timothy 3",
     "1 Timothy 4",
     "1 Timothy 5",
-    "1 Timothy 6",
-    "Titus 1",
-    "Titus 2",
-    "Titus 3"
+    "1 Timothy 6"
    ],
    "requires_all_of": [
     "CRP2-D351",
@@ -4121,8 +7939,21 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D234",
-   "day": 234,
+   "day_id": "CRP3-D608",
+   "day": 608,
+   "chapters": [
+    "Titus 1",
+    "Titus 2",
+    "Titus 3"
+   ],
+   "requires_all_of": [
+    "CRP2-D352"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D609",
+   "day": 609,
    "chapters": [
     "2 Timothy 1",
     "2 Timothy 2",
@@ -4135,11 +7966,21 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D235",
-   "day": 235,
+   "day_id": "CRP3-D610",
+   "day": 610,
    "chapters": [
     "1 Peter 1",
-    "1 Peter 2",
+    "1 Peter 2"
+   ],
+   "requires_all_of": [
+    "CRP2-D354"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D611",
+   "day": 611,
+   "chapters": [
     "1 Peter 3",
     "1 Peter 4",
     "1 Peter 5"
@@ -4150,12 +7991,9 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D236",
-   "day": 236,
+   "day_id": "CRP3-D612",
+   "day": 612,
    "chapters": [
-    "2 Peter 1",
-    "2 Peter 2",
-    "2 Peter 3",
     "Jude 1"
    ],
    "requires_all_of": [
@@ -4164,17 +8002,40 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D237",
-   "day": 237,
+   "day_id": "CRP3-D613",
+   "day": 613,
+   "chapters": [
+    "2 Peter 1",
+    "2 Peter 2",
+    "2 Peter 3"
+   ],
+   "requires_all_of": [
+    "CRP2-D355"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D614",
+   "day": 614,
    "chapters": [
     "Hebrews 1",
     "Hebrews 2",
     "Hebrews 3",
+    "Hebrews 4"
+   ],
+   "requires_all_of": [
+    "CRP2-D356"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D615",
+   "day": 615,
+   "chapters": [
     "Hebrews 4",
     "Hebrews 5",
     "Hebrews 6",
-    "Hebrews 7",
-    "Hebrews 8"
+    "Hebrews 7"
    ],
    "requires_all_of": [
     "CRP2-D356",
@@ -4183,66 +8044,129 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D238",
-   "day": 238,
+   "day_id": "CRP3-D616",
+   "day": 616,
+   "chapters": [
+    "Hebrews 7",
+    "Hebrews 8",
+    "Hebrews 9"
+   ],
+   "requires_all_of": [
+    "CRP2-D357"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D617",
+   "day": 617,
    "chapters": [
     "Hebrews 10",
     "Hebrews 11",
-    "Hebrews 12",
-    "Hebrews 13",
     "Hebrews 9"
    ],
    "requires_all_of": [
     "CRP2-D357",
+    "CRP2-D358"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D618",
+   "day": 618,
+   "chapters": [
+    "Hebrews 11",
+    "Hebrews 12",
+    "Hebrews 13"
+   ],
+   "requires_all_of": [
     "CRP2-D358",
     "CRP2-D359"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D239",
-   "day": 239,
+   "day_id": "CRP3-D619",
+   "day": 619,
    "chapters": [
     "1 John 1",
     "1 John 2",
     "1 John 3",
     "1 John 4",
-    "1 John 5",
+    "1 John 5"
+   ],
+   "requires_all_of": [
+    "CRP2-D359",
+    "CRP2-D360"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D620",
+   "day": 620,
+   "chapters": [
     "2 John 1",
     "3 John 1"
    ],
    "requires_all_of": [
-    "CRP2-D359",
     "CRP2-D360",
     "CRP2-D361"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D240",
-   "day": 240,
+   "day_id": "CRP3-D621",
+   "day": 621,
    "chapters": [
-    "Revelation 1",
+    "Revelation 1"
+   ],
+   "requires_all_of": [
+    "CRP2-D361"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D622",
+   "day": 622,
+   "chapters": [
     "Revelation 2",
-    "Revelation 3",
+    "Revelation 3"
+   ],
+   "requires_all_of": [
+    "CRP2-D361"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D623",
+   "day": 623,
+   "chapters": [
     "Revelation 4",
     "Revelation 5"
    ],
    "requires_all_of": [
-    "CRP2-D361",
     "CRP2-D362"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D241",
-   "day": 241,
+   "day_id": "CRP3-D624",
+   "day": 624,
+   "chapters": [
+    "Revelation 6",
+    "Revelation 7",
+    "Revelation 8"
+   ],
+   "requires_all_of": [
+    "CRP2-D362"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D625",
+   "day": 625,
    "chapters": [
     "Revelation 10",
     "Revelation 11",
-    "Revelation 12",
-    "Revelation 6",
-    "Revelation 7",
     "Revelation 8",
     "Revelation 9"
    ],
@@ -4253,31 +8177,64 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D242",
-   "day": 242,
+   "day_id": "CRP3-D626",
+   "day": 626,
+   "chapters": [
+    "Revelation 11",
+    "Revelation 12",
+    "Revelation 13"
+   ],
+   "requires_all_of": [
+    "CRP2-D363"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D627",
+   "day": 627,
    "chapters": [
     "Revelation 13",
     "Revelation 14",
     "Revelation 15",
-    "Revelation 16",
+    "Revelation 16"
+   ],
+   "requires_all_of": [
+    "CRP2-D363",
+    "CRP2-D364"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D628",
+   "day": 628,
+   "chapters": [
     "Revelation 17",
+    "Revelation 18"
+   ],
+   "requires_all_of": [
+    "CRP2-D364"
+   ],
+   "rule": "complete when every listed v2 day is complete"
+  },
+  {
+   "day_id": "CRP3-D629",
+   "day": 629,
+   "chapters": [
     "Revelation 18",
     "Revelation 19"
    ],
    "requires_all_of": [
-    "CRP2-D363",
     "CRP2-D364",
     "CRP2-D365"
    ],
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D243",
-   "day": 243,
+   "day_id": "CRP3-D630",
+   "day": 630,
    "chapters": [
     "Revelation 20",
-    "Revelation 21",
-    "Revelation 22"
+    "Revelation 21"
    ],
    "requires_all_of": [
     "CRP2-D365"
@@ -4285,9 +8242,10 @@
    "rule": "complete when every listed v2 day is complete"
   },
   {
-   "day_id": "CRP3-D244",
-   "day": 244,
+   "day_id": "CRP3-D631",
+   "day": 631,
    "chapters": [
+    "Revelation 21",
     "Revelation 22"
    ],
    "requires_all_of": [

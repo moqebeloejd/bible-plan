@@ -104,8 +104,10 @@ const checks = {
   dates_not_stored: days.every(d => d.date === undefined && d.weekday === undefined),
   projection_lands_on_reading_nights: projectedNightsAreLegal,
   migration_coverage: migration.map.length === days.length && days.every(d => Array.isArray(d.migration?.required_v2_days)),
-  first_day: days[0].readings.map(r => r.reference).join("; ") === "Genesis 1:1—4:26",
-  last_day: days.at(-1).readings.at(-1).reference.startsWith("Revelation"),
+  // Assert the invariant, not one particular cut: the plan must open on the first
+  // verse of Genesis and close on the last of Revelation however the nights fall.
+  opens_at_genesis_1_1: days[0].readings[0].book === "Genesis" && days[0].readings[0].start_chapter === 1 && days[0].readings[0].start_verse === 1,
+  closes_at_revelation_22_21: days.at(-1).readings.at(-1).book === "Revelation" && days.at(-1).readings.at(-1).end_chapter === 22 && days.at(-1).readings.at(-1).end_verse === 21,
   sittings_within_hard_cap: days.every(d => d.estimated_minutes <= plan.schedule_policy.hard_cap_minutes),
   account_only_gate: html.includes('if(!session?.user)return <AccountGate'),
   account_derived_identity: html.includes('user?.user_metadata?.display_name') && html.includes('reader_profiles'),
