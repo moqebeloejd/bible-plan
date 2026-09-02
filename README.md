@@ -3,11 +3,13 @@
 An installable family reading-plan app following the publisher’s Scripture
 blocks and chronology in the NKJV Chronological Study Bible.
 
+Live app: **https://dailybread.mmusowamodimo.org**
+
 ## Features
 - 631 manageable sittings containing all 787 publisher-defined Scripture blocks
 - Publisher boundaries preserved, including intentional mid-chapter divisions
 - Context-aware daily themes and short context notes
-- Translation-neutral Bible references with selectable version links
+- Translation-neutral Bible references for use with any preferred Bible edition
 - Today, Week, Month, and Journey views
 - Account-only access so every family member has independent progress
 - Account creation captures the reader’s display name

@@ -4,9 +4,9 @@
 validated. The signed-in household account has been seeded and verified with the exact 128-night
 carry-over described below.
 
-Branch: **`plan-v3-recut`** (branched from `main` at `b41def8`).
-The original re-cut branch is on GitHub. The v4 identity changes described in the resume update
-below are local and uncommitted; `main` is untouched.
+Release branch: **`plan-v3-recut`** (branched from `main` at `b41def8`).
+Production custom domain: **`https://dailybread.mmusowamodimo.org`**. The fallback GitHub Pages
+origin is `https://moqebeloejd.github.io/bible-plan/`.
 
 ## Resume update — 2026-09-02
 
@@ -23,7 +23,7 @@ Verification completed after regeneration:
 
 ```
 node pilot/validate-plan.mjs  -> 8/8 pass
-npm test                      -> 61/61 pass
+npm test                      -> 62/62 pass
 node pilot/mark-progress.mjs "Judges 4:24"
   -> 128 of 631 complete; CRP4-D129; Judges 5:1—6:10
 ```
@@ -64,7 +64,7 @@ identity references and this handover:
 | `cloud-config.js` | active plan id bumped to v4 |
 | `index.html` | v4 defaults, calendar-week navigation, explicit study-material rows, and consolidated day-panel typography |
 
-`node scripts/validate-app.mjs` → **61/61 pass** on the branch.
+`node scripts/validate-app.mjs` → **62/62 pass** on the branch.
 
 ---
 

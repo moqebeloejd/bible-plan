@@ -8,6 +8,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const html = fs.readFileSync(path.join(root, "index.html"), "utf8");
 const cloudConfig = fs.readFileSync(path.join(root, "cloud-config.js"), "utf8");
 const serviceWorker = fs.readFileSync(path.join(root, "sw.js"), "utf8");
+const customDomain = fs.readFileSync(path.join(root, "CNAME"), "utf8").trim();
 const manifest = JSON.parse(fs.readFileSync(path.join(root, "manifest.json"), "utf8"));
 const match = html.match(/<script type="text\/babel"[^>]*>([\s\S]*?)<\/script>/);
 if (!match) throw new Error("Inline application script was not found");
@@ -113,6 +114,7 @@ const checks = {
   note_topics_are_explained: html.includes("<strong>Topics covered:</strong>"),
   external_bible_links_are_removed: !html.includes("biblegateway.com") && !html.includes("Bible version for links") && !html.includes('className="read-link"'),
   day_panel_uses_three_type_sizes: html.includes("--card-title-size:") && html.includes("--card-primary-size:") && html.includes("--card-meta-size:"),
+  dailybread_custom_domain: customDomain === "dailybread.mmusowamodimo.org",
   // The boundary policy has changed: readings follow the publisher's own blocks,
   // so mid-chapter starts and ends are now REQUIRED to survive, not forbidden.
   publisher_boundaries: readings.every(r => r.boundary === "publisher_block"),
